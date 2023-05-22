@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Forwarder API",
+        "description": "Forwarder API documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/users": {
+            "get": {
+                "operationId": "af4fe438d07acd14e62142c19b6b935d",
+                "responses": {
+                    "200": {
+                        "description": "Users List"
+                    }
+                }
+            }
+        }
+    }
+}

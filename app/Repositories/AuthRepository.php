@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Repositories;
+use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\VerifyUserRequest;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use App\Models\UserOtp;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Twilio\Rest\Client;
 
 class AuthRepository implements  AuthRepositoryInterface{
 
-    public function createUser(CreateUserRequest $request){
+    public function createUser(CreateUserRequest $request) : JsonResponse{
 
         $user = User::create([
             'name' => $request->name,
@@ -48,33 +49,52 @@ class AuthRepository implements  AuthRepositoryInterface{
 
     }
 
-    public function loginUser(LoginUserRequest $request){
-        if(!Auth::attempt($request->only(['email', 'password']))){
-            return response()->json([
-                'status' => false,
-                'message' => 'Email & Password does not match with our record.',
-            ], 401);
-        }
+    public function getLoginCode(GetLoginCodeRequest $request) : JsonResponse{
+        $user = User::query()->where('phone' , $request->phone)->first();
 
-        $user = User::where('email', $request->email)->first();
+        $code = rand(123456, 999999);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'User Logged In Successfully',
-            'user' => $user,
-            'token' => $user->createToken("API TOKEN")->plainTextToken
-        ], 200);
+        UserOtp::create([
+            'user_id' => $user->id,
+            'otp' => $code,
+            'expire_at' => now()->addMinutes(10)
+        ]);
+
+        return $this->sendSms($code, $user->phone);
+
     }
 
-    public function verifyUser(VerifyUserRequest $request){
+    public function loginUser(LoginUserRequest $request) : JsonResponse{
+
+        $user = User::where('phone', $request->phone)->first();
+
         $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
 
-        $now = now();
-        if (!$userOtp) {
-            return response()->json(['error' => 'Your OTP is not correct']);
-        }else if($userOtp && $now->isAfter($userOtp->expire_at)){
-            return response()->json(['error' => 'Your OTP has been expired']);
+
+        $this->checkForOtpError($userOtp);
+
+        if($user){
+
+            $userOtp->update([
+                'expire_at' => now()
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Logged In Successfully',
+                'user' => $user,
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ], 200);
+        }else{
+            return response()->json(['error' => 'Cannot find user']);
         }
+    }
+
+    public function verifyUser(VerifyUserRequest $request) : JsonResponse{
+        $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
+
+
+        $this->checkForOtpError($userOtp);
 
         $user = User::whereId($request->user_id)->first();
 
@@ -84,7 +104,7 @@ class AuthRepository implements  AuthRepositoryInterface{
                 'expire_at' => now()
             ]);
 
-            $user->phone_verified_at = $now;
+            $user->phone_verified_at = now();
             $user->save();
 
             return response()->json([
@@ -96,7 +116,16 @@ class AuthRepository implements  AuthRepositoryInterface{
         }
     }
 
-    public function sendSms($code,$number){
+    public function checkForOtpError($userOtp){
+        if (!$userOtp) {
+            return response()->json(['error' => 'Your OTP is not correct']);
+        }else if($userOtp && now()->isAfter($userOtp->expire_at)){
+            return response()->json(['error' => 'Your OTP has been expired']);
+        }
+        return true;
+    }
+
+    public function sendSms($code,$number) : JsonResponse{
         try
         {
             $sid    = config('app.twilio')['TWILIO_ACCOUNT_SID'];
@@ -105,7 +134,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             $twilio = new Client($sid, $token);
 
             $message = $twilio->messages
-                ->create("+995598297961", // to
+                ->create($number, // to
                     array(
                         "messagingServiceSid" => $messagingServiceSid,
                         "body" => "Your forwarder verification code is " . $code

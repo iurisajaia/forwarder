@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginUserRequest extends FormRequest
+class GetLoginCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,7 @@ class LoginUserRequest extends FormRequest
     public function rules()
     {
         return [
-                'phone' => 'required|phone',
-                'otp' => 'required|string'
+            'phone' => 'required|string'
         ];
     }
 
@@ -50,8 +49,7 @@ class LoginUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.required' => 'Phone is required!',
-            'otp.required' => 'OTP code is required'
+            'phone.required' => 'Phone is required!'
         ];
     }
 }
