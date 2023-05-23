@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('user_role_id')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->timestamp('phone_verified_at')->nullable();
+            $table->json('meta_info')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

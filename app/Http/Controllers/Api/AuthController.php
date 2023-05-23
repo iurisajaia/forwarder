@@ -80,4 +80,15 @@ class AuthController extends Controller
     public function getUsers(){
         return response()->json(['users' => User::query()->get()]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/auth/user-roles",
+     *     @OA\Response(response="200", description="User Roles")
+     * )
+     */
+    public function getUserRoles() : JsonResponse{
+        return response()->json($this->authRepository->getUserRoles());
+    }
+
 }

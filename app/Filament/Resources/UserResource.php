@@ -8,6 +8,7 @@ use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\KeyValue;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
@@ -37,6 +38,7 @@ class UserResource extends Resource
                     ->relationship('role', 'title')
                     ->preload()
                     ->required(),
+                KeyValue::make('meta_info')
             ]);
     }
 

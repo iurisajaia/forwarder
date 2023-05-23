@@ -16,6 +16,16 @@
                 }
             }
         },
+        "/api/auth/user-roles": {
+            "get": {
+                "operationId": "b47b240014012b20a348bb74d344fb5f",
+                "responses": {
+                    "200": {
+                        "description": "User Roles"
+                    }
+                }
+            }
+        },
         "/api/car-types": {
             "get": {
                 "operationId": "b3feb24a1faa45e41c95dece0c5c5515",

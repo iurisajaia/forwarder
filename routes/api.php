@@ -13,6 +13,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/get-login-code', [AuthController::class, 'getLoginCode']);
     Route::post('/login', [AuthController::class, 'loginUser']);
     Route::get('/users', [AuthController::class, 'getUsers']);
+    Route::get('/user-roles', [AuthController::class, 'getUserRoles']);
 });
 
 Route::get('/car-types', [CarTypeController::class , 'index'])->name('car-types');

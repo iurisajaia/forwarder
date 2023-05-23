@@ -13,4 +13,5 @@ Interface AuthRepositoryInterface{
     public function loginUser(LoginUserRequest $request);
     public function verifyUser(VerifyUserRequest $request);
     public function sendSms($code,$number);
+    public function getUserRoles();
 }

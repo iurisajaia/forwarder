@@ -23,7 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'user_role_id',
-        'phone'
+        'phone',
+        'meta_info'
     ];
 
     /**
@@ -44,7 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
+        'meta_info' => 'json'
     ];
+
 
 
     public function role(): BelongsTo

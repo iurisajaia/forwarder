@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\VerifyUserRequest;
+use App\Models\UserRole;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
@@ -15,11 +16,7 @@ class AuthRepository implements  AuthRepositoryInterface{
 
     public function createUser(CreateUserRequest $request) : JsonResponse{
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-        ]);
+        $user = User::create($request->all());
 
 
         $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
@@ -148,6 +145,20 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         }
         catch (Exception $e)
+        {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getUserRoles(): JsonResponse{
+        try {
+            return response()->json([
+                'data' => UserRole::query()->get(),
+                'status' => true
+            ], 200);
+        }catch(Exception $e)
         {
             return response()->json([
                 'error' => $e->getMessage()
