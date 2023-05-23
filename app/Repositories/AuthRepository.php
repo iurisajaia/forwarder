@@ -68,7 +68,8 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         $user = User::where('phone', $request->phone)->first();
 
-        $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
+        $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+
 
 
         $this->checkForOtpError($userOtp);

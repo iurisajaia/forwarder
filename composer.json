@@ -8,10 +8,12 @@
         "php": "^8.0.2",
         "darkaonline/l5-swagger": "^8.5",
         "filament/filament": "^2.0",
+        "filament/spatie-laravel-translatable-plugin": "^2.0",
         "guzzlehttp/guzzle": "^7.6",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.7",
+        "spatie/laravel-translatable": "^6.5",
         "twilio/sdk": "^7.3"
     },
     "require-dev": {

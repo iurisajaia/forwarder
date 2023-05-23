@@ -15,6 +15,16 @@
                     }
                 }
             }
+        },
+        "/api/car-types": {
+            "get": {
+                "operationId": "b3feb24a1faa45e41c95dece0c5c5515",
+                "responses": {
+                    "200": {
+                        "description": "Car Types"
+                    }
+                }
+            }
         }
     }
 }

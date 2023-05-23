@@ -26,7 +26,7 @@ class LoginUserRequest extends FormRequest
     public function rules()
     {
         return [
-                'phone' => 'required|phone',
+                'phone' => 'required',
                 'otp' => 'required|string'
         ];
     }

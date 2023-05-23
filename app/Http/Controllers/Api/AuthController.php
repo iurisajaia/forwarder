@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function loginUser(LoginUserRequest $request) : JsonResponse
     {
         try {
-            return $this->authRepository->getLoginCode($request);
+            return $this->authRepository->loginUser($request);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
