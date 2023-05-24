@@ -78,7 +78,7 @@ class AuthController extends Controller
      * )
      */
     public function getUsers(){
-        return response()->json(['users' => User::query()->get()]);
+        return response()->json(['users' => User::query()->with(['media'])->get()]);
     }
 
     /**

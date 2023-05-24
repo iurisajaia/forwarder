@@ -14,10 +14,29 @@ use Twilio\Rest\Client;
 
 class AuthRepository implements  AuthRepositoryInterface{
 
+
+    public function createUserData(CreateUserRequest $request){
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'user_role_id' => $request->user_role_id,
+            'meta_info' => $request->meta_info
+        ];
+
+        $user = User::create($data);
+
+        if(isset($request->images)){
+            foreach ($request->images as $key => $image){
+                $user->addMediaFromRequest("images.{$key}.url")->toMediaCollection($image['title']);
+            }
+        }
+        return $user;
+    }
+
     public function createUser(CreateUserRequest $request) : JsonResponse{
 
-        $user = User::create($request->all());
-
+        $user = $this->createUserData($request);
 
         $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
 
