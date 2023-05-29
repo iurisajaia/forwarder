@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('key')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('icon_default')->nullable();
+            $table->string('icon_hover')->nullable();
             $table->timestamps();
         });
     }

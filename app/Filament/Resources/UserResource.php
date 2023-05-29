@@ -15,8 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+//use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -31,6 +30,7 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name'),
                 TextInput::make('email'),
+                TextInput::make('phone'),
                 TextInput::make('password')
                 ->password()
                 ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
@@ -38,7 +38,11 @@ class UserResource extends Resource
                     ->relationship('role', 'title')
                     ->preload()
                     ->required(),
-                KeyValue::make('meta_info')
+                Select::make('car_type_id')
+                    ->relationship('car', 'title')
+                    ->preload()
+                    ->required(),
+                KeyValue::make('meta_info'),
             ]);
     }
 
@@ -56,6 +60,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

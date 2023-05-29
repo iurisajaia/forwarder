@@ -35,7 +35,8 @@ class CarTypeResource extends Resource
             ->schema([
                 TextInput::make('title'),
                 TextInput::make('key')->nullable(),
-                FileUpload::make('icon')->nullable()
+                FileUpload::make('icon_default')->nullable(),
+                FileUpload::make('icon_hover')->nullable()
             ]);
     }
 

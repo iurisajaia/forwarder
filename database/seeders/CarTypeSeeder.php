@@ -25,7 +25,8 @@ class CarTypeSeeder extends Seeder
                         'ka' => 'სედანი'
                     ],
                     'key' => 'sedan',
-                    'icon' => null
+                    'icon_default' => null,
+                    'icon_hover' => null
                 ],
                 [
                     'title' => [
@@ -33,7 +34,8 @@ class CarTypeSeeder extends Seeder
                         'ka' => 'სატვირთო'
                     ],
                     'key' => 'truck',
-                    'icon' => null
+                    'icon_default' => null,
+                    'icon_hover' => null
                 ],
                 [
                     'title' => [
@@ -41,7 +43,8 @@ class CarTypeSeeder extends Seeder
                         'ka' => 'მისაბმელი'
                     ],
                     'key' => 'wagon',
-                    'icon' => null
+                    'icon_default' => null,
+                    'icon_hover' => null
                 ],
                 [
                     'title' => [
@@ -49,7 +52,8 @@ class CarTypeSeeder extends Seeder
                         'ka' => 'კუპე'
                     ],
                     'key' => 'coupe',
-                    'icon' => null
+                    'icon_default' => null,
+                    'icon_hover' => null
                 ]
             ];
 
@@ -57,7 +61,8 @@ class CarTypeSeeder extends Seeder
                 $carType = new CarType();
                 $carType->setTranslations('title', $type['title']);
                 $carType->key = $type['key'];
-                $carType->icon = $type['icon'];
+                $carType->icon_default = $type['icon_default'];
+                $carType->icon_hover = $type['icon_hover'];
 
                 $carType->save();
             }

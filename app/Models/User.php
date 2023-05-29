@@ -56,4 +56,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsTo(UserRole::class, 'user_role_id');
     }
+
+    public function car(): BelongsTo
+    {
+        return $this->belongsTo(CarType::class, 'car_type_id');
+    }
 }

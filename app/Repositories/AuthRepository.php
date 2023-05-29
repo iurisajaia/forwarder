@@ -56,7 +56,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             'expire_at' => $now->addMinutes(10)
         ]);
 
-        $this->sendSms($code, $user->phone);
+//        $this->sendSms($code, $user->phone);
 
         return response()->json([
             'status' => true,
