@@ -6,26 +6,6 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/auth/users": {
-            "get": {
-                "operationId": "af4fe438d07acd14e62142c19b6b935d",
-                "responses": {
-                    "200": {
-                        "description": "Users List"
-                    }
-                }
-            }
-        },
-        "/api/auth/user-roles": {
-            "get": {
-                "operationId": "b47b240014012b20a348bb74d344fb5f",
-                "responses": {
-                    "200": {
-                        "description": "User Roles"
-                    }
-                }
-            }
-        },
         "/api/car-types": {
             "get": {
                 "operationId": "b3feb24a1faa45e41c95dece0c5c5515",

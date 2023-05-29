@@ -1,0 +1,227 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Forwarder API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags" : ["Auth"],
+                "summary": "User Registration",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "User's name",
+                                        "example": "John Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "User's phone number",
+                                        "example": "+1234567890"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User's email address",
+                                        "example": "john@example.com"
+                                    },
+                                    "user_role_id": {
+                                        "type": "integer",
+                                        "description": "User's role ID",
+                                        "example": 1
+                                    },
+                                    "meta_info": {
+                                        "type": "string",
+                                        "description": "Additional meta information",
+                                        "example": {
+                                            "whatsapp" : "59009102",
+                                            "petName" : "Bob",
+                                            "anything" : "Anything"
+                                        }
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "description": "Image URLs",
+                                        "example": [
+                                            {
+                                                "title" : "drivers_license",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": ["name", "phone", "email"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registration successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/auth/verify": {
+            "post": {
+                "tags" : ["Auth"],
+                "summary": "Verify User",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "description": "User ID",
+                                        "example": 123
+                                    },
+                                    "otp": {
+                                        "type": "integer",
+                                        "description": "verification Code",
+                                        "example": 123456
+                                    }
+                                },
+                                "required": ["user_id", "otp"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Verified successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/auth/get-login-code": {
+            "post": {
+                "tags" : ["Auth"],
+                "summary": "Get Login code",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "User Phone number",
+                                        "example": "+1234567890"
+                                    }
+                                },
+                                "required": ["phone"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Code sent successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags" : ["Auth"],
+                "summary": "Login User with code",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "User Phone number",
+                                        "example": "+1234567890"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "description": "User OTP code",
+                                        "example": "123456"
+                                    }
+                                },
+                                "required": ["phone", "otp"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Logged in successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/auth/user-roles": {
+            "get": {
+                "tags" : ["Auth"],
+                "summary": "User Roles",
+                "responses": {
+                    "200": {
+                        "description": "User Roles fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/car-types": {
+            "get": {
+                "tags" : ["Car"],
+                "summary": "Car types",
+                "responses": {
+                    "200": {
+                        "description": "Car types fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}

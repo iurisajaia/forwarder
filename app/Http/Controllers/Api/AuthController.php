@@ -22,6 +22,7 @@ class AuthController extends Controller
         $this->authRepository = $authRepository;
     }
 
+
     public function createUser(CreateUserRequest $request) : JsonResponse
     {
         try {
@@ -33,7 +34,6 @@ class AuthController extends Controller
             ], 500);
         }
     }
-
 
     public function getLoginCode(GetLoginCodeRequest $request) : JsonResponse
     {
@@ -71,22 +71,12 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/auth/users",
-     *     @OA\Response(response="200", description="Users List")
-     * )
-     */
+
     public function getUsers(){
         return response()->json(['users' => User::query()->with(['media'])->get()]);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/auth/user-roles",
-     *     @OA\Response(response="200", description="User Roles")
-     * )
-     */
+
     public function getUserRoles() : JsonResponse{
         return response()->json($this->authRepository->getUserRoles());
     }

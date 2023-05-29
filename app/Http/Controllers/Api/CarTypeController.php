@@ -18,12 +18,7 @@ class CarTypeController extends Controller
         $this->carTypeRepository = $carTypeRepository;
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/car-types",
-     *     @OA\Response(response="200", description="Car Types")
-     * )
-     */
+
     public function index() : JsonResponse
     {
         return response()->json($this->carTypeRepository->all());

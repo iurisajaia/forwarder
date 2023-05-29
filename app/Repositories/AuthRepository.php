@@ -47,7 +47,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         }
 
 
-        $code = rand(123456, 999999);
+        $code = 123456; // rand(123456, 999999);
 
         /* Create a New OTP */
         UserOtp::create([
@@ -68,15 +68,16 @@ class AuthRepository implements  AuthRepositoryInterface{
     public function getLoginCode(GetLoginCodeRequest $request) : JsonResponse{
         $user = User::query()->where('phone' , $request->phone)->first();
 
-        $code = rand(123456, 999999);
+        $code = 123456; // rand(123456, 999999);
 
-        UserOtp::create([
+        $otp = UserOtp::create([
             'user_id' => $user->id,
             'otp' => $code,
             'expire_at' => now()->addMinutes(10)
         ]);
 
-        return $this->sendSms($code, $user->phone);
+        return response()->json(['otp' => $otp]);
+        //$this->sendSms($code, $user->phone);
 
     }
 
@@ -184,4 +185,5 @@ class AuthRepository implements  AuthRepositoryInterface{
             ]);
         }
     }
+
 }
