@@ -9,6 +9,7 @@
         "darkaonline/l5-swagger": "^8.5",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-translatable-plugin": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.2",
