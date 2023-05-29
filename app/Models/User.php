@@ -10,10 +10,17 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+
+
+    public function canAccessFilament(): bool
+    {
+        return str_ends_with($this->email, '.com');
+    }
 
     /**
      * The attributes that are mass assignable.
