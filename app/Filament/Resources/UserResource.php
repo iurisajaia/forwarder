@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\KeyValue;
@@ -15,8 +16,9 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-//use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Support\Facades\Hash;
+use Closure;
 
 class UserResource extends Resource
 {
@@ -28,21 +30,60 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                TextInput::make('email'),
-                TextInput::make('phone'),
-                TextInput::make('password')
-                ->password()
-                ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
-                Select::make('user_role_id')
-                    ->relationship('role', 'title')
-                    ->preload()
-                    ->required(),
-                Select::make('car_type_id')
-                    ->relationship('car', 'title')
-                    ->preload()
-                    ->required(),
-                KeyValue::make('meta_info'),
+                Card::make([
+                    TextInput::make('name'),
+                    TextInput::make('email'),
+                    TextInput::make('phone'),
+                    Select::make('user_role_id')
+                        ->relationship('role', 'title')
+                        ->preload()
+                        ->required()
+                        ->reactive(),
+                    TextInput::make('password')
+                        ->password()
+                        ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                        ->hidden(fn (Closure $get) => $get('user_role_id') !== 6),
+                    Select::make('car_type_id')
+                        ->relationship('car', 'title')
+                        ->preload()
+                        ->hidden(fn (Closure $get) => $get('user_role_id') !== 4)
+                    ,
+                    KeyValue::make('meta_info'),
+                ]),
+                Card::make([
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('drivers_license')
+                            ->collection('drivers_license')
+                            ->multiple()
+                            ->enableReordering()
+                    ]),
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('tech_passport')
+                            ->multiple()
+                            ->collection('tech_passport')
+                            ->enableReordering()
+                    ]),
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('passport')
+                            ->multiple()
+                            ->collection('passport')
+                            ->enableReordering()
+                    ])
+                ])->hidden(fn (Closure $get) => $get('user_role_id') !== 4),
+                Card::make([
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('residence_confirmation')
+                            ->collection('residence_confirmation')
+                            ->multiple()
+                            ->enableReordering()
+                    ]),
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('bank_credentials')
+                            ->multiple()
+                            ->collection('bank_credentials')
+                            ->enableReordering()
+                    ]),
+                ])->hidden(fn (Closure $get) => $get('user_role_id') !== 2)
             ]);
     }
 
