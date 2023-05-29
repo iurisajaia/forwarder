@@ -222,6 +222,35 @@
                     }
                 }
             }
+        },
+        "/api/rs/tax-payer/{code}": {
+            "get": {
+                "tags" : ["RS"],
+                "summary": "Tax payer info",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "code",
+                        "description": "Tax payer code",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "206322102"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tax Payer info fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     }
 }
