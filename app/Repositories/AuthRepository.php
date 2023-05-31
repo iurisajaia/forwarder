@@ -68,6 +68,10 @@ class AuthRepository implements  AuthRepositoryInterface{
     public function getLoginCode(GetLoginCodeRequest $request) : JsonResponse{
         $user = User::query()->where('phone' , $request->phone)->first();
 
+        if(!isset($user)){
+            return response()->json(['error' => 'Cannot find user']);
+        }
+
         $code = 123456; // rand(123456, 999999);
 
         $otp = UserOtp::create([
@@ -85,9 +89,11 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         $user = User::where('phone', $request->phone)->first();
 
+        if(!isset($user)){
+            return response()->json(['error' => 'Cannot find user']);
+        }
+
         $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
-
-
 
         $this->checkForOtpError($userOtp);
 
@@ -109,8 +115,11 @@ class AuthRepository implements  AuthRepositoryInterface{
     }
 
     public function verifyUser(VerifyUserRequest $request) : JsonResponse{
-        $userOtp   = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
+        $userOtp  = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
 
+        if(!isset($userOtp)){
+            return response()->json(['error' => 'Something went wrong']);
+        }
 
         $this->checkForOtpError($userOtp);
 
