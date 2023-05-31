@@ -19,37 +19,58 @@ class UserRoleSeeder extends Seeder
         if(!DB::table('user_roles')->count()){
             $userTypes = [
                 [
-                    'title' => 'Standard',
+                    'title' => [
+                        'en' => 'Standard',
+                        'ka' => 'სტანდარტული'
+                    ],
                     'key' => 'standard',
                     'is_visible' => true
                 ],
                 [
-                    'title' => 'Legal entity',
+                    'title' => [
+                        'en' => 'Legal entity',
+                        'ka' => 'იურიდიული პირი'
+                    ],
                     'key' => 'legal_entity',
                     'is_visible' => true
                 ],
                 [
-                    'title' => 'Forwarder',
+                    'title' => [
+                        'en' => 'Forwarder',
+                        'ka' => 'ფორვარდერი'
+                    ],
                     'key' => 'forwarder',
                     'is_visible' => true
                 ],
                 [
-                    'title' => 'Driver',
+                    'title' => [
+                        'en' => 'Driver',
+                        'ka' => 'მძღოლი'
+                    ],
                     'key' => 'driver',
                     'is_visible' => true
                 ],
                 [
-                    'title' => 'Company Customer',
+                    'title' => [
+                        'en' => 'Company customer',
+                        'ka' => 'მომხმარებელი'
+                    ],
                     'key' => 'company_customer',
                     'is_visible' => true
                 ],
                 [
-                    'title' => 'Administrator',
+                    'title' => [
+                        'en' => 'Administrator',
+                        'ka' => 'ადმინისტრატორი'
+                    ],
                     'key' => 'administrator',
                     'is_visible' => false
                 ],
                 [
-                    'title' => 'Moderator',
+                    'title' => [
+                        'en' => 'Moderator',
+                        'ka' => 'მოდერატორი'
+                    ],
                     'key' => 'moderator',
                     'is_visible' => false
                 ],

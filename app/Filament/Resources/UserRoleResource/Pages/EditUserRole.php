@@ -10,11 +10,15 @@ class EditUserRole extends EditRecord
 {
     protected static string $resource = UserRoleResource::class;
 
+    use EditRecord\Concerns\Translatable;
+
+
     protected function getActions(): array
     {
         return [
-            Actions\ViewAction::make(),
+            Actions\LocaleSwitcher::make(),
             Actions\DeleteAction::make(),
+
         ];
     }
 }

@@ -42,11 +42,11 @@ class UserResource extends Resource
                     TextInput::make('password')
                         ->password()
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                        ->hidden(fn (Closure $get) => $get('user_role_id') !== 6),
+                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator'),
                     Select::make('car_type_id')
                         ->relationship('car', 'title')
                         ->preload()
-                        ->hidden(fn (Closure $get) => $get('user_role_id') !== 4)
+                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator')
                     ,
                     KeyValue::make('meta_info'),
                 ]),
@@ -69,7 +69,7 @@ class UserResource extends Resource
                             ->collection('passport')
                             ->enableReordering()
                     ])
-                ])->hidden(fn (Closure $get) => $get('user_role_id') !== 4),
+                ])->hidden(fn (Closure $get) => $get('role.key') === 'administrator'),
                 Card::make([
                     Card::make([
                         SpatieMediaLibraryFileUpload::make('residence_confirmation')
@@ -83,7 +83,7 @@ class UserResource extends Resource
                             ->collection('bank_credentials')
                             ->enableReordering()
                     ]),
-                ])->hidden(fn (Closure $get) => $get('user_role_id') !== 2)
+                ])->hidden(fn (Closure $get) => $get('role.key') !== 'legal_entity')
             ]);
     }
 
@@ -107,6 +107,7 @@ class UserResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+
 
     public static function getRelations(): array
     {

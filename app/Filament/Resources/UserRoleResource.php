@@ -7,19 +7,24 @@ use App\Filament\Resources\UserRoleResource\RelationManagers;
 use App\Models\UserRole;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserRoleResource extends Resource
 {
+    use Translatable;
     protected static ?string $model = UserRole::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+    public static function getTranslatableLocales(): array
+    {
+        return ['en', 'ka'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -42,6 +47,7 @@ class UserRoleResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
