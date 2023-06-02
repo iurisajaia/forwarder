@@ -21,8 +21,10 @@ class CarTypeSeeder extends Seeder
             $carTypes = [
                 [
                     'title' => [
-                        'en' => 'Sedan',
-                        'ka' => 'სედანი'
+                        'eng' => 'Sedan',
+                        'geo' => 'სედანი',
+                        'tur' => 'სედანი',
+                        'rus' => 'სედანი'
                     ],
                     'key' => 'sedan',
                     'icon_default' => null,
@@ -30,8 +32,10 @@ class CarTypeSeeder extends Seeder
                 ],
                 [
                     'title' => [
-                        'en' => 'Truck',
-                        'ka' => 'სატვირთო'
+                        'eng' => 'Truck',
+                        'geo' => 'სატვირთო',
+                        'tur' => 'სატვირთო',
+                        'rus' => 'სატვირთო'
                     ],
                     'key' => 'truck',
                     'icon_default' => null,
@@ -39,8 +43,10 @@ class CarTypeSeeder extends Seeder
                 ],
                 [
                     'title' => [
-                        'en' => 'Wagon',
-                        'ka' => 'მისაბმელი'
+                        'eng' => 'Wagon',
+                        'geo' => 'მისაბმელი',
+                        'tur' => 'მისაბმელი',
+                        'rus' => 'მისაბმელი'
                     ],
                     'key' => 'wagon',
                     'icon_default' => null,
@@ -48,8 +54,10 @@ class CarTypeSeeder extends Seeder
                 ],
                 [
                     'title' => [
-                        'en' => 'Coupe',
-                        'ka' => 'კუპე'
+                        'eng' => 'Coupe',
+                        'geo' => 'კუპე',
+                        'tur' => 'კუპე',
+                        'rus' => 'კუპე'
                     ],
                     'key' => 'coupe',
                     'icon_default' => null,

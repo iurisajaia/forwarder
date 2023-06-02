@@ -5,11 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Models\UserRole;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Toggle;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
@@ -22,9 +25,11 @@ use Closure;
 
 class UserResource extends Resource
 {
+
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
+
 
     public static function form(Form $form): Form
     {
@@ -49,6 +54,7 @@ class UserResource extends Resource
                         ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator')
                     ,
                     KeyValue::make('meta_info'),
+                    Toggle::make('user_data_is_verified')
                 ]),
                 Card::make([
                     Card::make([

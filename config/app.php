@@ -82,11 +82,13 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'eng',
 
     'default_locales' => [
-        'en',
-        'ka'
+        'eng',
+        'geo',
+        'rus',
+        'tur'
     ],
 
     /*

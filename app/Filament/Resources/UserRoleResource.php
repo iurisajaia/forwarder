@@ -23,7 +23,7 @@ class UserRoleResource extends Resource
 
     public static function getTranslatableLocales(): array
     {
-        return ['en', 'ka'];
+        return ['eng', 'geo' , 'tur', 'rus'];
     }
 
     public static function form(Form $form): Form

@@ -15,6 +15,9 @@ class UserRole extends Model
 
     public $translatable = ['title'];
 
+    protected $casts = [
+        'title' => 'json'
+    ];
 
     public function users(): HasMany
     {

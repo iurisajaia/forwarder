@@ -31,7 +31,7 @@ class CreateUserRequest extends FormRequest
                 'name' => 'required|string',
                 'phone' => 'required|string',
                 'email' => 'required|string',
-                'user_role_id' => 'number',
+                'user_role_id' => 'required|number',
                 'meta_info' => '',
                 'images' => ''
             ]

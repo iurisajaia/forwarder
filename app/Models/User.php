@@ -14,7 +14,8 @@ use Filament\Models\Contracts\FilamentUser;
 
 class User extends Authenticatable implements HasMedia, FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia ;
+
 
 
     public function canAccessFilament(): bool
@@ -33,7 +34,8 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         'password',
         'user_role_id',
         'phone',
-        'meta_info'
+        'meta_info',
+        'user_data_is_verified'
     ];
 
     /**
@@ -54,9 +56,16 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
+        'user_data_is_verified' => 'boolean',
         'meta_info' => 'json'
     ];
 
+    protected $appends = ['phone_is_verified'];
+
+    public function getPhoneIsVerifiedAttribute()
+    {
+        return !is_null($this->phone_verified_at);
+    }
 
 
     public function role(): BelongsTo

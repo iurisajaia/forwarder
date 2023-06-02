@@ -20,56 +20,70 @@ class UserRoleSeeder extends Seeder
             $userTypes = [
                 [
                     'title' => [
-                        'en' => 'Standard',
-                        'ka' => 'სტანდარტული'
+                        'eng' => 'Standard',
+                        'geo' => 'სტანდარტული',
+                        'tur' => 'სტანდარტული',
+                        'rus' => 'სტანდარტული'
                     ],
                     'key' => 'standard',
                     'is_visible' => true
                 ],
                 [
                     'title' => [
-                        'en' => 'Legal entity',
-                        'ka' => 'იურიდიული პირი'
+                        'eng' => 'Legal entity',
+                        'geo' => 'იურიდიული პირი',
+                        'tur' => 'იურიდიული პირი',
+                        'rus' => 'იურიდიული პირი'
                     ],
                     'key' => 'legal_entity',
                     'is_visible' => true
                 ],
                 [
                     'title' => [
-                        'en' => 'Forwarder',
-                        'ka' => 'ფორვარდერი'
+                        'eng' => 'Forwarder',
+                        'geo' => 'ფორვარდერი',
+                        'tur' => 'ფორვარდერი',
+                        'rus' => 'ფორვარდერი'
                     ],
                     'key' => 'forwarder',
                     'is_visible' => true
                 ],
                 [
                     'title' => [
-                        'en' => 'Driver',
-                        'ka' => 'მძღოლი'
+                        'eng' => 'Driver',
+                        'geo' => 'მძღოლი',
+                        'tur' => 'მძღოლი',
+                        'rus' => 'მძღოლი'
                     ],
                     'key' => 'driver',
                     'is_visible' => true
                 ],
                 [
                     'title' => [
-                        'en' => 'Company customer',
-                        'ka' => 'მომხმარებელი'
+                        'eng' => 'Company customer',
+                        'geo' => 'მომხმარებელი',
+                        'tur' => 'მომხმარებელი',
+                        'rus' => 'მომხმარებელი'
                     ],
                     'key' => 'company_customer',
                     'is_visible' => true
                 ],
                 [
                     'title' => [
-                        'en' => 'Administrator',
-                        'ka' => 'ადმინისტრატორი'
+                        'eng' => 'Administrator',
+                        'geo' => 'ადმინისტრატორი',
+                        'tur' => 'ადმინისტრატორი',
+                        'rus' => 'ადმინისტრატორი'
                     ],
                     'key' => 'administrator',
                     'is_visible' => false
                 ],
                 [
                     'title' => [
-                        'en' => 'Moderator',
-                        'ka' => 'მოდერატორი'
+                        'eng' => 'Moderator',
+                        'geo' => 'მოდერატორი',
+                        'tur' => 'მოდერატორი',
+                        'rus' => 'მოდერატორი'
                     ],
                     'key' => 'moderator',
                     'is_visible' => false

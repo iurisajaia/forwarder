@@ -3,18 +3,24 @@
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RoleRelationManager extends RelationManager
 {
+    use Translatable;
+
     protected static string $relationship = 'role';
 
     protected static ?string $recordTitleAttribute = 'title';
+
+    public static function getTranslatableLocales(): array
+    {
+        return ['eng', 'geo' ,'tur' , 'rus'];
+    }
 
     public static function form(Form $form): Form
     {

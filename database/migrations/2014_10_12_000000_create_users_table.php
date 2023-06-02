@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('car_type_id')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->timestamp('phone_verified_at')->nullable();
+            $table->boolean('user_data_is_verified')->nullable()->default(false);
             $table->json('meta_info')->nullable();
             $table->rememberToken();
             $table->timestamps();
