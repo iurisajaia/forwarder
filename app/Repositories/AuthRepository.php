@@ -69,7 +69,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         $user = User::query()->where('phone' , $request->phone)->first();
 
         if(!isset($user)){
-            return response()->json(['error' => 'Cannot find user']);
+            return response()->json(['error' => 'Cannot find user'], 404);
         }
 
         $code = 123456; // rand(123456, 999999);
@@ -90,7 +90,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         $user = User::where('phone', $request->phone)->first();
 
         if(!isset($user)){
-            return response()->json(['error' => 'Cannot find user']);
+            return response()->json(['error' => 'Cannot find user'], 404);
         }
 
         $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
@@ -110,7 +110,7 @@ class AuthRepository implements  AuthRepositoryInterface{
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         }else{
-            return response()->json(['error' => 'Cannot find user']);
+            return response()->json(['error' => 'Cannot find user'], 404);
         }
     }
 
@@ -118,7 +118,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         $userOtp  = UserOtp::where('user_id', $request->user_id)->where('otp', $request->otp)->first();
 
         if(!isset($userOtp)){
-            return response()->json(['error' => 'Something went wrong']);
+            return response()->json(['error' => 'Something went wrong'], 404);
         }
 
         $this->checkForOtpError($userOtp);
@@ -139,15 +139,15 @@ class AuthRepository implements  AuthRepositoryInterface{
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ]);
         }else{
-            return response()->json(['error' => 'Cannot find user']);
+            return response()->json(['error' => 'Cannot find user'],404);
         }
     }
 
     public function checkForOtpError($userOtp){
         if (!$userOtp) {
-            return response()->json(['error' => 'Your OTP is not correct']);
+            return response()->json(['error' => 'Your OTP is not correct'], 401);
         }else if($userOtp && now()->isAfter($userOtp->expire_at)){
-            return response()->json(['error' => 'Your OTP has been expired']);
+            return response()->json(['error' => 'Your OTP has been expired'], 401);
         }
         return true;
     }
@@ -177,7 +177,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         {
             return response()->json([
                 'error' => $e->getMessage()
-            ]);
+            ], $e->getCode());
         }
     }
 
@@ -191,7 +191,7 @@ class AuthRepository implements  AuthRepositoryInterface{
         {
             return response()->json([
                 'error' => $e->getMessage()
-            ]);
+            ], $e->getCode());
         }
     }
 
