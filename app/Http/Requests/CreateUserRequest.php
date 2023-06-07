@@ -33,7 +33,8 @@ class CreateUserRequest extends FormRequest
                 'email' => 'required|string',
                 'user_role_id' => 'required|number',
                 'meta_info' => '',
-                'images' => ''
+                'images' => '',
+                'standard' => ''
             ]
         ];
     }

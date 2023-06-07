@@ -19,6 +19,7 @@ class UserRoleSeeder extends Seeder
         if(!DB::table('user_roles')->count()){
             $userTypes = [
                 [
+                    'id' => 1,
                     'title' => [
                         'eng' => 'Standard',
                         'geo' => 'სტანდარტული',
@@ -29,16 +30,18 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => true
                 ],
                 [
+                    'id' => 2,
                     'title' => [
                         'eng' => 'Legal entity',
                         'geo' => 'იურიდიული პირი',
                         'tur' => 'იურიდიული პირი',
                         'rus' => 'იურიდიული პირი'
                     ],
-                    'key' => 'legal_entity',
+                    'key' => 'legal',
                     'is_visible' => true
                 ],
                 [
+                    'id' => 3,
                     'title' => [
                         'eng' => 'Forwarder',
                         'geo' => 'ფორვარდერი',
@@ -49,6 +52,7 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => true
                 ],
                 [
+                    'id' => 4,
                     'title' => [
                         'eng' => 'Driver',
                         'geo' => 'მძღოლი',
@@ -59,16 +63,18 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => true
                 ],
                 [
+                    'id' => 5,
                     'title' => [
                         'eng' => 'Company customer',
                         'geo' => 'მომხმარებელი',
                         'tur' => 'მომხმარებელი',
                         'rus' => 'მომხმარებელი'
                     ],
-                    'key' => 'company_customer',
+                    'key' => 'customer',
                     'is_visible' => true
                 ],
                 [
+                    'id' => 6,
                     'title' => [
                         'eng' => 'Administrator',
                         'geo' => 'ადმინისტრატორი',
@@ -79,6 +85,7 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => false
                 ],
                 [
+                    'id' => 7,
                     'title' => [
                         'eng' => 'Moderator',
                         'geo' => 'მოდერატორი',

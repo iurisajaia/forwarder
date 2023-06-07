@@ -36,21 +36,79 @@
                                         "description": "User's role ID",
                                         "example": 1
                                     },
-                                    "meta_info": {
+                                    "standard": {
                                         "type": "string",
-                                        "description": "Additional meta information",
+                                        "description": "Standard User information",
                                         "example": {
-                                            "whatsapp" : "59009102",
-                                            "petName" : "Bob",
-                                            "anything" : "Anything"
+                                            "lastName" : "doe",
+                                            "private_number" : "59009102",
+                                            "position" : "CTO"
                                         }
                                     },
+                                    "driver": {
+                                        "type": "string",
+                                        "description": "Driver information",
+                                        "example": {
+                                            "telegram" : "59009102",
+                                            "whatsapp" : "59009102",
+                                            "viber" : "59009102",
+                                            "referral_code" : "a134",
+                                            "iban" : "GE34BG132134"
+                                        }
+                                    },
+                                    "legal": {
+                                        "type": "string",
+                                        "description": "Legal entity information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+                                    "forwarder": {
+                                        "type": "string",
+                                        "description": "Forwarder information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+                                    "customer": {
+                                        "type": "string",
+                                        "description": "Customer information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+
                                     "images": {
                                         "type": "string",
                                         "description": "Image URLs",
                                         "example": [
                                             {
                                                 "title" : "drivers_license",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "tech_passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "residence_confirmation",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "bank_credentials",
                                                 "url" : "https://shorturl.at/moNP0"
                                             }
                                         ]

@@ -4,6 +4,11 @@ namespace App\Repositories;
 use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\VerifyUserRequest;
+use App\Models\CustomerDetails;
+use App\Models\DriverUserDetails;
+use App\Models\ForwarderDetails;
+use App\Models\LegalUserDetails;
+use App\Models\StandardUserDetails;
 use App\Models\UserRole;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Http\Requests\CreateUserRequest;
@@ -14,6 +19,13 @@ use Twilio\Rest\Client;
 
 class AuthRepository implements  AuthRepositoryInterface{
 
+    public function createUserDetails(string $model, $request, $id){
+        $data = new $model([
+            ...$request,
+            'user_id' => $id
+        ]);
+        $data->save();
+    }
 
     public function createUserData(CreateUserRequest $request){
         $data = [
@@ -24,6 +36,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             'meta_info' => $request->meta_info
         ];
 
+
         $user = User::create($data);
 
         if(isset($request->images)){
@@ -31,6 +44,34 @@ class AuthRepository implements  AuthRepositoryInterface{
                 $user->addMediaFromRequest("images.{$key}.url")->toMediaCollection($image['title']);
             }
         }
+
+
+        if(isset($request->standard) && $request->user_role_id === 1){
+            $this->createUserDetails(StandardUserDetails::class,$request->standard, $user->id);
+        }
+
+        if(isset($request->legal) && $request->user_role_id === 2){
+            $this->createUserDetails(LegalUserDetails::class,$request->legal, $user->id);
+        }
+
+        if(isset($request->forwarder) && $request->user_role_id === 3){
+            $this->createUserDetails(ForwarderDetails::class,$request->forwarder, $user->id);
+        }
+
+        if(isset($request->driver) && $request->user_role_id === 4){
+            $this->createUserDetails(DriverUserDetails::class,$request->driver, $user->id);
+        }
+
+
+        if(isset($request->customer) && $request->user_role_id === 5){
+            $this->createUserDetails(CustomerDetails::class,$request->customer, $user->id);
+        }
+
+
+
+
+
+
         return $user;
     }
 
@@ -60,7 +101,8 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         return response()->json([
             'status' => true,
-            'message' => 'User Created Successfully'
+            'message' => 'User Created Successfully',
+            'user' => $user
         ], 200);
 
     }

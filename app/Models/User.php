@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -77,4 +78,35 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     {
         return $this->belongsTo(CarType::class, 'car_type_id');
     }
+
+    public function standard() : HasOne
+    {
+        return $this->hasOne(StandardUserDetails::class);
+    }
+
+    public function driver() : HasOne
+    {
+        return $this->hasOne(DriverUserDetails::class);
+    }
+
+    public function legal() : HasOne
+    {
+        return $this->hasOne(LegalUserDetails::class);
+    }
+
+    public function forwarder() : HasOne
+    {
+        return $this->hasOne(ForwarderDetails::class);
+    }
+
+    public function customer() : HasOne
+    {
+        return $this->hasOne(CustomerDetails::class);
+    }
+
+
+
+
+
+
 }

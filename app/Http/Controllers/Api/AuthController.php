@@ -73,7 +73,7 @@ class AuthController extends Controller
 
 
     public function getUsers(){
-        return response()->json(['users' => User::query()->with(['media'])->get()]);
+        return response()->json(['users' => User::query()->with(['media','role','standard','legal','driver','customer','forwarder'])->orderByDesc('id')->get()]);
     }
 
 

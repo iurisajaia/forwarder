@@ -31,6 +31,7 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,15 +48,32 @@ class UserResource extends Resource
                     TextInput::make('password')
                         ->password()
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator'),
+                        ->hidden(fn (Closure $get) => $get('user_role_id') !== 6),
                     Select::make('car_type_id')
                         ->relationship('car', 'title')
                         ->preload()
-                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator')
-                    ,
-                    KeyValue::make('meta_info'),
-                    Toggle::make('user_data_is_verified')
+                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator'),
                 ]),
+                Card::make([
+                    TextInput::make('lastName'),
+                    TextInput::make('private_number'),
+                    TextInput::make('position'),
+                ])
+                ->relationship('standard')
+                ->visible(fn (Closure $get) => $get('user_role_id') === 1),
+
+                // driver
+                Card::make([
+                    TextInput::make('telegram'),
+                    TextInput::make('whatsapp'),
+                    TextInput::make('viber'),
+                    TextInput::make('referral_code'),
+                    TextInput::make('iban'),
+                    // car
+                    // languages
+                ])
+                ->relationship('driver')
+                ->visible(fn (Closure $get) => $get('user_role_id') === 4),
                 Card::make([
                     Card::make([
                         SpatieMediaLibraryFileUpload::make('drivers_license')
@@ -75,7 +93,17 @@ class UserResource extends Resource
                             ->collection('passport')
                             ->enableReordering()
                     ])
-                ])->hidden(fn (Closure $get) => $get('role.key') === 'administrator'),
+                ])->visible(fn (Closure $get) => $get('user_role_id') === 4),
+
+                // legal entity
+                Card::make([
+                    TextInput::make('identification_code'),
+                    TextInput::make('company_name'),
+                    TextInput::make('company_ceo_name'),
+                    TextInput::make('contact_number')
+                ])
+                    ->relationship('legal')
+                    ->visible(fn (Closure $get) => $get('user_role_id') === 2),
                 Card::make([
                     Card::make([
                         SpatieMediaLibraryFileUpload::make('residence_confirmation')
@@ -89,7 +117,56 @@ class UserResource extends Resource
                             ->collection('bank_credentials')
                             ->enableReordering()
                     ]),
-                ])->hidden(fn (Closure $get) => $get('role.key') !== 'legal_entity')
+                ])->visible(fn (Closure $get) => $get('user_role_id') === 2),
+
+
+                // forwarder
+                Card::make([
+                    TextInput::make('identification_code'),
+                    TextInput::make('company_name'),
+                    TextInput::make('company_ceo_name'),
+                    TextInput::make('contact_number')
+                ])
+                    ->relationship('forwarder')
+                    ->visible(fn (Closure $get) => $get('user_role_id') === 3),
+                Card::make([
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('residence_confirmation')
+                            ->collection('residence_confirmation')
+                            ->multiple()
+                            ->enableReordering()
+                    ]),
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('bank_credentials')
+                            ->multiple()
+                            ->collection('bank_credentials')
+                            ->enableReordering()
+                    ]),
+                ])->visible(fn (Closure $get) => $get('user_role_id') === 3),
+
+                // customer
+                Card::make([
+                    TextInput::make('identification_code'),
+                    TextInput::make('company_name'),
+                    TextInput::make('company_ceo_name'),
+                    TextInput::make('contact_number')
+                ])
+                    ->relationship('customer')
+                    ->visible(fn (Closure $get) => $get('user_role_id') === 5),
+                Card::make([
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('residence_confirmation')
+                            ->collection('residence_confirmation')
+                            ->multiple()
+                            ->enableReordering()
+                    ]),
+                    Card::make([
+                        SpatieMediaLibraryFileUpload::make('bank_credentials')
+                            ->multiple()
+                            ->collection('bank_credentials')
+                            ->enableReordering()
+                    ]),
+                ])->visible(fn (Closure $get) => $get('user_role_id') === 5)
             ]);
     }
 
@@ -109,6 +186,7 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
+
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
