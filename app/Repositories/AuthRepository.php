@@ -32,8 +32,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
-            'user_role_id' => $request->user_role_id,
-            'meta_info' => $request->meta_info
+            'user_role_id' => $request->user_role_id
         ];
 
 

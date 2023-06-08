@@ -36,7 +36,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         'password',
         'user_role_id',
         'phone',
-        'meta_info',
         'user_data_is_verified'
     ];
 
@@ -58,8 +57,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
-        'user_data_is_verified' => 'boolean',
-        'meta_info' => 'json'
+        'user_data_is_verified' => 'boolean'
     ];
 
     protected $appends = ['phone_is_verified'];
