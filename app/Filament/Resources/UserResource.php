@@ -49,10 +49,6 @@ class UserResource extends Resource
                         ->password()
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                         ->hidden(fn (Closure $get) => $get('user_role_id') !== 6),
-                    Select::make('car_type_id')
-                        ->relationship('car', 'title')
-                        ->preload()
-                        ->hidden(fn (Closure $get) => $get('role.key') !== 'administrator'),
                 ]),
                 Card::make([
                     TextInput::make('lastName'),
@@ -87,6 +83,13 @@ class UserResource extends Resource
                         ->preload()
                         ->reactive(),
                 ])->relationship('driver'),
+                Card::make([
+                    Select::make('trailer_id')
+                        ->relationship('trailer', 'title')
+                        ->preload()
+                        ->reactive(),
+                ])->relationship('driver'),
+
 
                 SpatieMediaLibraryFileUpload::make('drivers_license')
                     ->collection('drivers_license')

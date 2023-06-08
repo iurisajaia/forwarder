@@ -81,11 +81,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->belongsToMany(Language::class, 'user_languages' );
     }
 
-    public function car(): BelongsTo
-    {
-        return $this->belongsTo(CarType::class, 'car_type_id');
-    }
-
     public function standard() : HasOne
     {
         return $this->hasOne(StandardUserDetails::class);

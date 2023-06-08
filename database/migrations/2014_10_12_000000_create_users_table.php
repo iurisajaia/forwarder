@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->integer('user_role_id')->nullable();
-            $table->integer('car_type_id')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->timestamp('phone_verified_at')->nullable();
             $table->boolean('user_data_is_verified')->nullable()->default(false);
