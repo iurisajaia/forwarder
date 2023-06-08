@@ -225,7 +225,7 @@ class AuthRepository implements  AuthRepositoryInterface{
     public function getUserRoles(): JsonResponse{
         try {
             return response()->json([
-                'data' => UserRole::query()->get(),
+                'data' => UserRole::query()->where('is_visible' , 1)->get(),
                 'status' => true
             ], 200);
         }catch(Exception $e)
