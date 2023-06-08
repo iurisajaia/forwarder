@@ -64,36 +64,40 @@ class UserResource extends Resource
 
                 // driver
                 Card::make([
+                Card::make([
                     TextInput::make('telegram'),
                     TextInput::make('whatsapp'),
                     TextInput::make('viber'),
                     TextInput::make('referral_code'),
                     TextInput::make('iban'),
-                    // car
-                    // languages
                 ])
                 ->relationship('driver')
                 ->visible(fn (Closure $get) => $get('user_role_id') === 4),
+
+                Select::make('languages')
+                    ->relationship('languages', 'title')
+                    ->preload()
+                    ->multiple()
+                    ->required()
+                    ->reactive(),
+
                 Card::make([
-                    Card::make([
-                        SpatieMediaLibraryFileUpload::make('drivers_license')
-                            ->collection('drivers_license')
-                            ->multiple()
-                            ->enableReordering()
-                    ]),
-                    Card::make([
-                        SpatieMediaLibraryFileUpload::make('tech_passport')
-                            ->multiple()
-                            ->collection('tech_passport')
-                            ->enableReordering()
-                    ]),
-                    Card::make([
-                        SpatieMediaLibraryFileUpload::make('passport')
-                            ->multiple()
-                            ->collection('passport')
-                            ->enableReordering()
-                    ])
-                ])->visible(fn (Closure $get) => $get('user_role_id') === 4),
+                    Select::make('car_id')
+                        ->relationship('car', 'title')
+                        ->preload()
+                        ->reactive(),
+                ])->relationship('driver'),
+
+                SpatieMediaLibraryFileUpload::make('drivers_license')
+                    ->collection('drivers_license')
+                    ->multiple()
+                    ->enableReordering(),
+                SpatieMediaLibraryFileUpload::make('passport')
+                    ->multiple()
+                    ->collection('passport')
+                    ->enableReordering()
+            ])
+                ->visible(fn (Closure $get) => $get('user_role_id') === 4),
 
                 // legal entity
                 Card::make([
@@ -197,6 +201,7 @@ class UserResource extends Resource
     {
         return [
             RelationManagers\RoleRelationManager::class,
+            RelationManagers\LanguagesRelationManager::class,
 
         ];
     }

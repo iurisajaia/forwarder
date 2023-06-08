@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserRoleSeeder::class,
-            CarTypeSeeder::class
+            CarTypeSeeder::class,
+            LanguageSeeder::class
         ]);
     }
 }
