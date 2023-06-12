@@ -30,7 +30,7 @@ class CreateUserRequest extends FormRequest
             [
                 'name' => 'required|string',
                 'phone' => 'required|string',
-                'email' => 'required|string',
+                'email' => 'string',
                 'user_role_id' => 'required|number',
                 'images' => '',
                 'standard' => ''
@@ -57,7 +57,6 @@ class CreateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Email is required!',
             'name.required' => 'Name is required!',
             'phone.required' => 'Phone is required!'
         ];
