@@ -98,11 +98,12 @@ class AuthRepository implements  AuthRepositoryInterface{
 
 //        $this->sendSms($code, $user->phone);
 
+        $resUser = User::where('id', $user->id)->first();
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
-            'user' => $user,
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'user' => $resUser,
+            'token' => $resUser->createToken("API TOKEN")->plainTextToken
         ], 200);
 
     }
@@ -177,8 +178,8 @@ class AuthRepository implements  AuthRepositoryInterface{
             $user->save();
 
             return response()->json([
-                'user' => $user,
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'status' => 200,
+                'message' => 'User verified successfully'
             ]);
         }else{
             return response()->json(['error' => 'Cannot find user'],404);
