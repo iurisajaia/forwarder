@@ -4,6 +4,20 @@
         "title": "Forwarder API",
         "version": "1.0.0"
     },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "paths": {
         "/api/auth/register": {
             "post": {
@@ -254,6 +268,28 @@
                 "responses": {
                     "200": {
                         "description": "User Roles fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["Current User"],
+                "summary": "Current User",
+                "responses": {
+                    "200": {
+                        "description": "Current user fetched successfully"
                     },
                     "400": {
                         "description": "Bad request - Invalid input data"
