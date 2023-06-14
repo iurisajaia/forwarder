@@ -16,8 +16,19 @@ use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Http\JsonResponse;
 use Twilio\Rest\Client;
+use Illuminate\Http\Request;
+
+
 
 class AuthRepository implements  AuthRepositoryInterface{
+
+    public array $roles = [
+        1 => 'standard',
+        2 => 'legal',
+        3 => 'forwarder',
+        4 => 'driver',
+        5 => 'customer'
+    ];
 
     public function createUserDetails(string $model, $request, $id){
         $data = new $model([
@@ -237,5 +248,34 @@ class AuthRepository implements  AuthRepositoryInterface{
             ], $e->getCode());
         }
     }
+
+    public function currentUser(Request $request): JsonResponse{
+        try {
+            $ruser = $request->user();
+
+            if(!$ruser){
+                return response()->json([
+                    'error' => 'Cannot find user',
+                    'status' => 401
+                ]);
+            }
+
+
+            $user = User::query()->with(['role', 'media', $this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
+
+
+            return response()->json([
+                'user' => $user
+            ], 200);
+
+        }catch(Exception $e)
+        {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+
 
 }

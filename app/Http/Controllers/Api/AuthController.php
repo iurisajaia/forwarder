@@ -9,8 +9,8 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\VerifyUserRequest;
 use App\Models\User;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -81,5 +81,11 @@ class AuthController extends Controller
     public function getUserRoles() : JsonResponse{
         return response()->json($this->authRepository->getUserRoles());
     }
+
+    public function currentUser(Request $request){
+        return $this->authRepository->currentUser($request);
+    }
+
+
 
 }
