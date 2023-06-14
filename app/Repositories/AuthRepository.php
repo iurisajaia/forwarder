@@ -56,30 +56,46 @@ class AuthRepository implements  AuthRepositoryInterface{
         }
 
 
-        if(isset($request->standard) && $request->user_role_id === 1){
-            $this->createUserDetails(StandardUserDetails::class,$request->standard, $user->id);
+        if(isset($request->standard) && $request->user_role_id == 1){
+            $data = new StandardUserDetails([
+                ...$request->standard,
+                'user_id' => $user->id
+            ]);
+            $data->save();
         }
 
-        if(isset($request->legal) && $request->user_role_id === 2){
-            $this->createUserDetails(LegalUserDetails::class,$request->legal, $user->id);
+        if(isset($request->legal) && $request->user_role_id == 2){
+            $data = new LegalUserDetails([
+                ...$request->legal,
+                'user_id' => $user->id
+            ]);
+            $data->save();
         }
 
-        if(isset($request->forwarder) && $request->user_role_id === 3){
-            $this->createUserDetails(ForwarderDetails::class,$request->forwarder, $user->id);
+        if(isset($request->forwarder) && $request->user_role_id == 3){
+            $data = new ForwarderDetails([
+                ...$request->forwarder,
+                'user_id' => $user->id
+            ]);
+            $data->save();
         }
 
-        if(isset($request->driver) && $request->user_role_id === 4){
-            $this->createUserDetails(DriverUserDetails::class,$request->driver, $user->id);
+        if(isset($request->driver) && $request->user_role_id == 4){
+            $data = new DriverUserDetails([
+                ...$request->driver,
+                'user_id' => $user->id
+            ]);
+            $data->save();
         }
 
 
-        if(isset($request->customer) && $request->user_role_id === 5){
-            $this->createUserDetails(CustomerDetails::class,$request->customer, $user->id);
+        if(isset($request->customer) && $request->user_role_id == 5){
+            $data = new CustomerDetails([
+                ...$request->customer,
+                'user_id' => $user->id
+            ]);
+            $data->save();
         }
-
-
-
-
 
 
         return $user;
@@ -109,7 +125,8 @@ class AuthRepository implements  AuthRepositoryInterface{
 
 //        $this->sendSms($code, $user->phone);
 
-        $resUser = User::where('id', $user->id)->first();
+
+        $resUser = User::query()->with(['role', 'media', $this->roles[$user->user_role_id]])->findOrFail($user->id);
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
