@@ -51,7 +51,7 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         if(isset($request->images)){
             foreach ($request->images as $key => $image){
-                $user->addMediaFromRequest("images.{$key}.url")->toMediaCollection($image['title']);
+                $user->addMediaFromRequest("images.{$key}.uri")->toMediaCollection($image['title']);
             }
         }
 

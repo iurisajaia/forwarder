@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CarResource\Pages;
 use App\Filament\Resources\CarResource\RelationManagers;
 use App\Models\Car;
+use App\Models\DriverUserDetails;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -15,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -38,10 +41,9 @@ class CarResource extends Resource
                     ->required()
                     ->reactive(),
                 Select::make('driver_id')
-                    ->relationship('driver', 'telegram')
-                    ->preload()
-                    ->required()
-                    ->reactive(),
+                    ->label('Driver')
+//                    ->relationship('driver', 'car_id')
+                    ->options(DriverUserDetails::with('user')->get()->pluck('user.name', 'id')),
                 Card::make([
                     SpatieMediaLibraryFileUpload::make('tech_passport')
                         ->multiple()
