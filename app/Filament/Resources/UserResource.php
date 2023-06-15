@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Car;
+use App\Models\DriverUserDetails;
 use App\Models\User;
 use App\Models\UserRole;
 use Filament\Forms;
@@ -20,6 +22,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Closure;
 
@@ -31,6 +34,13 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
 
+    protected function handleRecordUpdate(array $data): Model
+    {
+        $record =  static::getModel()::update($data);
+//        $record->driver()->create($data['detail']);
+
+        return $record;
+    }
 
     public static function form(Form $form): Form
     {
@@ -79,17 +89,13 @@ class UserResource extends Resource
 
                 Card::make([
                     Select::make('car_id')
-                        ->relationship('car', 'title')
-                        ->preload()
-                        ->reactive(),
+                        ->label('Car')
+                        ->searchable()
+                        ->options(function(callable $get){
+                            return Car::pluck('number', 'id');
+                        })
+                        ->reactive()
                 ])->relationship('driver'),
-                Card::make([
-                    Select::make('trailer_id')
-                        ->relationship('trailer', 'title')
-                        ->preload()
-                        ->reactive(),
-                ])->relationship('driver'),
-
 
                 SpatieMediaLibraryFileUpload::make('drivers_license')
                     ->collection('drivers_license')

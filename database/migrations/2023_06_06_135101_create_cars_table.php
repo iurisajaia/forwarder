@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('model')->nullable();
             $table->string('identification_number')->nullable();
-            $table->integer('driver_id')->nullable();
             $table->integer('car_type_id')->nullable();
             $table->timestamps();
         });

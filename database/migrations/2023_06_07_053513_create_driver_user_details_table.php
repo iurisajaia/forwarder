@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('referral_code')->nullable();
             $table->string('iban')->nullable();
             $table->integer('car_id')->nullable();
-            $table->integer('trailer_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

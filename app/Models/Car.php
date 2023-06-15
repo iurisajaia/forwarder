@@ -15,10 +15,11 @@ class Car extends Model implements HasMedia
 
     protected $guarded = [];
 
-    public function driver(): BelongsTo
+    public function driver(): HasOne
     {
-        return $this->belongsTo(DriverUserDetails::class, 'driver_id');
+        return $this->hasOne(DriverUserDetails::class);
     }
+    
     public function type(): BelongsTo
     {
         return $this->belongsTo(CarType::class, 'car_type_id');

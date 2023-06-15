@@ -31,7 +31,7 @@ class CarResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('number'),
+                TextInput::make('number')->required(),
                 TextInput::make('title'),
                 TextInput::make('model'),
                 TextInput::make('identification_number'),
@@ -40,10 +40,6 @@ class CarResource extends Resource
                     ->preload()
                     ->required()
                     ->reactive(),
-                Select::make('driver_id')
-                    ->label('Driver')
-//                    ->relationship('driver', 'car_id')
-                    ->options(DriverUserDetails::with('user')->get()->pluck('user.name', 'id')),
                 Card::make([
                     SpatieMediaLibraryFileUpload::make('tech_passport')
                         ->multiple()
