@@ -19,156 +19,81 @@ class TrailerTypeSeeder extends Seeder
             $trailerTypes = [
                 [
                     'title' => [
-                        'eng' => 'Tractor unit',
-                        'geo' => 'უნაგირა საწევარი',
-                        'tur' => 'უნაგირა საწევარი',
-                        'rus' => 'უნაგირა საწევარი'
-                    ],
-                    'key' => 'tractor-unit',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Tipper Trucks',
-                        'geo' => 'თვითმცლელი',
-                        'tur' => 'თვითმცლელი',
-                        'rus' => 'თვითმცლელი'
-                    ],
-                    'key' => 'tipper-trucks',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Tank Truck',
-                        'geo' => 'ცისტერნა',
-                        'tur' => 'ცისტერნა',
-                        'rus' => 'ცისტერნა'
-                    ],
-                    'key' => 'tank-truck',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Car Transporter',
-                        'geo' => 'ავტომზიდი',
-                        'tur' => 'ავტომზიდი',
-                        'rus' => 'ავტომზიდი'
-                    ],
-                    'key' => 'car-transporter',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Open Platform Truck',
-                        'geo' => 'ღია ბორტიანი',
-                        'tur' => 'ღია ბორტიანი',
-                        'rus' => 'ღია ბორტიანი'
-                    ],
-                    'key' => 'open-platform-truck',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Container Truck',
-                        'geo' => 'კონტეინერმზიდი',
-                        'tur' => 'კონტეინერმზიდი',
-                        'rus' => 'კონტეინერმზიდი'
-                    ],
-                    'key' => 'container-truck',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'Box Truck',
-                        'geo' => 'ბოქსი',
-                        'tur' => 'ბოქსი',
-                        'rus' => 'ბოქსი'
-                    ],
-                    'key' => 'box-truck',
-                    'icon_default' => null,
-                    'icon_hover' => null
-                ],
-                [
-                    'title' => [
-                        'eng' => 'A semi-trailer truck',
+                        'eng' => 'Tautliner',
                         'geo' => 'ტენტიანი',
                         'tur' => 'ტენტიანი',
                         'rus' => 'ტენტიანი'
                     ],
-                    'key' => 'semi-trailer-truck',
+                    'key' => 'tautliner',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Chiller Trucks',
-                        'geo' => 'მაცივარი',
-                        'tur' => 'მაცივარი',
-                        'rus' => 'მაცივარი'
+                        'eng' => 'Refrigerator',
+                        'geo' => 'რეფრეჟერატორი',
+                        'tur' => 'რეფრეჟერატორი',
+                        'rus' => 'რეფრეჟერატორი'
                     ],
-                    'key' => 'chiller-trucks',
+                    'key' => 'refrigerator',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Isotherm Truck',
+                        'eng' => 'Isotherm',
                         'geo' => 'იზოთერმული',
                         'tur' => 'იზოთერმული',
                         'rus' => 'იზოთერმული'
                     ],
-                    'key' => 'isotherm-truck',
+                    'key' => 'isotherm',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Livestock Trucks',
-                        'geo' => 'პირუტყვმზიდი',
-                        'tur' => 'პირუტყვმზიდი',
-                        'rus' => 'პირუტყვმზიდი'
+                        'eng' => 'Drop-side platform',
+                        'geo' => 'ბორტიანი',
+                        'tur' => 'ბორტიანი',
+                        'rus' => 'ბორტიანი'
                     ],
-                    'key' => 'livestock-trucks',
+                    'key' => 'drop-side',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Logging Trucks',
-                        'geo' => 'ხეების მზიდი',
-                        'tur' => 'ხეების მზიდი',
-                        'rus' => 'ხეების მზიდი'
+                        'eng' => 'Lowboy truck',
+                        'geo' => 'დაბალრამიანი',
+                        'tur' => 'დაბალრამიანი',
+                        'rus' => 'დაბალრამიანი'
                     ],
-                    'key' => 'logging-trucks',
+                    'key' => 'lowboy',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Memu',
-                        'geo' => 'Memu',
-                        'tur' => 'Memu',
-                        'rus' => 'Memu'
+                        'eng' => 'Container',
+                        'geo' => 'პლატფორმა',
+                        'tur' => 'პლატფორმა',
+                        'rus' => 'პლატფორმა'
                     ],
-                    'key' => 'memu',
+                    'key' => 'container',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
-
-
-
-
-
-
-
-
-
+                [
+                    'title' => [
+                        'eng' => 'ავტომზიდი',
+                        'geo' => 'ავტომზიდი',
+                        'tur' => 'ავტომზიდი',
+                        'rus' => 'ავტომზიდი'
+                    ],
+                    'key' => 'ავტომზიდი',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
             ];
 
             foreach ($trailerTypes as $type){

@@ -102,7 +102,7 @@ class UserResource extends Resource
                             ->label('Trailer')
                             ->searchable()
                             ->options(function(callable $get){
-                                return Trailer::pluck('title', 'id');
+                                return Trailer::pluck('number', 'id');
                             })
                             ->reactive()
                     ])->relationship('driver'),
