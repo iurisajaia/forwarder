@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('trailers', function (Blueprint $table) {
             $table->id();
             $table->json('title');
+            $table->string('number')->nullable();
+            $table->string('model')->nullable();
+            $table->string('identification_number')->nullable();
             $table->string('key')->nullable();
             $table->string('icon_default')->nullable();
             $table->string('icon_hover')->nullable();

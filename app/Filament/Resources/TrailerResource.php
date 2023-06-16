@@ -31,7 +31,10 @@ class TrailerResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('number')->required(),
                 TextInput::make('title'),
+                TextInput::make('model'),
+                TextInput::make('identification_number'),
                 Select::make('trailer_type_id')
                     ->relationship('type', 'title')
                     ->preload()

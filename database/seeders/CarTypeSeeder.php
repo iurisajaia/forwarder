@@ -21,45 +21,144 @@ class CarTypeSeeder extends Seeder
             $carTypes = [
                 [
                     'title' => [
-                        'eng' => 'Sedan',
-                        'geo' => 'სედანი',
-                        'tur' => 'სედანი',
-                        'rus' => 'სედანი'
+                        'eng' => 'Tractor unit',
+                        'geo' => 'უნაგირა საწევარი',
+                        'tur' => 'უნაგირა საწევარი',
+                        'rus' => 'უნაგირა საწევარი'
                     ],
-                    'key' => 'sedan',
+                    'key' => 'tractor-unit',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Truck',
-                        'geo' => 'სატვირთო',
-                        'tur' => 'სატვირთო',
-                        'rus' => 'სატვირთო'
+                        'eng' => 'Tipper Trucks',
+                        'geo' => 'თვითმცლელი',
+                        'tur' => 'თვითმცლელი',
+                        'rus' => 'თვითმცლელი'
                     ],
-                    'key' => 'truck',
+                    'key' => 'tipper-trucks',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Wagon',
-                        'geo' => 'მისაბმელი',
-                        'tur' => 'მისაბმელი',
-                        'rus' => 'მისაბმელი'
+                        'eng' => 'Tank Truck',
+                        'geo' => 'ცისტერნა',
+                        'tur' => 'ცისტერნა',
+                        'rus' => 'ცისტერნა'
                     ],
-                    'key' => 'wagon',
+                    'key' => 'tank-truck',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'Coupe',
-                        'geo' => 'კუპე',
-                        'tur' => 'კუპე',
-                        'rus' => 'კუპე'
+                        'eng' => 'Car Transporter',
+                        'geo' => 'ავტომზიდი',
+                        'tur' => 'ავტომზიდი',
+                        'rus' => 'ავტომზიდი'
                     ],
-                    'key' => 'coupe',
+                    'key' => 'car-transporter',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Open Platform Truck',
+                        'geo' => 'ღია ბორტიანი',
+                        'tur' => 'ღია ბორტიანი',
+                        'rus' => 'ღია ბორტიანი'
+                    ],
+                    'key' => 'open-platform-truck',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Container Truck',
+                        'geo' => 'კონტეინერმზიდი',
+                        'tur' => 'კონტეინერმზიდი',
+                        'rus' => 'კონტეინერმზიდი'
+                    ],
+                    'key' => 'container-truck',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Box Truck',
+                        'geo' => 'ბოქსი',
+                        'tur' => 'ბოქსი',
+                        'rus' => 'ბოქსი'
+                    ],
+                    'key' => 'box-truck',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'A semi-trailer truck',
+                        'geo' => 'ტენტიანი',
+                        'tur' => 'ტენტიანი',
+                        'rus' => 'ტენტიანი'
+                    ],
+                    'key' => 'semi-trailer-truck',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Chiller Trucks',
+                        'geo' => 'მაცივარი',
+                        'tur' => 'მაცივარი',
+                        'rus' => 'მაცივარი'
+                    ],
+                    'key' => 'chiller-trucks',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Isotherm Truck',
+                        'geo' => 'იზოთერმული',
+                        'tur' => 'იზოთერმული',
+                        'rus' => 'იზოთერმული'
+                    ],
+                    'key' => 'isotherm-truck',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Livestock Trucks',
+                        'geo' => 'პირუტყვმზიდი',
+                        'tur' => 'პირუტყვმზიდი',
+                        'rus' => 'პირუტყვმზიდი'
+                    ],
+                    'key' => 'livestock-trucks',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Logging Trucks',
+                        'geo' => 'ხეების მზიდი',
+                        'tur' => 'ხეების მზიდი',
+                        'rus' => 'ხეების მზიდი'
+                    ],
+                    'key' => 'logging-trucks',
+                    'icon_default' => null,
+                    'icon_hover' => null
+                ],
+                [
+                    'title' => [
+                        'eng' => 'Memu',
+                        'geo' => 'Memu',
+                        'tur' => 'Memu',
+                        'rus' => 'Memu'
+                    ],
+                    'key' => 'memu',
                     'icon_default' => null,
                     'icon_hover' => null
                 ]
