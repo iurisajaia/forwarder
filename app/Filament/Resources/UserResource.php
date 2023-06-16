@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Car;
 use App\Models\DriverUserDetails;
+use App\Models\Trailer;
 use App\Models\User;
 use App\Models\UserRole;
 use Filament\Forms;
@@ -96,6 +97,15 @@ class UserResource extends Resource
                         })
                         ->reactive()
                 ])->relationship('driver'),
+                    Card::make([
+                        Select::make('trailer_id')
+                            ->label('Trailer')
+                            ->searchable()
+                            ->options(function(callable $get){
+                                return Trailer::pluck('title', 'id');
+                            })
+                            ->reactive()
+                    ])->relationship('driver'),
 
                 SpatieMediaLibraryFileUpload::make('drivers_license')
                     ->collection('drivers_license')

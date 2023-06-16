@@ -20,67 +20,67 @@ class TrailerSeeder extends Seeder
             $trailers = [
                 [
                     'title' => [
-                        'eng' => 'ტენტიანი',
+                        'eng' => 'Tautliner',
                         'geo' => 'ტენტიანი',
                         'tur' => 'ტენტიანი',
                         'rus' => 'ტენტიანი'
                     ],
-                    'key' => 'ტენტიანი',
+                    'key' => 'tautliner',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'რეფრეჟერატორი',
+                        'eng' => 'Refrigerator',
                         'geo' => 'რეფრეჟერატორი',
                         'tur' => 'რეფრეჟერატორი',
                         'rus' => 'რეფრეჟერატორი'
                     ],
-                    'key' => 'რეფრეჟერატორი',
+                    'key' => 'refrigerator',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'იზოთერმული',
+                        'eng' => 'Isotherm',
                         'geo' => 'იზოთერმული',
                         'tur' => 'იზოთერმული',
                         'rus' => 'იზოთერმული'
                     ],
-                    'key' => 'იზოთერმული',
+                    'key' => 'isotherm',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'ბორტიანი',
+                        'eng' => 'Drop-side platform',
                         'geo' => 'ბორტიანი',
                         'tur' => 'ბორტიანი',
                         'rus' => 'ბორტიანი'
                     ],
-                    'key' => 'ბორტიანი',
+                    'key' => 'drop-side',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'დაბალრამიანი',
+                        'eng' => 'Lowboy truck',
                         'geo' => 'დაბალრამიანი',
                         'tur' => 'დაბალრამიანი',
                         'rus' => 'დაბალრამიანი'
                     ],
-                    'key' => 'დაბალრამიანი',
+                    'key' => 'lowboy',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
                 [
                     'title' => [
-                        'eng' => 'პლატფორმა',
+                        'eng' => 'Container',
                         'geo' => 'პლატფორმა',
                         'tur' => 'პლატფორმა',
                         'rus' => 'პლატფორმა'
                     ],
-                    'key' => 'პლატფორმა',
+                    'key' => 'container',
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
@@ -95,9 +95,6 @@ class TrailerSeeder extends Seeder
                     'icon_default' => null,
                     'icon_hover' => null
                 ],
-
-
-
             ];
 
             foreach ($trailers as $trailer){
