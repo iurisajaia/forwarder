@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('trailers', function (Blueprint $table) {
+        Schema::create('trailer_types', function (Blueprint $table) {
             $table->id();
             $table->json('title');
             $table->string('key')->nullable();
             $table->string('icon_default')->nullable();
             $table->string('icon_hover')->nullable();
-            $table->integer('trailer_type_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trailers');
+        Schema::dropIfExists('trailer_types');
     }
 };

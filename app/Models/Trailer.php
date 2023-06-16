@@ -20,4 +20,9 @@ class Trailer extends Model
     {
         return $this->belongsTo(DriverUserDetails::class, 'driver_id');
     }
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(TrailerType::class, 'trailer_type_id');
+    }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TrailerResource\Pages;
-use App\Filament\Resources\TrailerResource\RelationManagers;
-use App\Models\Trailer;
-use Filament\Forms\Components\Select;
+use App\Filament\Resources\TrailerTypeResource\Pages;
+use App\Filament\Resources\TrailerTypeResource\RelationManagers;
+use App\Models\TrailerType;
+use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
@@ -13,14 +14,16 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-
-class TrailerResource extends Resource
+class TrailerTypeResource extends Resource
 {
     use Translatable;
-    protected static ?string $model = Trailer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-link';
+    protected static ?string $model = TrailerType::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     public static function getTranslatableLocales(): array
     {
@@ -32,11 +35,9 @@ class TrailerResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title'),
-                Select::make('trailer_type_id')
-                    ->relationship('type', 'title')
-                    ->preload()
-                    ->required()
-                    ->reactive(),
+                TextInput::make('key')->nullable(),
+                FileUpload::make('icon_default')->nullable(),
+                FileUpload::make('icon_hover')->nullable()
             ]);
     }
 
@@ -45,7 +46,6 @@ class TrailerResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title'),
-                TextColumn::make('type.title'),
             ])
             ->filters([
                 //
@@ -69,10 +69,10 @@ class TrailerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTrailers::route('/'),
-            'create' => Pages\CreateTrailer::route('/create'),
-            'view' => Pages\ViewTrailer::route('/{record}'),
-            'edit' => Pages\EditTrailer::route('/{record}/edit'),
+            'index' => Pages\ListTrailerTypes::route('/'),
+            'create' => Pages\CreateTrailerType::route('/create'),
+            'view' => Pages\ViewTrailerType::route('/{record}'),
+            'edit' => Pages\EditTrailerType::route('/{record}/edit'),
         ];
     }
 }
