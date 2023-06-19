@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CarTypeController;
 use App\Http\Controllers\Api\RsController;
+use App\Http\Controllers\Api\TrailerTypeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,6 +18,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::get('/car-types', [CarTypeController::class , 'index'])->name('car-types');
+Route::get('/trailer-types', [TrailerTypeController::class , 'index']);
 
 Route::group(['prefix' => 'rs'], function () {
     Route::get('/tax-payer/{code}' , [RsController::class , 'taxPayer']);

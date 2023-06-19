@@ -67,7 +67,9 @@
                                             "whatsapp" : "59009102",
                                             "viber" : "59009102",
                                             "referral_code" : "a134",
-                                            "iban" : "GE34BG132134"
+                                            "iban" : "GE34BG132134",
+                                            "car_id" : 1,
+                                            "trailer_id" : 1
                                         }
                                     },
                                     "legal": {
@@ -316,6 +318,23 @@
                 "responses": {
                     "200": {
                         "description": "Car types fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/trailer-types": {
+            "get": {
+                "tags" : ["Trailer"],
+                "summary": "Trailer types",
+                "responses": {
+                    "200": {
+                        "description": "Trailer types fetched successfully"
                     },
                     "400": {
                         "description": "Bad request - Invalid input data"
