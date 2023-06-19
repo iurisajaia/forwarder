@@ -100,7 +100,16 @@
                                             "contact_number" : "252452"
                                         }
                                     },
-
+                                    "id" : {
+                                        "type" : "integer",
+                                        "description" : "Use id to update user details",
+                                        "example" : 4
+                                    },
+                                    "languages" : {
+                                        "type" : "array",
+                                        "description" : "User Languages",
+                                        "example" : [1,2,3,4]
+                                    },
                                     "images": {
                                         "type": "string",
                                         "description": "Image URLs",

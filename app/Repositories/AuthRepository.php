@@ -7,6 +7,7 @@ use App\Http\Requests\VerifyUserRequest;
 use App\Models\CustomerDetails;
 use App\Models\DriverUserDetails;
 use App\Models\ForwarderDetails;
+use App\Models\Language;
 use App\Models\LegalUserDetails;
 use App\Models\StandardUserDetails;
 use App\Models\UserRole;
@@ -14,6 +15,7 @@ use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use App\Models\UserOtp;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
@@ -30,13 +32,6 @@ class AuthRepository implements  AuthRepositoryInterface{
         5 => 'customer'
     ];
 
-    public function createUserDetails(string $model, $request, $id){
-        $data = new $model([
-            ...$request,
-            'user_id' => $id
-        ]);
-        $data->save();
-    }
 
     public function createUserData(CreateUserRequest $request){
         $data = [
@@ -47,54 +42,57 @@ class AuthRepository implements  AuthRepositoryInterface{
         ];
 
 
-        $user = User::create($data);
+        $user = User::updateOrCreate(['id' => $request->id], $data);
+
+
+
+        if (isset($request['languages'])) {
+            $languages = Language::whereIn('id', $request['languages'])->get();
+            $user->languages()->sync($languages);
+        }
+
 
         if(isset($request->images)){
             foreach ($request->images as $key => $image){
+                if($request->id){
+                    $existingMedia = $user->getMedia($image['title'])->first();
+                    if ($existingMedia) {
+                        $existingMedia->delete();
+                    }
+                }
                 $user->addMediaFromRequest("images.{$key}.uri")->toMediaCollection($image['title']);
             }
         }
 
 
-        if(isset($request->standard) && $request->user_role_id == 1){
-            $data = new StandardUserDetails([
-                ...$request->standard,
-                'user_id' => $user->id
-            ]);
-            $data->save();
-        }
+        $mapping = [
+            'standard' => ['title' => 'StandardUserDetails', 'id' => 1],
+            'legal' => ['title' => 'LegalUserDetails', 'id' => 2],
+            'forwarder' => ['title' => 'ForwarderDetails', 'id' => 3],
+            'driver' => ['title' => 'DriverUserDetails', 'id' => 4],
+            'customer' => ['title' => 'CustomerDetails', 'id' => 5],
+        ];
 
-        if(isset($request->legal) && $request->user_role_id == 2){
-            $data = new LegalUserDetails([
-                ...$request->legal,
-                'user_id' => $user->id
-            ]);
-            $data->save();
-        }
+        foreach ($mapping as $key => $entry) {
+            if (isset($request->{$key}) && $request->user_role_id == $entry['id']) {
+                $modelClass = 'App\Models\\' . $entry['title'];
+                $requestData = $request->{$key};
 
-        if(isset($request->forwarder) && $request->user_role_id == 3){
-            $data = new ForwarderDetails([
-                ...$request->forwarder,
-                'user_id' => $user->id
-            ]);
-            $data->save();
-        }
+                // Check if the model with the given user_id exists
+                $existingDetails = $modelClass::where('user_id', $request->id)->first();
 
-        if(isset($request->driver) && $request->user_role_id == 4){
-            $data = new DriverUserDetails([
-                ...$request->driver,
-                'user_id' => $user->id
-            ]);
-            $data->save();
-        }
+                if ($existingDetails) {
+                    // Update the existing model with the new data
+                    $existingDetails->fill($requestData);
+                    $existingDetails->save();
+                } else {
+                    // Create a new model if the user_id doesn't exist
+                    $requestData['user_id'] = $user->id;
+                    $modelClass::create($requestData);
+                }
 
-
-        if(isset($request->customer) && $request->user_role_id == 5){
-            $data = new CustomerDetails([
-                ...$request->customer,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+                break; // Exit the loop once a match is found
+            }
         }
 
 
@@ -105,23 +103,16 @@ class AuthRepository implements  AuthRepositoryInterface{
 
         $user = $this->createUserData($request);
 
-        $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
-
-        $now = now();
-
-        if($userOtp && $now->isBefore($userOtp->expire_at)){
-            return $userOtp;
-        }
-
 
         $code = 123456; // rand(123456, 999999);
 
-        /* Create a New OTP */
-        UserOtp::create([
+        $data = [
             'user_id' => $user->id,
             'otp' => $code,
-            'expire_at' => $now->addMinutes(10)
-        ]);
+            'expire_at' => now()->addMinutes(10)
+        ];
+
+        UserOtp::updateOrCreate(['user_id' => $user->id], $data);
 
 //        $this->sendSms($code, $user->phone);
 

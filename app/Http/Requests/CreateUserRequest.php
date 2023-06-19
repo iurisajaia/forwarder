@@ -28,12 +28,15 @@ class CreateUserRequest extends FormRequest
 
         return [
             [
+                'id' => 'integer',
                 'name' => 'string',
                 'phone' => 'required|string',
                 'email' => 'string',
                 'user_role_id' => 'required|number',
                 'images' => '',
-                'standard' => ''
+                'standard' => '',
+                'languages' => 'array',
+                'languages.*' => 'integer',
             ]
         ];
     }

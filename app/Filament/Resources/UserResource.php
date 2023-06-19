@@ -38,7 +38,6 @@ class UserResource extends Resource
     protected function handleRecordUpdate(array $data): Model
     {
         $record =  static::getModel()::update($data);
-//        $record->driver()->create($data['detail']);
 
         return $record;
     }
