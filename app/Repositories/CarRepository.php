@@ -10,23 +10,19 @@ use App\Http\Requests\Car\CreateCarRequest;
 class CarRepository implements  CarRepositoryInterface {
 
     public function create(CreateCarRequest $request) : JsonResponse{
-        try
-        {
-            $car = new Car($request->except(['tech_passport']));
-            $car->save();
+        try {
+            $carData = $request->except(['tech_passport','id']);
+
+            $car = Car::updateOrCreate(['id' => $request->input('id')], $carData);
 
             if ($request->hasFile('tech_passport')) {
-                $file = $request->file('tech_passport');
-
-                $car->addMedia($file)->toMediaCollection('tech_passport');
+                $car->addMedia($request->file('tech_passport'))->toMediaCollection('tech_passport');
             }
 
             return response()->json([
                 'data' => $car
             ], 200);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], $e->getCode());

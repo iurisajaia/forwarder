@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CarTypeController;
 use App\Http\Controllers\Api\RsController;
 use App\Http\Controllers\Api\TrailerTypeController;
 use App\Http\Controllers\Api\CarController;
+use App\Http\Controllers\Api\TrailerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,11 +21,16 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'car'], function () {
     Route::post('/create' , [CarController::class , 'create']);
+    Route::get('/types', [CarTypeController::class , 'index']);
+});
+
+Route::group(['prefix' => 'trailer'], function () {
+    Route::post('/create' , [TrailerController::class , 'create']);
+    Route::get('/types', [TrailerTypeController::class , 'index']);
 });
 
 
-Route::get('/car-types', [CarTypeController::class , 'index'])->name('car-types');
-Route::get('/trailer-types', [TrailerTypeController::class , 'index']);
+
 
 Route::group(['prefix' => 'rs'], function () {
     Route::get('/tax-payer/{code}' , [RsController::class , 'taxPayer']);

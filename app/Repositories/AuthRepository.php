@@ -25,11 +25,11 @@ use Illuminate\Http\Request;
 class AuthRepository implements  AuthRepositoryInterface{
 
     public array $roles = [
-        1 => 'standard',
-        2 => 'legal',
-        3 => 'forwarder',
-        4 => 'driver',
-        5 => 'customer'
+        1 => ['standard'],
+        2 => ['legal'],
+        3 => ['forwarder'],
+        4 => ['driver', 'driver.car' ,'driver.trailer'],
+        5 => ['customer']
     ];
 
 
@@ -117,7 +117,7 @@ class AuthRepository implements  AuthRepositoryInterface{
 //        $this->sendSms($code, $user->phone);
 
 
-        $resUser = User::query()->with(['role', 'media', $this->roles[$user->user_role_id]])->findOrFail($user->id);
+        $resUser = User::query()->with(['role', 'media', ...$this->roles[$user->user_role_id]])->findOrFail($user->id);
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
@@ -150,20 +150,19 @@ class AuthRepository implements  AuthRepositoryInterface{
     public function loginUser(LoginUserRequest $request) : JsonResponse{
 
         $user = User::where('phone', $request->phone)->first();
-
         if(!isset($user)){
             return response()->json(['error' => 'Cannot find user'], 404);
         }
 
-        $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+//        $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
 
-        $this->checkForOtpError($userOtp);
+//        $this->checkForOtpError($userOtp);
 
         if($user){
 
-            $userOtp->update([
-                'expire_at' => now()
-            ]);
+//            $userOtp->update([
+//                'expire_at' => now()
+//            ]);
 
             return response()->json([
                 'status' => true,
@@ -269,7 +268,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             }
 
 
-            $user = User::query()->with(['role', 'media', $this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
+            $user = User::query()->with(['role', 'media', ...$this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
 
 
             return response()->json([

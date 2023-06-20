@@ -8,7 +8,9 @@ use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Repositories\AuthRepository;
 use App\Repositories\Interfaces\CarRepositoryInterface;
 use App\Repositories\Interfaces\CarTypeRepositoryInterface;
+use App\Repositories\Interfaces\TrailerRepositoryInterface;
 use App\Repositories\Interfaces\TrailerTypeRepositoryInterface;
+use App\Repositories\TrailerRepository;
 use App\Repositories\TrailerTypeRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CarTypeRepositoryInterface::class , CarTypeRepository::class);
         $this->app->bind(TrailerTypeRepositoryInterface::class , TrailerTypeRepository::class);
         $this->app->bind(CarRepositoryInterface::class , CarRepository::class);
+        $this->app->bind(TrailerRepositoryInterface::class , TrailerRepository::class);
     }
 
     /**
