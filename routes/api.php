@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CarTypeController;
 use App\Http\Controllers\Api\RsController;
 use App\Http\Controllers\Api\TrailerTypeController;
+use App\Http\Controllers\Api\CarController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,6 +17,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/users', [AuthController::class, 'getUsers']);
     Route::get('/user-roles', [AuthController::class, 'getUserRoles']);
 });
+
+Route::group(['prefix' => 'car'], function () {
+    Route::post('/create' , [CarController::class , 'create']);
+});
+
 
 Route::get('/car-types', [CarTypeController::class , 'index'])->name('car-types');
 Route::get('/trailer-types', [TrailerTypeController::class , 'index']);
