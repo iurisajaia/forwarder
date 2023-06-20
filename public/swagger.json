@@ -68,8 +68,80 @@
                                             "viber" : "59009102",
                                             "referral_code" : "a134",
                                             "iban" : "GE34BG132134",
-                                            "car_id" : 1,
-                                            "trailer_id" : 1
+                                            "car" : {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "Car's id",
+                                                    "example": 5
+                                                },
+                                                "number": {
+                                                    "type": "string",
+                                                    "description": "Car Number",
+                                                    "example": "WW-101-ZZ"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Car Title",
+                                                    "example": "Audi"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "description": "Car Model",
+                                                    "example": "A8"
+                                                },
+                                                "identification_number": {
+                                                    "type": "string",
+                                                    "description": "Identification Number",
+                                                    "example": "1234567"
+                                                },
+                                                "car_type_id": {
+                                                    "type": "integer",
+                                                    "description": "relation from car_types",
+                                                    "example": 1
+                                                },
+                                                "tech_passport": {
+                                                    "type": "string",
+                                                    "description": "Image",
+                                                    "example": "Image file"
+                                                }
+                                            },
+                                            "trailer" : {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "Trailer's id",
+                                                    "example": 5
+                                                },
+                                                "number": {
+                                                    "type": "string",
+                                                    "description": "Trailer Number",
+                                                    "example": "WW-101-ZZ"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Trailer Title",
+                                                    "example": "Audi"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "description": "Trailer Model",
+                                                    "example": "A8"
+                                                },
+                                                "identification_number": {
+                                                    "type": "string",
+                                                    "description": "Identification Number",
+                                                    "example": "1234567"
+                                                },
+                                                "trailer_type_id": {
+                                                    "type": "integer",
+                                                    "description": "relation from trailer_types",
+                                                    "example": 1
+                                                },
+                                                "tech_passport": {
+                                                    "type": "string",
+                                                    "description": "Image",
+                                                    "example": "Image file"
+                                                }
+                                            }
                                         }
                                     },
                                     "legal": {

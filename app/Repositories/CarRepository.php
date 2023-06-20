@@ -12,7 +12,6 @@ class CarRepository implements  CarRepositoryInterface {
     public function create(CreateCarRequest $request) : JsonResponse{
         try {
             $carData = $request->except(['tech_passport','id']);
-
             $car = Car::updateOrCreate(['id' => $request->input('id')], $carData);
 
             if ($request->hasFile('tech_passport')) {

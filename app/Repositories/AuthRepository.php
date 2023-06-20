@@ -1,28 +1,42 @@
 <?php
 
 namespace App\Repositories;
-use App\Http\Requests\GetLoginCodeRequest;
-use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\VerifyUserRequest;
+use App\Models\Car;
 use App\Models\CustomerDetails;
 use App\Models\DriverUserDetails;
 use App\Models\ForwarderDetails;
-use App\Models\Language;
 use App\Models\LegalUserDetails;
 use App\Models\StandardUserDetails;
-use App\Models\UserRole;
+use App\Models\Trailer;
 use App\Repositories\Interfaces\AuthRepositoryInterface;
+use App\Repositories\Interfaces\CarRepositoryInterface;
+use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\CreateUserRequest;
-use App\Models\User;
-use App\Models\UserOtp;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\VerifyUserRequest;
+use App\Http\Requests\LoginUserRequest;
+use App\Repositories\Interfaces\UserTypeRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Twilio\Rest\Client;
 use Illuminate\Http\Request;
+use App\Models\Language;
+use App\Models\UserRole;
+use App\Models\UserOtp;
+use Twilio\Rest\Client;
+use App\Models\User;
 
 
 
 class AuthRepository implements  AuthRepositoryInterface{
+
+    private CarRepositoryInterface $carRepository;
+    private UserTypeRepositoryInterface $userTypeRepository;
+
+    public function __construct(
+        CarRepositoryInterface $carRepository,
+        UserTypeRepositoryInterface $userTypeRepository,
+    ){
+        $this->carRepository = $carRepository;
+        $this->userTypeRepository = $userTypeRepository;
+    }
 
     public array $roles = [
         1 => ['standard'],
@@ -41,16 +55,12 @@ class AuthRepository implements  AuthRepositoryInterface{
             'user_role_id' => $request->user_role_id
         ];
 
-
         $user = User::updateOrCreate(['id' => $request->id], $data);
-
-
 
         if (isset($request['languages'])) {
             $languages = Language::whereIn('id', $request['languages'])->get();
             $user->languages()->sync($languages);
         }
-
 
         if(isset($request->images)){
             foreach ($request->images as $key => $image){
@@ -65,38 +75,103 @@ class AuthRepository implements  AuthRepositoryInterface{
         }
 
 
-        $mapping = [
-            'standard' => ['title' => 'StandardUserDetails', 'id' => 1],
-            'legal' => ['title' => 'LegalUserDetails', 'id' => 2],
-            'forwarder' => ['title' => 'ForwarderDetails', 'id' => 3],
-            'driver' => ['title' => 'DriverUserDetails', 'id' => 4],
-            'customer' => ['title' => 'CustomerDetails', 'id' => 5],
-        ];
-
-        foreach ($mapping as $key => $entry) {
-            if (isset($request->{$key}) && $request->user_role_id == $entry['id']) {
-                $modelClass = 'App\Models\\' . $entry['title'];
-                $requestData = $request->{$key};
-
-                // Check if the model with the given user_id exists
-                $existingDetails = $modelClass::where('user_id', $request->id)->first();
-
-                if ($existingDetails) {
-                    // Update the existing model with the new data
-                    $existingDetails->fill($requestData);
-                    $existingDetails->save();
-                } else {
-                    // Create a new model if the user_id doesn't exist
-                    $requestData['user_id'] = $user->id;
-                    $modelClass::create($requestData);
-                }
-
-                break; // Exit the loop once a match is found
-            }
+        if($data['user_role_id'] == 1 && isset($request->standard)){
+            StandardUserDetails::updateOrCreate(['user_id' => $user->id], $request->standard);
+        }
+        if($data['user_role_id'] == 2 && isset($request->legal)){
+            LegalUserDetails::updateOrCreate(['user_id' => $user->id], $request->legal);
+        }
+        if($data['user_role_id'] == 3 && isset($request->forwarder)){
+            ForwarderDetails::updateOrCreate(['user_id' => $user->id], $request->forwarder);
+        }
+        if($data['user_role_id'] == 4 && isset($request->driver)){
+            $this->createDriverType($request, $user);
+        }
+        if($data['user_role_id'] == 5 && isset($request->customer)){
+            CustomerDetails::updateOrCreate(['user_id' => $user->id], $request->customer);
         }
 
 
         return $user;
+    }
+
+    public function createDriverType($request, $user){
+
+        $driver = DriverUserDetails::updateOrCreate(['user_id' => $user->id], [
+            'telegram' => $request->driver['telegram'],
+            'whatsapp' => $request->driver['whatsapp'],
+            'viber' => $request->driver['viber'],
+            'referral_code' => $request->driver['referral_code'],
+            'iban' => $request->driver['iban'],
+            'user_id' => $user->id
+        ]);
+
+        if ($request->hasFile('drivers_license')) {
+            $file = $request->file('drivers_license');
+            $driver->addMedia($file)
+                ->toMediaCollection('drivers_license');
+        }
+        if ($request->hasFile('passport')) {
+            $file = $request->file('passport');
+            $driver->addMedia($file)
+                ->toMediaCollection('passport');
+        }
+
+
+        if(isset($request->driver['car'])){
+            $this->createCar($request,$driver);
+        }
+
+        if(isset($request->driver['trailer'])){
+            $this->createTrailer($request,$driver);
+        }
+    }
+
+    public function createCar($request, $driver){
+        if(isset($request->driver['car']['id'])){
+            $car = Car::findOrFail($request->driver['car']['id']);
+        }else{
+            $car = new Car();
+        }
+        $car->number = $request->driver['car']['number'];
+        $car->title = $request->driver['car']['title'];
+        $car->model = $request->driver['car']['model'];
+        $car->identification_number = $request->driver['car']['identification_number'];
+        $car->car_type_id = $request->driver['car']['car_type_id'];
+        $car->save();
+
+        $driver->car_id = $car->id;
+        $driver->save();
+
+        if ($request->hasFile('tech_passport')) {
+            $file = $request->file('tech_passport');
+
+            $car->addMedia($file)
+                ->toMediaCollection('tech_passport');
+        }
+    }
+
+    public function createTrailer($request, $driver){
+        if(isset($request->driver['trailer']['id'])){
+            $trailer = Trailer::findOrFail($request->driver['trailer']['id']);
+        }else{
+            $trailer = new Trailer();
+        }
+        $trailer->number = $request->driver['trailer']['number'];
+        $trailer->title = $request->driver['trailer']['title'];
+        $trailer->model = $request->driver['trailer']['model'];
+        $trailer->identification_number = $request->driver['trailer']['identification_number'];
+        $trailer->trailer_type_id = $request->driver['trailer']['trailer_type_id'];
+        $trailer->save();
+
+        $driver->trailer_id = $trailer->id;
+        $driver->save();
+
+        if ($request->hasFile('tech_passport')) {
+            $file = $request->file('tech_passport');
+            $trailer->addMedia($file)
+                ->toMediaCollection('tech_passport');
+        }
     }
 
     public function createUser(CreateUserRequest $request) : JsonResponse{

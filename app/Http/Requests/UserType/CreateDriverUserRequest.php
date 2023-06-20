@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UserType;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
-class CreateUserRequest extends FormRequest
+class CreateDriverUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +25,14 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
-            [
-                'id' => 'integer',
-                'name' => 'string',
-                'phone' => 'required|string',
-                'email' => 'string',
-                'user_role_id' => 'required|number',
-                'images' => '',
-                'languages' => 'array',
-                'languages.*' => 'integer',
-            ]
+                'telegram' => 'string',
+                'whatsapp' => 'string',
+                'viber' => 'string',
+                'referral_code' => 'string',
+                'iban' => 'string',
+                'car' => 'nullable|array',
+                'trailer' => 'nullable|array',
         ];
     }
 
@@ -46,11 +42,11 @@ class CreateUserRequest extends FormRequest
 
         throw new HttpResponseException(response()->json([
 
-            'success'   => false,
+            'success' => false,
 
-            'message'   => 'Validation errors',
+            'message' => 'Validation errors',
 
-            'data'      => $validator->errors()->messages()
+            'data' => $validator->errors()->messages()
 
         ]));
 
@@ -59,7 +55,6 @@ class CreateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.required' => 'Phone is required!'
         ];
     }
 }
