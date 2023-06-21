@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\LanguageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CarTypeController;
 use App\Http\Controllers\Api\RsController;
@@ -25,6 +25,10 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class , 'currentUser']);
     });
 
+});
+
+Route::group(['prefix' => 'language'], function () {
+    Route::get('/', [LanguageController::class , 'index']);
 });
 
 Route::group(['prefix' => 'car'], function () {
