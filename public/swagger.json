@@ -766,6 +766,24 @@
             }
         },
 
+        "/api/language": {
+            "get": {
+                "tags" : ["Language"],
+                "summary": "All Languages",
+                "responses": {
+                    "200": {
+                        "description": "Languages fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
         "/api/rs/tax-payer/{code}": {
             "get": {
                 "tags" : ["RS"],
