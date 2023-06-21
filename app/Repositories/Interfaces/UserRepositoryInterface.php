@@ -9,8 +9,9 @@ use App\Http\Requests\VerifyUserRequest;
 use Illuminate\Http\Request;
 
 
-Interface AuthRepositoryInterface{
-    public function createUser(CreateUserRequest $request);
+Interface UserRepositoryInterface{
+    public function createUser(CreateUserRequest $request, $id = null);
+    public function deleteUser(int $id);
     public function getLoginCode(GetLoginCodeRequest $request);
     public function loginUser(LoginUserRequest $request);
     public function verifyUser(VerifyUserRequest $request);

@@ -8,13 +8,12 @@ use App\Models\ForwarderDetails;
 use App\Models\LegalUserDetails;
 use App\Models\StandardUserDetails;
 use App\Models\Trailer;
-use App\Repositories\Interfaces\AuthRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\CarRepositoryInterface;
 use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\VerifyUserRequest;
 use App\Http\Requests\LoginUserRequest;
-use App\Repositories\Interfaces\UserTypeRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Language;
@@ -25,17 +24,14 @@ use App\Models\User;
 
 
 
-class AuthRepository implements  AuthRepositoryInterface{
+class UserRepository implements  UserRepositoryInterface{
 
     private CarRepositoryInterface $carRepository;
-    private UserTypeRepositoryInterface $userTypeRepository;
 
     public function __construct(
         CarRepositoryInterface $carRepository,
-        UserTypeRepositoryInterface $userTypeRepository,
     ){
         $this->carRepository = $carRepository;
-        $this->userTypeRepository = $userTypeRepository;
     }
 
     public array $roles = [
@@ -47,7 +43,7 @@ class AuthRepository implements  AuthRepositoryInterface{
     ];
 
 
-    public function createUserData(CreateUserRequest $request){
+    public function createUserData(CreateUserRequest $request, $id = null){
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -55,7 +51,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             'user_role_id' => $request->user_role_id
         ];
 
-        $user = User::updateOrCreate(['id' => $request->id], $data);
+        $user = User::updateOrCreate(['id' => $id], $data);
 
         if (isset($request['languages'])) {
             $languages = Language::whereIn('id', $request['languages'])->get();
@@ -74,7 +70,6 @@ class AuthRepository implements  AuthRepositoryInterface{
             }
         }
 
-
         if($data['user_role_id'] == 1 && isset($request->standard)){
             StandardUserDetails::updateOrCreate(['user_id' => $user->id], $request->standard);
         }
@@ -90,7 +85,6 @@ class AuthRepository implements  AuthRepositoryInterface{
         if($data['user_role_id'] == 5 && isset($request->customer)){
             CustomerDetails::updateOrCreate(['user_id' => $user->id], $request->customer);
         }
-
 
         return $user;
     }
@@ -174,9 +168,9 @@ class AuthRepository implements  AuthRepositoryInterface{
         }
     }
 
-    public function createUser(CreateUserRequest $request) : JsonResponse{
+    public function createUser(CreateUserRequest $request, $id = null) : JsonResponse{
 
-        $user = $this->createUserData($request);
+        $user = $this->createUserData($request, $id);
 
 
         $code = 123456; // rand(123456, 999999);
@@ -199,6 +193,18 @@ class AuthRepository implements  AuthRepositoryInterface{
             'user' => $resUser,
             'token' => $resUser->createToken("API TOKEN")->plainTextToken
         ], 200);
+
+    }
+
+    public function deleteUser(int $id) : JsonResponse{
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return response()->json(['message' => 'User deleted successfully', 200]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete user.'], 500);
+        }
 
     }
 

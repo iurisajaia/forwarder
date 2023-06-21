@@ -19,10 +19,10 @@
         }
     ],
     "paths": {
-        "/api/auth/register": {
+        "/api/user/create": {
             "post": {
-                "tags" : ["Auth"],
-                "summary": "User Registration",
+                "tags" : ["User"],
+                "summary": "Create User",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -174,11 +174,6 @@
                                             "contact_number" : "252452"
                                         }
                                     },
-                                    "id" : {
-                                        "type" : "integer",
-                                        "description" : "Use id to update user details",
-                                        "example" : 4
-                                    },
                                     "languages" : {
                                         "type" : "array",
                                         "description" : "User Languages",
@@ -229,7 +224,269 @@
                 }
             }
         },
-        "/api/auth/verify": {
+        "/api/user/update/{id}": {
+            "put": {
+                "tags" : ["User"],
+                "summary": "Update User",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "User's name",
+                                        "example": "John Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "User's phone number",
+                                        "example": "+1234567890"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User's email address",
+                                        "example": "john@example.com"
+                                    },
+                                    "user_role_id": {
+                                        "type": "integer",
+                                        "description": "User's role ID",
+                                        "example": 1
+                                    },
+                                    "standard": {
+                                        "type": "string",
+                                        "description": "Standard User information",
+                                        "example": {
+                                            "lastName" : "doe",
+                                            "private_number" : "59009102",
+                                            "position" : "CTO"
+                                        }
+                                    },
+                                    "driver": {
+                                        "type": "string",
+                                        "description": "Driver information",
+                                        "example": {
+                                            "telegram" : "59009102",
+                                            "whatsapp" : "59009102",
+                                            "viber" : "59009102",
+                                            "referral_code" : "a134",
+                                            "iban" : "GE34BG132134",
+                                            "car" : {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "Car's id",
+                                                    "example": 5
+                                                },
+                                                "number": {
+                                                    "type": "string",
+                                                    "description": "Car Number",
+                                                    "example": "WW-101-ZZ"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Car Title",
+                                                    "example": "Audi"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "description": "Car Model",
+                                                    "example": "A8"
+                                                },
+                                                "identification_number": {
+                                                    "type": "string",
+                                                    "description": "Identification Number",
+                                                    "example": "1234567"
+                                                },
+                                                "car_type_id": {
+                                                    "type": "integer",
+                                                    "description": "relation from car_types",
+                                                    "example": 1
+                                                },
+                                                "tech_passport": {
+                                                    "type": "string",
+                                                    "description": "Image",
+                                                    "example": "Image file"
+                                                }
+                                            },
+                                            "trailer" : {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "description": "Trailer's id",
+                                                    "example": 5
+                                                },
+                                                "number": {
+                                                    "type": "string",
+                                                    "description": "Trailer Number",
+                                                    "example": "WW-101-ZZ"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "description": "Trailer Title",
+                                                    "example": "Audi"
+                                                },
+                                                "model": {
+                                                    "type": "string",
+                                                    "description": "Trailer Model",
+                                                    "example": "A8"
+                                                },
+                                                "identification_number": {
+                                                    "type": "string",
+                                                    "description": "Identification Number",
+                                                    "example": "1234567"
+                                                },
+                                                "trailer_type_id": {
+                                                    "type": "integer",
+                                                    "description": "relation from trailer_types",
+                                                    "example": 1
+                                                },
+                                                "tech_passport": {
+                                                    "type": "string",
+                                                    "description": "Image",
+                                                    "example": "Image file"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "legal": {
+                                        "type": "string",
+                                        "description": "Legal entity information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+                                    "forwarder": {
+                                        "type": "string",
+                                        "description": "Forwarder information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+                                    "customer": {
+                                        "type": "string",
+                                        "description": "Customer information",
+                                        "example": {
+                                            "identification_code" : "59009102",
+                                            "company_name" : "re:soft",
+                                            "company_ceo_name" : "Lasha",
+                                            "contact_number" : "252452"
+                                        }
+                                    },
+                                    "languages" : {
+                                        "type" : "array",
+                                        "description" : "User Languages",
+                                        "example" : [1,2,3,4]
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "description": "Image URLs",
+                                        "example": [
+                                            {
+                                                "title" : "drivers_license",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "tech_passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "residence_confirmation",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "bank_credentials",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": ["name", "phone", "email"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Updated successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/user/delete/{id}": {
+            "delete": {
+                "tags" : ["User"],
+                "summary": "Delete User",
+                "responses": {
+                    "200": {
+                        "description": "User Deleted successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["User"],
+                "summary": "Current User",
+                "responses": {
+                    "200": {
+                        "description": "Current user fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/user/roles": {
+            "get": {
+                "tags" : ["User"],
+                "summary": "User Roles",
+                "responses": {
+                    "200": {
+                        "description": "User Roles fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
+        "/api/user/verify": {
             "post": {
                 "tags" : ["Auth"],
                 "summary": "Verify User",
@@ -269,7 +526,7 @@
                 }
             }
         },
-        "/api/auth/get-login-code": {
+        "/api/user/get-login-code": {
             "post": {
                 "tags" : ["Auth"],
                 "summary": "Get Login code",
@@ -304,7 +561,7 @@
                 }
             }
         },
-        "/api/auth/login": {
+        "/api/user/login": {
             "post": {
                 "tags" : ["Auth"],
                 "summary": "Login User with code",
@@ -344,45 +601,7 @@
                 }
             }
         },
-        "/api/auth/user-roles": {
-            "get": {
-                "tags" : ["Auth"],
-                "summary": "User Roles",
-                "responses": {
-                    "200": {
-                        "description": "User Roles fetched successfully"
-                    },
-                    "400": {
-                        "description": "Bad request - Invalid input data"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
-        "/api/user": {
-            "get": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags" : ["Current User"],
-                "summary": "Current User",
-                "responses": {
-                    "200": {
-                        "description": "Current user fetched successfully"
-                    },
-                    "400": {
-                        "description": "Bad request - Invalid input data"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
+
         "/api/car/types": {
             "get": {
                 "tags" : ["Car"],
@@ -464,6 +683,7 @@
                 }
             }
         },
+
         "/api/trailer/types": {
             "get": {
                 "tags" : ["Trailer"],
@@ -545,6 +765,7 @@
                 }
             }
         },
+
         "/api/rs/tax-payer/{code}": {
             "get": {
                 "tags" : ["RS"],

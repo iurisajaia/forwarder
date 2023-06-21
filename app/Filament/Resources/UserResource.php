@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Concerns\Translatable;
@@ -59,6 +60,7 @@ class UserResource extends Resource
                         ->password()
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                         ->hidden(fn (Closure $get) => $get('user_role_id') !== 6),
+                    Checkbox::make('user_data_is_verified')
                 ]),
                 Card::make([
                     TextInput::make('lastName'),

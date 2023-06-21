@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CarTypeController;
 use App\Http\Controllers\Api\RsController;
 use App\Http\Controllers\Api\TrailerTypeController;
@@ -10,13 +11,20 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('/register', [AuthController::class, 'createUser']);
-    Route::post('/verify', [AuthController::class, 'verifyUser']);
-    Route::post('/get-login-code', [AuthController::class, 'getLoginCode']);
-    Route::post('/login', [AuthController::class, 'loginUser']);
-    Route::get('/users', [AuthController::class, 'getUsers']);
-    Route::get('/user-roles', [AuthController::class, 'getUserRoles']);
+Route::group(['prefix' => 'user'], function () {
+    Route::post('/create', [UserController::class, 'create']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+    Route::delete('/delete/{id}', [UserController::class, 'delete']);
+    Route::get('/roles', [UserController::class, 'roles']);
+
+    Route::post('/verify', [UserController::class, 'verify']);
+    Route::post('/get-login-code', [UserController::class, 'getLoginCode']);
+    Route::post('/login', [UserController::class, 'login']);
+
+    Route::group(['middleware' => 'auth:sanctum'], function(){
+        Route::get('/', [UserController::class , 'currentUser']);
+    });
+
 });
 
 Route::group(['prefix' => 'car'], function () {
@@ -35,7 +43,5 @@ Route::group(['prefix' => 'trailer'], function () {
 Route::group(['prefix' => 'rs'], function () {
     Route::get('/tax-payer/{code}' , [RsController::class , 'taxPayer']);
 });
-Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::get('/user', [AuthController::class , 'currentUser']);
-});
+
 
