@@ -127,10 +127,10 @@ class UserRepository implements  UserRepositoryInterface{
         }else{
             $car = new Car();
         }
-        $car->number = $request->driver['car']['number'];
-        $car->title = $request->driver['car']['title'];
-        $car->model = $request->driver['car']['model'];
-        $car->identification_number = $request->driver['car']['identification_number'];
+        $car->number = $request->driver['car']['number'] ?? '';
+        $car->title = $request->driver['car']['title'] ?? '';
+        $car->model = $request->driver['car']['model'] ?? '';
+        $car->identification_number = $request->driver['car']['identification_number'] ?? '';
         $car->car_type_id = $request->driver['car']['car_type_id'];
         $car->save();
 
@@ -151,10 +151,10 @@ class UserRepository implements  UserRepositoryInterface{
         }else{
             $trailer = new Trailer();
         }
-        $trailer->number = $request->driver['trailer']['number'];
-        $trailer->title = $request->driver['trailer']['title'];
-        $trailer->model = $request->driver['trailer']['model'];
-        $trailer->identification_number = $request->driver['trailer']['identification_number'];
+        $trailer->number = $request->driver['trailer']['number'] ?? '';
+        $trailer->title = $request->driver['trailer']['title'] ?? '';
+        $trailer->model = $request->driver['trailer']['model'] ?? '';
+        $trailer->identification_number = $request->driver['trailer']['identification_number'] ?? '';
         $trailer->trailer_type_id = $request->driver['trailer']['trailer_type_id'];
         $trailer->save();
 
