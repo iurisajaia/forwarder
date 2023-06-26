@@ -72,32 +72,32 @@ class UserResource extends Resource
 
                 // driver
                 Card::make([
-                Card::make([
-                    TextInput::make('telegram'),
-                    TextInput::make('whatsapp'),
-                    TextInput::make('viber'),
-                    TextInput::make('referral_code'),
-                    TextInput::make('iban'),
-                ])
-                ->relationship('driver')
-                ->visible(fn (Closure $get) => $get('user_role_id') === 4),
+                    Card::make([
+                        TextInput::make('telegram'),
+                        TextInput::make('whatsapp'),
+                        TextInput::make('viber'),
+                        TextInput::make('referral_code'),
+                        TextInput::make('iban'),
+                    ])
+                    ->relationship('driver')
+                    ->visible(fn (Closure $get) => $get('user_role_id') === 4),
 
-                Select::make('languages')
-                    ->relationship('languages', 'title')
-                    ->preload()
-                    ->multiple()
-                    ->required()
-                    ->reactive(),
+                    Select::make('languages')
+                        ->relationship('languages', 'title')
+                        ->preload()
+                        ->multiple()
+                        ->required()
+                        ->reactive(),
 
-                Card::make([
-                    Select::make('car_id')
-                        ->label('Car')
-                        ->searchable()
-                        ->options(function(callable $get){
-                            return Car::pluck('number', 'id');
-                        })
-                        ->reactive()
-                ])->relationship('driver'),
+                    Card::make([
+                        Select::make('car_id')
+                            ->label('Car')
+                            ->searchable()
+                            ->options(function(callable $get){
+                                return Car::pluck('number', 'id');
+                            })
+                            ->reactive()
+                    ])->relationship('driver'),
                     Card::make([
                         Select::make('trailer_id')
                             ->label('Trailer')
@@ -108,15 +108,15 @@ class UserResource extends Resource
                             ->reactive()
                     ])->relationship('driver'),
 
-                SpatieMediaLibraryFileUpload::make('drivers_license')
-                    ->collection('drivers_license')
-                    ->multiple()
-                    ->enableReordering(),
-                SpatieMediaLibraryFileUpload::make('passport')
-                    ->multiple()
-                    ->collection('passport')
-                    ->enableReordering()
-            ])
+                    SpatieMediaLibraryFileUpload::make('drivers_license')
+                        ->collection('drivers_license')
+                        ->multiple()
+                        ->enableReordering(),
+                    SpatieMediaLibraryFileUpload::make('passport')
+                        ->multiple()
+                        ->collection('passport')
+                        ->enableReordering()
+                    ])
                 ->visible(fn (Closure $get) => $get('user_role_id') === 4),
 
                 // legal entity

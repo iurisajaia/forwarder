@@ -92,25 +92,13 @@ class UserRepository implements  UserRepositoryInterface{
     public function createDriverType($request, $user){
 
         $driver = DriverUserDetails::updateOrCreate(['user_id' => $user->id], [
-            'telegram' => $request->driver['telegram'],
-            'whatsapp' => $request->driver['whatsapp'],
-            'viber' => $request->driver['viber'],
-            'referral_code' => $request->driver['referral_code'],
-            'iban' => $request->driver['iban'],
+            'telegram' => $request->driver['telegram'] ?? '',
+            'whatsapp' => $request->driver['whatsapp'] ?? '',
+            'viber' => $request->driver['viber'] ?? '',
+            'referral_code' => $request->driver['referral_code'] ?? '',
+            'iban' => $request->driver['iban'] ?? '',
             'user_id' => $user->id
         ]);
-
-        if ($request->hasFile('drivers_license')) {
-            $file = $request->file('drivers_license');
-            $driver->addMedia($file)
-                ->toMediaCollection('drivers_license');
-        }
-        if ($request->hasFile('passport')) {
-            $file = $request->file('passport');
-            $driver->addMedia($file)
-                ->toMediaCollection('passport');
-        }
-
 
         if(isset($request->driver['car'])){
             $this->createCar($request,$driver);
@@ -136,13 +124,6 @@ class UserRepository implements  UserRepositoryInterface{
 
         $driver->car_id = $car->id;
         $driver->save();
-
-        if ($request->hasFile('tech_passport')) {
-            $file = $request->file('tech_passport');
-
-            $car->addMedia($file)
-                ->toMediaCollection('tech_passport');
-        }
     }
 
     public function createTrailer($request, $driver){
@@ -161,11 +142,6 @@ class UserRepository implements  UserRepositoryInterface{
         $driver->trailer_id = $trailer->id;
         $driver->save();
 
-        if ($request->hasFile('tech_passport')) {
-            $file = $request->file('tech_passport');
-            $trailer->addMedia($file)
-                ->toMediaCollection('tech_passport');
-        }
     }
 
     public function createUser(CreateUserRequest $request, $id = null) : JsonResponse{
