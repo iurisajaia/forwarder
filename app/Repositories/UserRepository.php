@@ -166,7 +166,6 @@ class UserRepository implements  UserRepositoryInterface{
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
-            'user' => $resUser,
             'token' => $resUser->createToken("API TOKEN")->plainTextToken
         ], 200);
 
@@ -224,7 +223,6 @@ class UserRepository implements  UserRepositoryInterface{
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'user' => $user,
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         }else{
@@ -325,7 +323,7 @@ class UserRepository implements  UserRepositoryInterface{
             }
 
 
-            $user = User::query()->with(['role', 'media', ...$this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
+            $user = User::query()->with(['role', 'media', 'languages', ...$this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
 
 
             return response()->json([
