@@ -7,8 +7,13 @@ use App\Http\Controllers\Api\RsController;
 use App\Http\Controllers\Api\TrailerTypeController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\TrailerController;
+use App\Http\Controllers\Api\Chat\MessageController;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['prefix' => 'message'], function(){
+    Route::post('/send', [MessageController::class , 'sendMessage']);
+    Route::get('/show/{senderId}/{receiverId}', [MessageController::class , 'showConversation']);
+});
 
 
 Route::group(['prefix' => 'user'], function () {
