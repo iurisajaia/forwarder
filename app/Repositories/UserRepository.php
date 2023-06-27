@@ -166,6 +166,7 @@ class UserRepository implements  UserRepositoryInterface{
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
+            'user' => $resUser,
             'token' => $resUser->createToken("API TOKEN")->plainTextToken
         ], 200);
 
