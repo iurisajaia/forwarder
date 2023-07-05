@@ -28,6 +28,6 @@ class Message implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'message'.$this->message->receiver_id;
+        return 'message-'.$this->message->receiver_id;
     }
 }

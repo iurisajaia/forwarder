@@ -3,40 +3,38 @@
 namespace App\Http\Controllers\Api\Chat;
 
 use App\Events\Message;
+use App\Http\Requests\Chat\SendMessageRequest;
 use App\Models\Message as MessageModel;
 use App\Http\Controllers\Controller;
+use App\Repositories\Interfaces\ChatRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
 
-    public function showConversation($senderId , $receiverId)
-    {
-        // Get the conversation between the two users
-        $conversation = MessageModel::where(function ($query) use ($senderId, $receiverId) {
-            $query->where('sender_id', $senderId)->where('receiver_id', $receiverId);
-        })->orWhere(function ($query ) use ($senderId, $receiverId) {
-            $query->where('sender_id', $receiverId)->where('receiver_id', $senderId);
-        })->with(['sender','receiver'])->get();
+    private ChatRepositoryInterface $chatRepository;
 
-        return response()->json(['conversations' => $conversation], 200);
+    public function __construct(
+        ChatRepositoryInterface $chatRepository,
+    ){
+        $this->chatRepository = $chatRepository;
+    }
+
+    public function index($senderId) : JsonResponse
+    {
+        return response()->json($this->chatRepository->index($senderId), 200);
+    }
+
+    public function show($senderId , $receiverId) : JsonResponse
+    {
+        return $this->chatRepository->show($senderId, $receiverId);
     }
 
 
-    public function sendMessage(Request $request)
+
+    public function sendMessage(SendMessageRequest $request) : JsonResponse
     {
-        // Create a new message
-        $message = new MessageModel([
-            'sender_id' => $request->sender_id,
-            'receiver_id' => $request->receiver_id,
-            'message' => $request->message
-        ]);
-        $message->save();
-
-        $newMessage = MessageModel::query()->with(['sender', 'receiver'])->findOrFail($message->id);
-
-        event(new Message($newMessage));
-
-        return response()->json(['success' => true], 200);
+        return response()->json(['success' => true, 'message' => $this->chatRepository->sendMessage($request)], 200);
     }
 }
