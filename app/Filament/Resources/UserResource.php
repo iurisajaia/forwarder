@@ -86,7 +86,6 @@ class UserResource extends Resource
                         ->relationship('languages', 'title')
                         ->preload()
                         ->multiple()
-                        ->required()
                         ->reactive(),
 
                     Card::make([
