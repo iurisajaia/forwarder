@@ -104,6 +104,16 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->hasOne(CustomerDetails::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
 
 
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Trailer;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
-class CreateUserRequest extends FormRequest
+class CreateTrailerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,13 +28,13 @@ class CreateUserRequest extends FormRequest
 
         return [
             [
-                'name' => 'string',
-                'phone' => 'required|string',
-                'email' => 'string',
-                'user_role_id' => 'required|number',
-                'images' => '',
-                'languages' => 'array',
-                'languages.*' => 'integer',
+                'id' => 'integer',
+                'number' => 'string',
+                'title' => 'string',
+                'model' => 'string',
+                'identification_number' => 'string',
+                'trailer_type_id' => 'integer',
+                'tech_passport' => 'nullable|file|mimes:jpeg,png,gif,pdf',
             ]
         ];
     }
@@ -58,7 +58,6 @@ class CreateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.required' => 'Phone is required!'
         ];
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UserType;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
-class CreateUserRequest extends FormRequest
+class CreateStandardUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +25,11 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             [
-                'name' => 'string',
-                'phone' => 'required|string',
-                'email' => 'string',
-                'user_role_id' => 'required|number',
-                'images' => '',
-                'languages' => 'array',
-                'languages.*' => 'integer',
+                'lastName' => 'string',
+                'private_number' => 'string',
+                'position' => 'string',
             ]
         ];
     }
@@ -58,7 +53,6 @@ class CreateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.required' => 'Phone is required!'
         ];
     }
 }

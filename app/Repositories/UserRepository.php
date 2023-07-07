@@ -1,44 +1,49 @@
 <?php
 
 namespace App\Repositories;
-use App\Http\Requests\GetLoginCodeRequest;
-use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\VerifyUserRequest;
+use App\Models\Car;
 use App\Models\CustomerDetails;
 use App\Models\DriverUserDetails;
 use App\Models\ForwarderDetails;
 use App\Models\LegalUserDetails;
 use App\Models\StandardUserDetails;
-use App\Models\UserRole;
-use App\Repositories\Interfaces\AuthRepositoryInterface;
+use App\Models\Trailer;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\CarRepositoryInterface;
+use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\CreateUserRequest;
-use App\Models\User;
-use App\Models\UserOtp;
+use App\Http\Requests\VerifyUserRequest;
+use App\Http\Requests\LoginUserRequest;
 use Illuminate\Http\JsonResponse;
-use Twilio\Rest\Client;
 use Illuminate\Http\Request;
+use App\Models\Language;
+use App\Models\UserRole;
+use App\Models\UserOtp;
+use Twilio\Rest\Client;
+use App\Models\User;
 
 
 
-class AuthRepository implements  AuthRepositoryInterface{
+class UserRepository implements  UserRepositoryInterface{
 
-    public array $roles = [
-        1 => 'standard',
-        2 => 'legal',
-        3 => 'forwarder',
-        4 => 'driver',
-        5 => 'customer'
-    ];
+    private CarRepositoryInterface $carRepository;
 
-    public function createUserDetails(string $model, $request, $id){
-        $data = new $model([
-            ...$request,
-            'user_id' => $id
-        ]);
-        $data->save();
+    public function __construct(
+        CarRepositoryInterface $carRepository,
+    ){
+        $this->carRepository = $carRepository;
     }
 
-    public function createUserData(CreateUserRequest $request){
+    public array $roles = [
+        1 => ['standard'],
+        2 => ['legal'],
+        3 => ['forwarder'],
+        4 => ['driver', 'driver.car' ,'driver.trailer'],
+        5 => ['customer']
+    ];
+
+
+    public function createUserData(CreateUserRequest $request, $id = null){
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -46,93 +51,135 @@ class AuthRepository implements  AuthRepositoryInterface{
             'user_role_id' => $request->user_role_id
         ];
 
+        $user = User::updateOrCreate(['id' => $id], $data);
 
-        $user = User::create($data);
+        if (isset($request['languages'])) {
+            $languages = Language::whereIn('id', $request['languages'])->get();
+            $user->languages()->sync($languages);
+        }
 
         if(isset($request->images)){
             foreach ($request->images as $key => $image){
+                if($request->id){
+                    $existingMedia = $user->getMedia($image['title'])->first();
+                    if ($existingMedia) {
+                        $existingMedia->delete();
+                    }
+                }
                 $user->addMediaFromRequest("images.{$key}.uri")->toMediaCollection($image['title']);
             }
         }
 
-
-        if(isset($request->standard) && $request->user_role_id == 1){
-            $data = new StandardUserDetails([
-                ...$request->standard,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+        if($data['user_role_id'] == 1 && isset($request->standard)){
+            StandardUserDetails::updateOrCreate(['user_id' => $user->id], $request->standard);
         }
-
-        if(isset($request->legal) && $request->user_role_id == 2){
-            $data = new LegalUserDetails([
-                ...$request->legal,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+        if($data['user_role_id'] == 2 && isset($request->legal)){
+            LegalUserDetails::updateOrCreate(['user_id' => $user->id], $request->legal);
         }
-
-        if(isset($request->forwarder) && $request->user_role_id == 3){
-            $data = new ForwarderDetails([
-                ...$request->forwarder,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+        if($data['user_role_id'] == 3 && isset($request->forwarder)){
+            ForwarderDetails::updateOrCreate(['user_id' => $user->id], $request->forwarder);
         }
-
-        if(isset($request->driver) && $request->user_role_id == 4){
-            $data = new DriverUserDetails([
-                ...$request->driver,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+        if($data['user_role_id'] == 4 && isset($request->driver)){
+            $this->createDriverType($request, $user);
         }
-
-
-        if(isset($request->customer) && $request->user_role_id == 5){
-            $data = new CustomerDetails([
-                ...$request->customer,
-                'user_id' => $user->id
-            ]);
-            $data->save();
+        if($data['user_role_id'] == 5 && isset($request->customer)){
+            CustomerDetails::updateOrCreate(['user_id' => $user->id], $request->customer);
         }
-
 
         return $user;
     }
 
-    public function createUser(CreateUserRequest $request) : JsonResponse{
+    public function createDriverType($request, $user){
 
-        $user = $this->createUserData($request);
+        $driver = DriverUserDetails::updateOrCreate(['user_id' => $user->id], [
+            'telegram' => $request->driver['telegram'] ?? '',
+            'whatsapp' => $request->driver['whatsapp'] ?? '',
+            'viber' => $request->driver['viber'] ?? '',
+            'referral_code' => $request->driver['referral_code'] ?? '',
+            'iban' => $request->driver['iban'] ?? '',
+            'user_id' => $user->id
+        ]);
 
-        $userOtp = UserOtp::where('user_id', $user->id)->latest()->first();
-
-        $now = now();
-
-        if($userOtp && $now->isBefore($userOtp->expire_at)){
-            return $userOtp;
+        if(isset($request->driver['car'])){
+            $this->createCar($request,$driver);
         }
+
+        if(isset($request->driver['trailer'])){
+            $this->createTrailer($request,$driver);
+        }
+    }
+
+    public function createCar($request, $driver){
+        if(isset($request->driver['car']['id'])){
+            $car = Car::findOrFail($request->driver['car']['id']);
+        }else{
+            $car = new Car();
+        }
+        $car->number = $request->driver['car']['number'] ?? '';
+        $car->title = $request->driver['car']['title'] ?? '';
+        $car->model = $request->driver['car']['model'] ?? '';
+        $car->identification_number = $request->driver['car']['identification_number'] ?? '';
+        $car->car_type_id = $request->driver['car']['car_type_id'];
+        $car->save();
+
+        $driver->car_id = $car->id;
+        $driver->save();
+    }
+
+    public function createTrailer($request, $driver){
+        if(isset($request->driver['trailer']['id'])){
+            $trailer = Trailer::findOrFail($request->driver['trailer']['id']);
+        }else{
+            $trailer = new Trailer();
+        }
+        $trailer->number = $request->driver['trailer']['number'] ?? '';
+        $trailer->title = $request->driver['trailer']['title'] ?? '';
+        $trailer->model = $request->driver['trailer']['model'] ?? '';
+        $trailer->identification_number = $request->driver['trailer']['identification_number'] ?? '';
+        $trailer->trailer_type_id = $request->driver['trailer']['trailer_type_id'];
+        $trailer->save();
+
+        $driver->trailer_id = $trailer->id;
+        $driver->save();
+
+    }
+
+    public function createUser(CreateUserRequest $request, $id = null) : JsonResponse{
+
+        $user = $this->createUserData($request, $id);
 
 
         $code = 123456; // rand(123456, 999999);
 
-        /* Create a New OTP */
-        UserOtp::create([
+        $data = [
             'user_id' => $user->id,
             'otp' => $code,
-            'expire_at' => $now->addMinutes(10)
-        ]);
+            'expire_at' => now()->addMinutes(10)
+        ];
+
+        UserOtp::updateOrCreate(['user_id' => $user->id], $data);
 
 //        $this->sendSms($code, $user->phone);
 
 
-        $resUser = User::query()->with(['role', 'media', $this->roles[$user->user_role_id]])->findOrFail($user->id);
+        $resUser = User::query()->with(['role', 'media', ...$this->roles[$user->user_role_id]])->findOrFail($user->id);
         return response()->json([
             'status' => true,
             'message' => 'User Created Successfully',
-            'user' => $resUser,
             'token' => $resUser->createToken("API TOKEN")->plainTextToken
         ], 200);
+
+    }
+
+    public function deleteUser(int $id) : JsonResponse{
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return response()->json(['message' => 'User deleted successfully', 200]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete user.'], 500);
+        }
 
     }
 
@@ -159,25 +206,23 @@ class AuthRepository implements  AuthRepositoryInterface{
     public function loginUser(LoginUserRequest $request) : JsonResponse{
 
         $user = User::where('phone', $request->phone)->first();
-
         if(!isset($user)){
             return response()->json(['error' => 'Cannot find user'], 404);
         }
 
-        $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+//        $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
 
-        $this->checkForOtpError($userOtp);
+//        $this->checkForOtpError($userOtp);
 
         if($user){
 
-            $userOtp->update([
-                'expire_at' => now()
-            ]);
+//            $userOtp->update([
+//                'expire_at' => now()
+//            ]);
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'user' => $user,
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
         }else{
@@ -278,7 +323,7 @@ class AuthRepository implements  AuthRepositoryInterface{
             }
 
 
-            $user = User::query()->with(['role', 'media', $this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
+            $user = User::query()->with(['role', 'media', 'languages', ...$this->roles[$ruser->user_role_id]])->findOrFail($ruser->id);
 
 
             return response()->json([

@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TrailerResource\Pages;
 use App\Filament\Resources\TrailerResource\RelationManagers;
 use App\Models\Trailer;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
@@ -40,6 +42,12 @@ class TrailerResource extends Resource
                     ->preload()
                     ->required()
                     ->reactive(),
+                Card::make([
+                    SpatieMediaLibraryFileUpload::make('tech_passport')
+                        ->multiple()
+                        ->collection('tech_passport')
+                        ->enableReordering()
+                ])
             ]);
     }
 
@@ -56,6 +64,7 @@ class TrailerResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
