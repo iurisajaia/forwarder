@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Car;
@@ -212,6 +213,7 @@ class UserResource extends Resource
 
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
             ]);
     }
 
