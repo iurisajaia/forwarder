@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class ChatRepository implements  ChatRepositoryInterface {
 
-    public function sendMessage(SendMessageRequest $request) : JsonResponse{
+    public function sendMessage(SendMessageRequest $request){
         try {
             $newMessage = MessageModel::query()
                 ->create($request->all())
@@ -18,7 +18,7 @@ class ChatRepository implements  ChatRepositoryInterface {
 
             event(new Message($newMessage));
 
-            return response()->json(['message' => $newMessage]);
+            return $newMessage;
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -26,17 +26,16 @@ class ChatRepository implements  ChatRepositoryInterface {
         }
     }
 
-    public function show($senderId , $receiverId) : JsonResponse
+    public function show($senderId , $receiverId)
     {
         try {
             // Get the conversation between the two users
-            $conversation = MessageModel::where(function ($query) use ($senderId, $receiverId) {
+            return MessageModel::where(function ($query) use ($senderId, $receiverId) {
                 $query->where('sender_id', $senderId)->where('receiver_id', $receiverId);
             })->orWhere(function ($query ) use ($senderId, $receiverId) {
                 $query->where('sender_id', $receiverId)->where('receiver_id', $senderId);
             })->with(['sender','receiver'])->get();
 
-            return response()->json(['conversations' => $conversation], 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -45,11 +44,10 @@ class ChatRepository implements  ChatRepositoryInterface {
 
     }
 
-    public function index($senderId ) : JsonResponse
+    public function index($senderId )
     {
         try {
-
-            $conversations = MessageModel::where('sender_id', $senderId)
+            return MessageModel::where('sender_id', $senderId)
                 ->orWhere(function ($query) use ($senderId) {
                     $query->where('receiver_id', $senderId);
                 })
@@ -72,7 +70,6 @@ class ChatRepository implements  ChatRepositoryInterface {
                 ->values()
                 ->all();
 
-            return response()->json(['conversations' => $conversations], 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

@@ -23,18 +23,18 @@ class MessageController extends Controller
 
     public function index($senderId) : JsonResponse
     {
-        return response()->json($this->chatRepository->index($senderId), 200);
+        return response()->json(['data' => $this->chatRepository->index($senderId)], 200);
     }
 
     public function show($senderId , $receiverId) : JsonResponse
     {
-        return $this->chatRepository->show($senderId, $receiverId);
+        return response()->json(['data' => $this->chatRepository->show($senderId, $receiverId)], 200);
     }
 
 
 
     public function sendMessage(SendMessageRequest $request) : JsonResponse
     {
-        return response()->json(['success' => true, 'message' => $this->chatRepository->sendMessage($request)], 200);
+        return response()->json(['data' => $this->chatRepository->sendMessage($request)], 200);
     }
 }
