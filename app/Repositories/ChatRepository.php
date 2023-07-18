@@ -67,8 +67,7 @@ class ChatRepository implements  ChatRepositoryInterface {
                         'messages' => $messages,
                     ];
                 })
-                ->values()
-                ->first();
+                ->values();
 
         } catch (Exception $e) {
             return response()->json([
