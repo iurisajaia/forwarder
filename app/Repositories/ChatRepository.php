@@ -35,7 +35,7 @@ class ChatRepository implements  ChatRepositoryInterface {
                 $query->where('sender_id', $senderId)->where('receiver_id', $receiverId);
             })->orWhere(function ($query ) use ($senderId, $receiverId) {
                 $query->where('sender_id', $receiverId)->where('receiver_id', $senderId);
-            })->with(['sender','receiver'])->get();
+            })->with(['sender','receiver'])->orderBy('created_at', 'ASC')->get();
 
         } catch (Exception $e) {
             return response()->json([
