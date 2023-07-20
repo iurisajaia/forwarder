@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Events\Message;
 use App\Http\Requests\Chat\SendMessageRequest;
 use App\Models\Message as MessageModel;
+use App\Models\User;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -60,8 +61,14 @@ class ChatRepository implements  ChatRepositoryInterface {
                         return $message->sender_id;
                     }
                 })
-                ->map(function ($messages, $receiverId) {
+                ->map(function ($messages, $receiverId) use ($senderId) {
                     $receiver = $messages->first()->receiver;
+
+                    // If the receiver's id is the same as the $senderId, use $receiverId instead
+                    if ($receiver->id == $senderId) {
+                        $receiver = User::find($receiverId);
+                    }
+
                     return [
                         'receiver' => $receiver,
                         'messages' => $messages,
