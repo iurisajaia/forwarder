@@ -927,6 +927,24 @@
                     }
                 }
             }
+        },
+
+        "/api/deal": {
+            "get": {
+                "tags" : ["Deal"],
+                "summary": "All deals",
+                "responses": {
+                    "200": {
+                        "description": "Deals fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     }
 }

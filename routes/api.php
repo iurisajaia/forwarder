@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\RsController;
 use App\Http\Controllers\Api\TrailerTypeController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\TrailerController;
+use App\Http\Controllers\Api\DealController;
 use App\Http\Controllers\Api\Chat\MessageController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,9 @@ Route::group(['prefix' => 'trailer'], function () {
     Route::get('/types', [TrailerTypeController::class , 'index']);
 });
 
-
+Route::group(['prefix' => 'deal'], function () {
+    Route::get('/', [DealController::class , 'index']);
+});
 
 
 Route::group(['prefix' => 'rs'], function () {
