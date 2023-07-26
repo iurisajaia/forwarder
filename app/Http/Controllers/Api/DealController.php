@@ -3,33 +3,31 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Interfaces\DealRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
 
+    private DealRepositoryInterface $dealRepository;
 
-    private function generateDummyUser()
-    {
-        // Replace the following with the desired user dummy object
-        return [
-            'id' => mt_rand(1000, 9999),
-            'name' => 'User ' . mt_rand(1, 20),
-            'email' => 'user' . mt_rand(1, 20) . '@example.com',
-        ];
+    public function __construct(
+        DealRepositoryInterface $dealRepository,
+    ){
+        $this->dealRepository = $dealRepository;
     }
 
 
-    public function index() : JsonResponse {
-        $dummyData = [];
+    public function notifications(Request $request){
+        return $this->dealRepository->notifications($request);
+    }
 
-        for ($i = 0; $i < 20; $i++) {
-            $dummyData[] = [
-                'user' => $this->generateDummyUser(),
-                'text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            ];
-        }
-        return response()->json(['data' => $dummyData]);
+    public function index(Request $request){
+        return $this->dealRepository->index($request);
+    }
+
+    protected function acceptNotification(Request $request, $id){
+        return $this->dealRepository->acceptNotification($request , $id);
     }
 }

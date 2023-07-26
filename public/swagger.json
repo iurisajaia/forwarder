@@ -872,7 +872,7 @@
                             "type": "integer",
                             "default": 2
                         }
-                    },
+                    }
                 ],
                 "tags" : ["Chat"],
                 "summary": "Get Conversations",
@@ -933,9 +933,70 @@
             "get": {
                 "tags" : ["Deal"],
                 "summary": "All deals",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Deals fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/notification": {
+            "get": {
+                "tags" : ["Deal"],
+                "summary": "All deals",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notifications fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/notification/{id}": {
+            "post": {
+                "tags" : ["Deal"],
+                "summary": "Accept Deal",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Notification ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 43
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deal accepted successfully"
                     },
                     "400": {
                         "description": "Bad request - Invalid input data"

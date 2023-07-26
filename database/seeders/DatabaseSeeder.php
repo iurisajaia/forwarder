@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             UserRoleSeeder::class,
             CarTypeSeeder::class,
             LanguageSeeder::class,
-            TrailerTypeSeeder::class
+            TrailerTypeSeeder::class,
+            DealSeeder::class
         ]);
     }
 }

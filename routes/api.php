@@ -48,8 +48,14 @@ Route::group(['prefix' => 'trailer'], function () {
     Route::get('/types', [TrailerTypeController::class , 'index']);
 });
 
-Route::group(['prefix' => 'deal'], function () {
-    Route::get('/', [DealController::class , 'index']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['prefix' => 'notification'], function() {
+        Route::get('/', [DealController::class , 'notifications']);
+        Route::post('/{id}', [DealController::class , 'acceptNotification']);
+    });
+    Route::group(['prefix' => 'deal'], function(){
+        Route::get('/', [DealController::class , 'index']);
+    });
 });
 
 
