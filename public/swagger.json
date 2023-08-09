@@ -224,9 +224,14 @@
                 }
             }
         },
-        "/api/user/update/{id}": {
+        "/api/user/update": {
             "put": {
                 "tags" : ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "summary": "Update User",
                 "requestBody": {
                     "required": true,
