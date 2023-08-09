@@ -33,10 +33,10 @@ class UserController extends Controller
         }
     }
 
-    public function update(CreateUserRequest $request, int $id) : JsonResponse
+    public function update(CreateUserRequest $request) : JsonResponse
     {
         try {
-            return $this->userRepository->createUser($request , $id);
+            return $this->userRepository->updateUser($request);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

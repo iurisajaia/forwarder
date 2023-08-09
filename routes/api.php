@@ -22,7 +22,7 @@ Route::group(['prefix' => 'chat'], function(){
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/create', [UserController::class, 'create']);
-    Route::put('/update/{id}', [UserController::class, 'update']);
+
     Route::delete('/delete/{id}', [UserController::class, 'delete']);
     Route::get('/roles', [UserController::class, 'roles']);
 
@@ -32,6 +32,7 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::get('/', [UserController::class , 'currentUser']);
+        Route::put('/update', [UserController::class, 'update']);
     });
 
 });

@@ -43,7 +43,7 @@ class UserRepository implements  UserRepositoryInterface{
     ];
 
 
-    public function createUserData(CreateUserRequest $request, $id = null){
+    public function createUserData(CreateUserRequest $request){
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -51,7 +51,12 @@ class UserRepository implements  UserRepositoryInterface{
             'user_role_id' => $request->user_role_id
         ];
 
-        $user = User::updateOrCreate(['id' => $id], $data);
+        if($request->user()){
+            $user = User::query()->findOrFail($request->user()->id);
+            $user->update(array_filter($data));
+        }else{
+            $user = User::query()->create($data);
+        }
 
         if (isset($request['languages'])) {
             $languages = Language::whereIn('id', $request['languages'])->get();
@@ -144,9 +149,9 @@ class UserRepository implements  UserRepositoryInterface{
 
     }
 
-    public function createUser(CreateUserRequest $request, $id = null) : JsonResponse{
+    public function createUser(CreateUserRequest $request) : JsonResponse{
 
-        $user = $this->createUserData($request, $id);
+        $user = $this->createUserData($request);
 
 
         $code = 123456; // rand(123456, 999999);
@@ -168,6 +173,19 @@ class UserRepository implements  UserRepositoryInterface{
             'message' => 'User Created Successfully',
             'user' => $resUser,
             'token' => $resUser->createToken("API TOKEN")->plainTextToken
+        ], 200);
+
+    }
+
+    public function updateUser(CreateUserRequest $request) : JsonResponse{
+
+        $user = $this->createUserData($request);
+
+        $resUser = User::query()->with(['role', 'media', ...$this->roles[$user->user_role_id]])->findOrFail($user->id);
+        return response()->json([
+            'status' => true,
+            'message' => 'User Updated Successfully',
+            'user' => $resUser,
         ], 200);
 
     }

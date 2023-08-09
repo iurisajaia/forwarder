@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 
 Interface UserRepositoryInterface{
-    public function createUser(CreateUserRequest $request, $id = null);
+    public function createUser(CreateUserRequest $request);
+    public function updateUser(CreateUserRequest $request);
     public function deleteUser(int $id);
     public function getLoginCode(GetLoginCodeRequest $request);
     public function loginUser(LoginUserRequest $request);
