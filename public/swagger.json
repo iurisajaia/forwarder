@@ -1006,6 +1006,190 @@
                     }
                 }
             }
+        },
+
+        "/api/carrgo": {
+            "get": {
+                "tags" : ["Carrgo"],
+                "summary": "All carrgos",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carrgos fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/carrgo/": {
+            "post": {
+                "tags" : ["Carrgo"],
+                "summary": "Create Carrgo",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "carrgo": {
+                                        "type": "object",
+                                        "properties": {
+                                            "date" : {
+                                                "type" : "string",
+                                                "example" : "22/03/2022"
+                                            },
+                                            "iban" : {
+                                                "type" : "string",
+                                                "example" : "GE42BG23414112414"
+                                            },
+                                            "first_name" : {
+                                                "type" : "string",
+                                                "example" : "Pavle"
+                                            },
+                                            "last_name" : {
+                                                "type" : "string",
+                                                "example" : "Mgeladze"
+                                            },
+                                            "car_type_id" : {
+                                                "type" : "integer",
+                                                "example" : 1
+                                            }
+                                        }
+                                    },
+                                    "details" : {
+                                        "type": "object",
+                                        "properties": {
+                                            "carrgo_type" : {
+                                                "type" : "string",
+                                                "example" : "IDK"
+                                            },
+                                            "weight" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "weight_type" : {
+                                                "type" : "string",
+                                                "description": "Choose one of them - kilogram or pound",
+                                                "example" : "kilogram"
+                                            },
+                                            "width" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "height" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "length" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "trailer_type_id" : {
+                                                "type" : "number",
+                                                "example" : 1
+                                            }
+                                        }
+                                    },
+                                    "routes" : {
+                                        "type" : "object",
+                                        "properties": {
+                                            "from": {
+                                                "type": "object",
+                                                "description": "Inside this object you can include any field you want",
+                                                "properties": {
+                                                    "address" : {
+                                                        "type" : "string",
+                                                        "example": "Tbilisi, Rustaveli str. 32"
+                                                    },
+                                                    "lat" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    },
+                                                    "lng" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    }
+                                                }
+                                            },
+                                            "to": {
+                                                "type": "object",
+                                                "description": "Inside this object you can include any field you want",
+                                                "properties": {
+                                                    "address" : {
+                                                        "type" : "string",
+                                                        "example": "Tbilisi, Rustaveli str. 32"
+                                                    },
+                                                    "lat" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    },
+                                                    "lng" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "description": "Image URLs",
+                                        "example": [
+                                            {
+                                                "title" : "drivers_license",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "tech_passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "residence_confirmation",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "bank_credentials",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": ["name", "phone", "email"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registration successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     }
 }
