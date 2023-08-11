@@ -49,7 +49,7 @@ class CreateUserRequest extends FormRequest
 
             'data'      => $validator->errors()->messages()
 
-        ]));
+        ], 500));
 
     }
 
