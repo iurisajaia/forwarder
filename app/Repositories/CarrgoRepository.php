@@ -52,7 +52,7 @@ class CarrgoRepository implements CarrgoRepositoryInterface
             $carrgoRoute->carrgo_id = $carrgo->id;
             $carrgoRoute->save();
 
-            return response()->json(['message' => 'Carrgo created successfully', 'data' => Carrgo::with(['details', 'route', 'user', 'driver'])->findOrFail($carrgo->id)]);
+            return response()->json(['message' => 'Carrgo created successfully', 'data' => Carrgo::with(['details', 'route', 'user', 'driver', 'media'])->findOrFail($carrgo->id)]);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
