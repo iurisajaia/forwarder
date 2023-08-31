@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+use App\Http\Requests\UpdateDriverFreeTimeRequest;
 use App\Models\Car;
 use App\Models\CustomerDetails;
 use App\Models\DriverUserDetails;
@@ -185,6 +186,19 @@ class UserRepository implements  UserRepositoryInterface{
         return response()->json([
             'status' => true,
             'message' => 'User Updated Successfully',
+            'user' => $resUser,
+        ], 200);
+
+    }
+
+    public function updateDriverFreeTime(UpdateDriverFreeTimeRequest $request) : JsonResponse{
+
+        $user = DriverUserDetails::updateOrCreate(['user_id' => $request->user()->id], $request->except(['_method']));
+
+        $resUser = User::query()->with(['role', 'media', ...$this->roles[$request->user()->user_role_id]])->findOrFail($request->user()->id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Driver Updated Successfully',
             'user' => $resUser,
         ], 200);
 

@@ -33,6 +33,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::get('/', [UserController::class , 'currentUser']);
         Route::put('/update', [UserController::class, 'update']);
+        Route::put('/driver-freedom', [UserController::class, 'updateDriverFreeTime']);
     });
 
 });
