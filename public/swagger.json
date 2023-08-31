@@ -434,6 +434,55 @@
                 }
             }
         },
+        "/api/user/driver-freedom": {
+            "put": {
+                "tags" : ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Save when driver is free",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "driver_is_free": {
+                                        "type": "string",
+                                        "description": "Drivers free time",
+                                        "example": "2023/10/20"
+                                    },
+                                    "free_driver_location": {
+                                        "type": "string",
+                                        "description": "Address information",
+                                        "example": {
+                                            "lat" : 41.33,
+                                            "lng" : 41.33,
+                                            "address" : "Somewhere in Tbilisi"
+                                        }
+                                    }
+                                },
+                                "required": ["driver_is_free"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Updated successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/api/user/delete/{id}": {
             "delete": {
                 "tags" : ["User"],
