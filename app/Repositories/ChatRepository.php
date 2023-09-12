@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+use App\Events\Conversation;
 use App\Events\Message;
 use App\Http\Requests\Chat\SendMessageRequest;
 use App\Models\Message as MessageModel;
@@ -11,13 +12,34 @@ use Illuminate\Http\JsonResponse;
 
 class ChatRepository implements  ChatRepositoryInterface {
 
+
+
+    public function hasConversation($senderId, $receiverId)
+    {
+        return MessageModel::where(function ($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $senderId)
+                ->where('receiver_id', $receiverId);
+        })->orWhere(function ($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $receiverId)
+                ->where('receiver_id', $senderId);
+        })->exists();
+    }
+
+
+
     public function sendMessage(SendMessageRequest $request){
         try {
+
+            $hasConversation = $this->hasConversation($request->sender_id, $request->receiver_id);
+
+
             $newMessage = MessageModel::query()
                 ->create($request->all())
                 ->load('sender', 'receiver');
 
             event(new Message($newMessage));
+
+            if(!$hasConversation) event(new Conversation($newMessage));
 
             return $newMessage;
         } catch (Exception $e) {
@@ -44,6 +66,8 @@ class ChatRepository implements  ChatRepositoryInterface {
         }
 
     }
+
+
 
     public function index($senderId )
     {
