@@ -756,7 +756,7 @@
             }
         },
         "/api/trailer/create": {
-            "get": {
+            "post": {
                 "tags" : ["Trailer"],
                 "summary": "Create/Update Trailer",
                 "requestBody": {
