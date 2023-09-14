@@ -26,6 +26,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'უნაგირა საწევარი',
                         'rus' => 'უნაგირა საწევარი'
                     ],
+                    'id' => 1,
                     'key' => 'tractor-unit',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -37,6 +38,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'თვითმცლელი',
                         'rus' => 'თვითმცლელი'
                     ],
+                    'id' => 2,
                     'key' => 'tipper-trucks',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -48,6 +50,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ცისტერნა',
                         'rus' => 'ცისტერნა'
                     ],
+                    'id' => 3,
                     'key' => 'tank-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -59,6 +62,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ავტომზიდი',
                         'rus' => 'ავტომზიდი'
                     ],
+                    'id' => 4,
                     'key' => 'car-transporter',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -70,6 +74,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ღია ბორტიანი',
                         'rus' => 'ღია ბორტიანი'
                     ],
+                    'id' => 5,
                     'key' => 'open-platform-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -81,6 +86,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'კონტეინერმზიდი',
                         'rus' => 'კონტეინერმზიდი'
                     ],
+                    'id' => 6,
                     'key' => 'container-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -92,6 +98,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ბოქსი',
                         'rus' => 'ბოქსი'
                     ],
+                    'id' => 7,
                     'key' => 'box-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -103,6 +110,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ტენტიანი',
                         'rus' => 'ტენტიანი'
                     ],
+                    'id' => 8,
                     'key' => 'semi-trailer-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -114,6 +122,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'მაცივარი',
                         'rus' => 'მაცივარი'
                     ],
+                    'id' => 9,
                     'key' => 'chiller-trucks',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -125,6 +134,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'იზოთერმული',
                         'rus' => 'იზოთერმული'
                     ],
+                    'id' => 10,
                     'key' => 'isotherm-truck',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -136,6 +146,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'პირუტყვმზიდი',
                         'rus' => 'პირუტყვმზიდი'
                     ],
+                    'id' => 11,
                     'key' => 'livestock-trucks',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -147,6 +158,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'ხეების მზიდი',
                         'rus' => 'ხეების მზიდი'
                     ],
+                    'id' => 12,
                     'key' => 'logging-trucks',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -158,6 +170,7 @@ class CarTypeSeeder extends Seeder
                         'tur' => 'Memu',
                         'rus' => 'Memu'
                     ],
+                    'id' => 13,
                     'key' => 'memu',
                     'icon_default' => null,
                     'icon_hover' => null
@@ -168,6 +181,7 @@ class CarTypeSeeder extends Seeder
                 $carType = new CarType();
                 $carType->setTranslations('title', $type['title']);
                 $carType->key = $type['key'];
+                $carType->id = $type['id'];
                 $carType->icon_default = $type['icon_default'];
                 $carType->icon_hover = $type['icon_hover'];
 
