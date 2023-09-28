@@ -1062,10 +1062,10 @@
             }
         },
 
-        "/api/carrgo": {
+        "/api/cargo": {
             "get": {
-                "tags" : ["Carrgo"],
-                "summary": "All carrgos",
+                "tags" : ["Cargo"],
+                "summary": "All cargos",
                 "security": [
                     {
                         "bearerAuth": []
@@ -1084,10 +1084,10 @@
                 }
             }
         },
-        "/api/carrgo/": {
+        "/api/cargo/": {
             "post": {
-                "tags" : ["Carrgo"],
-                "summary": "Create Carrgo",
+                "tags" : ["Cargo"],
+                "summary": "Create Cargo",
                 "security": [
                     {
                         "bearerAuth": []
@@ -1100,38 +1100,17 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "carrgo": {
-                                        "type": "object",
-                                        "properties": {
-                                            "date" : {
-                                                "type" : "string",
-                                                "example" : "22/03/2022"
-                                            },
-                                            "iban" : {
-                                                "type" : "string",
-                                                "example" : "GE42BG23414112414"
-                                            },
-                                            "first_name" : {
-                                                "type" : "string",
-                                                "example" : "Pavle"
-                                            },
-                                            "last_name" : {
-                                                "type" : "string",
-                                                "example" : "Mgeladze"
-                                            },
-                                            "car_type_id" : {
-                                                "type" : "integer",
-                                                "example" : 1
-                                            }
-                                        }
+                                    "date" : {
+                                        "type" : "string",
+                                        "example" : "2021-10-20"
+                                    },
+                                    "car_type_id" : {
+                                        "type" : "number",
+                                        "example" : 1
                                     },
                                     "details" : {
                                         "type": "object",
                                         "properties": {
-                                            "carrgo_type" : {
-                                                "type" : "string",
-                                                "example" : "IDK"
-                                            },
                                             "weight" : {
                                                 "type" : "number",
                                                 "example" : 500
@@ -1153,7 +1132,15 @@
                                                 "type" : "number",
                                                 "example" : 500
                                             },
-                                            "trailer_type_id" : {
+                                            "degree" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "packaging_type_id" : {
+                                                "type" : "number",
+                                                "example" : 1
+                                            },
+                                            "danger_status_id" : {
                                                 "type" : "number",
                                                 "example" : 1
                                             }
@@ -1199,35 +1186,9 @@
                                                 }
                                             }
                                         }
-                                    },
-                                    "images": {
-                                        "type": "string",
-                                        "description": "Image URLs",
-                                        "example": [
-                                            {
-                                                "title" : "drivers_license",
-                                                "url" : "https://shorturl.at/moNP0"
-                                            },
-                                            {
-                                                "title" : "tech_passport",
-                                                "url" : "https://shorturl.at/moNP0"
-                                            },
-                                            {
-                                                "title" : "passport",
-                                                "url" : "https://shorturl.at/moNP0"
-                                            },
-                                            {
-                                                "title" : "residence_confirmation",
-                                                "url" : "https://shorturl.at/moNP0"
-                                            },
-                                            {
-                                                "title" : "bank_credentials",
-                                                "url" : "https://shorturl.at/moNP0"
-                                            }
-                                        ]
                                     }
                                 },
-                                "required": ["name", "phone", "email"]
+                                "required": ["date", "car_type_id", "details" , "routes"]
                             }
                         }
                     }

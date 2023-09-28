@@ -13,20 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carrgos', function (Blueprint $table) {
+        Schema::create('cargos', function (Blueprint $table) {
             $table->id();
-            $table->integer('car_type_id')->nullable();
             $table->string('date')->nullable();
-            $table->string('iban')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('price')->nullable();
             $table->string('cancellation_reason')->nullable();
             $table->enum('status', ['pending', 'active' , 'canceled'])->default('pending')->nullable();
+
+
+            $table->unsignedBigInteger('car_type_id');
+            $table->foreign('car_type_id')->references('id')->on('car_types')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

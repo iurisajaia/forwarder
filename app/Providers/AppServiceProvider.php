@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\CarRepository;
-use App\Repositories\CarrgoRepository;
+use App\Repositories\CargoRepository;
 use App\Repositories\CarTypeRepository;
 use App\Repositories\ChatRepository;
 use App\Repositories\DealRepository;
-use App\Repositories\Interfaces\CarrgoRepositoryInterface;
+use App\Repositories\Interfaces\CargoRepositoryInterface;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 use App\Repositories\Interfaces\DealRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TrailerRepositoryInterface::class , TrailerRepository::class);
         $this->app->bind(ChatRepositoryInterface::class , ChatRepository::class);
         $this->app->bind(DealRepositoryInterface::class , DealRepository::class);
-        $this->app->bind(CarrgoRepositoryInterface::class , CarrgoRepository::class);
+        $this->app->bind(CargoRepositoryInterface::class , CargoRepository::class);
     }
 
     /**

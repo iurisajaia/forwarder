@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             CarTypeSeeder::class,
             LanguageSeeder::class,
             TrailerTypeSeeder::class,
-            DealSeeder::class
+            DealSeeder::class,
+            DangerStatusSeeder::class,
+            PackagingTypeSeeder::class
         ]);
     }
 }

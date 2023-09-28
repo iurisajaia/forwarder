@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Carrgo extends Model implements HasMedia
+class Cargo extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
@@ -17,12 +17,12 @@ class Carrgo extends Model implements HasMedia
 
     public function details(): HasOne
     {
-        return $this->hasOne(CarrgoDetails::class);
+        return $this->hasOne(CargoDetails::class);
     }
 
     public function route(): HasOne
     {
-        return $this->hasOne(CarrgoRoute::class);
+        return $this->hasOne(CargoRoute::class);
     }
 
     public function car_type(): belongsTo

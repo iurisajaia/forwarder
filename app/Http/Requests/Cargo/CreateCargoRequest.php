@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Carrgo;
+namespace App\Http\Requests\Cargo;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateCarrgoRequest extends FormRequest
+class CreateCargoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,18 +29,18 @@ class CreateCarrgoRequest extends FormRequest
         return [
             [
                 'date' => 'string',
-                'iban' => 'string',
-                'first_name' => 'string',
-                'last_name' => 'string',
                 'car_type_id' => 'required|integer',
+
                 'details' => 'required|object',
-                'details.cargo_type' => 'string',
                 'details.weight' => 'string',
                 'details.weight_type' => 'string',
                 'details.width' => 'string',
                 'details.height' => 'string',
                 'details.length' => 'string',
-                'details.trailer_type_id' => 'required|integer',
+                'details.degree' => 'string',
+                'details.packaging_type_id' => 'integer',
+                'details.danger_status_id' => 'integer',
+
                 'routes' => 'required|object',
                 'routes.from' => 'required|object',
                 'routes.to' => 'required|object'
@@ -68,8 +68,8 @@ class CreateCarrgoRequest extends FormRequest
     {
         return [
             'car_type_id.required' => 'Car type is required!',
-            'details.required' => 'Carrgo details are required!',
-            'routes.required' => 'Carrgo routes are required!',
+            'details.required' => 'Cargo details are required!',
+            'routes.required' => 'Cargo routes are required!',
             'details.trailer_type_id.required' => 'Trailer type is required!'
         ];
     }

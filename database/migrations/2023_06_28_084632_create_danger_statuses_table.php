@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('driver_user_details', function (Blueprint $table) {
-            $table->date('driver_is_free')->nullable();
-            $table->json('free_driver_location')->nullable();
+        Schema::create('danger_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('driver_user_details', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('danger_statuses');
     }
 };

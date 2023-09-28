@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carrgo_routes', function (Blueprint $table) {
+        Schema::create('cargo_routes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('carrgo_id');
-            $table->foreign('carrgo_id')
-                ->references('id')->on('carrgos')
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')
+                ->references('id')->on('cargos')
                 ->onDelete('cascade');
             $table->json('from')->nullable();
             $table->json('to')->nullable();
