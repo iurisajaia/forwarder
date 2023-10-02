@@ -27,17 +27,17 @@ class UserRoleSeeder extends Seeder
                         'rus' => 'სტანდარტული'
                     ],
                     'key' => 'standard',
-                    'is_visible' => true
+                    'is_visible' => false
                 ],
                 [
                     'id' => 2,
                     'title' => [
-                        'eng' => 'Legal entity',
-                        'geo' => 'იურიდიული პირი',
-                        'tur' => 'იურიდიული პირი',
-                        'rus' => 'იურიდიული პირი'
+                        'eng' => 'Transport company',
+                        'geo' => 'სატრანსპორტო კომპანია',
+                        'tur' => 'სატრანსპორტო კომპანია',
+                        'rus' => 'სატრანსპორტო კომპანია'
                     ],
-                    'key' => 'legal',
+                    'key' => 'transport_company',
                     'is_visible' => true
                 ],
                 [
@@ -65,17 +65,6 @@ class UserRoleSeeder extends Seeder
                 [
                     'id' => 5,
                     'title' => [
-                        'eng' => 'Company customer',
-                        'geo' => 'მომხმარებელი',
-                        'tur' => 'მომხმარებელი',
-                        'rus' => 'მომხმარებელი'
-                    ],
-                    'key' => 'customer',
-                    'is_visible' => true
-                ],
-                [
-                    'id' => 6,
-                    'title' => [
                         'eng' => 'Administrator',
                         'geo' => 'ადმინისტრატორი',
                         'tur' => 'ადმინისტრატორი',
@@ -85,7 +74,7 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => false
                 ],
                 [
-                    'id' => 7,
+                    'id' => 6,
                     'title' => [
                         'eng' => 'Moderator',
                         'geo' => 'მოდერატორი',
