@@ -32,12 +32,12 @@ class UserRoleSeeder extends Seeder
                 [
                     'id' => 2,
                     'title' => [
-                        'eng' => 'Transport company',
-                        'geo' => 'სატრანსპორტო კომპანია',
-                        'tur' => 'სატრანსპორტო კომპანია',
-                        'rus' => 'სატრანსპორტო კომპანია'
+                        'eng' => 'Legal entity',
+                        'geo' => 'იურიდიული პირი',
+                        'tur' => 'იურიდიული პირი',
+                        'rus' => 'იურიდიული პირი'
                     ],
-                    'key' => 'transport_company',
+                    'key' => 'legal',
                     'is_visible' => true
                 ],
                 [
@@ -65,6 +65,17 @@ class UserRoleSeeder extends Seeder
                 [
                     'id' => 5,
                     'title' => [
+                        'eng' => 'Transport company',
+                        'geo' => 'სატრანსპორტო კომპანია',
+                        'tur' => 'სატრანსპორტო კომპანია',
+                        'rus' => 'სატრანსპორტო კომპანია'
+                    ],
+                    'key' => 'transport_company',
+                    'is_visible' => true
+                ],
+                [
+                    'id' => 6,
+                    'title' => [
                         'eng' => 'Administrator',
                         'geo' => 'ადმინისტრატორი',
                         'tur' => 'ადმინისტრატორი',
@@ -74,7 +85,7 @@ class UserRoleSeeder extends Seeder
                     'is_visible' => false
                 ],
                 [
-                    'id' => 6,
+                    'id' => 7,
                     'title' => [
                         'eng' => 'Moderator',
                         'geo' => 'მოდერატორი',
@@ -87,6 +98,7 @@ class UserRoleSeeder extends Seeder
 
 
             ];
+
 
             foreach ($userTypes as $type){
                 UserRole::create([
