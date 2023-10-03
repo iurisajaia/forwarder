@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cargo\CreatecargoRequest;
+use App\Http\Requests\Cargo\CreateCargoRequest;
 use App\Repositories\Interfaces\CargoRepositoryInterface;
 
 class CargoController extends Controller
