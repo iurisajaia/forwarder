@@ -39,7 +39,7 @@ class UserRepository implements  UserRepositoryInterface{
         1 => ['standard'],
         2 => ['legal'],
         3 => ['forwarder'],
-        4 => ['driver', 'driver.car' ,'driver.trailer'],
+        4 => ['driver', 'driver.car' ,'driver.trailer', 'driver.car.media', 'driver.trailer.media', 'driver.car.type', 'driver.trailer.type'],
         5 => ['customer']
     ];
 
@@ -128,8 +128,16 @@ class UserRepository implements  UserRepositoryInterface{
         $car->car_type_id = $request->driver['car']['car_type_id'];
         $car->save();
 
+        if(isset($request->driver['car']['images'])){
+            foreach ($request->driver['car']['images'] as $key => $image){
+                $car->addMedia($image['uri'])->toMediaCollection($image['title']);
+            }
+        }
+
         $driver->car_id = $car->id;
         $driver->save();
+
+
     }
 
     public function createTrailer($request, $driver){
@@ -143,10 +151,20 @@ class UserRepository implements  UserRepositoryInterface{
         $trailer->model = $request->driver['trailer']['model'] ?? '';
         $trailer->identification_number = $request->driver['trailer']['identification_number'] ?? '';
         $trailer->trailer_type_id = $request->driver['trailer']['trailer_type_id'];
+
+        if(isset($request->driver['trailer']['images'])){
+            foreach ($request->driver['trailer']['images'] as $key => $image){
+                $trailer->addMedia($image['uri'])->toMediaCollection($image['title']);
+            }
+        }
+
+
         $trailer->save();
 
         $driver->trailer_id = $trailer->id;
         $driver->save();
+
+
 
     }
 
