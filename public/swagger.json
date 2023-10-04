@@ -1084,6 +1084,51 @@
                 }
             }
         },
+        "/api/cargo/danger-statuses": {
+            "get": {
+                "tags" : ["Cargo"],
+                "summary": "Get Danger Statuses",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Danger Statuses fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/cargo/packaging-types": {
+            "get": {
+                "tags" : ["Cargo"],
+                "summary": "Get Packaging Types",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Packaging Types fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
         "/api/cargo/": {
             "post": {
                 "tags" : ["Cargo"],
@@ -1186,6 +1231,26 @@
                                                 }
                                             }
                                         }
+                                    },
+                                    "contacts" : {
+                                        "type" : "array",
+                                        "example" : [
+                                            {
+                                                "first_name" : "John",
+                                                "last_name" : "Doe",
+                                                "phone_number" : "+995 555 555 555",
+                                                "email" : "johndoe@gmail.com",
+                                                "private_number" : "010221221"
+                                            },
+                                            {
+                                                "first_name" : "John",
+                                                "last_name" : "Doe",
+                                                "phone_number" : "+995 555 555 555",
+                                                "email" :  "johndoe@gmail.com",
+                                                "private_number" :  "010221221"
+                                            }
+                                        ]
+
                                     }
                                 },
                                 "required": ["date", "car_type_id", "details" , "routes"]

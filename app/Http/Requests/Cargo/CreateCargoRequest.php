@@ -43,7 +43,14 @@ class CreateCargoRequest extends FormRequest
 
                 'routes' => 'required|object',
                 'routes.from' => 'required|object',
-                'routes.to' => 'required|object'
+                'routes.to' => 'required|object',
+
+                'contacts' => 'array',
+                'contacts.*.phone_number' => 'string',
+                'contacts.*.email' => 'string|email',
+                'contacts.*.first_name' => 'string',
+                'contacts.*.last_name' => 'string',
+                'contacts.*.private_number' => 'string',
             ]
         ];
     }

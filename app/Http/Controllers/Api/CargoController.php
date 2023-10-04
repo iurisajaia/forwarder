@@ -25,4 +25,12 @@ class CargoController extends Controller
     public function create(CreateCargoRequest $request): JsonResponse {
         return $this->cargoRepository->create($request);
     }
+
+    public function getDangerStatuses(){
+        return $this->cargoRepository->getDangerStatuses();
+    }
+
+    public function getPackagingTypes(){
+        return $this->cargoRepository->getPackagingTypes();
+    }
 }
