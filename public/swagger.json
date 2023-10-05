@@ -737,6 +737,29 @@
                 }
             }
         },
+        "/api/car/make-it-default/{id}": {
+            "post": {
+                "tags" : ["Car"],
+                "summary": "Make Car Default",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Default Car is changed successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
 
         "/api/trailer/types": {
             "get": {
@@ -819,6 +842,29 @@
                 }
             }
         },
+        "/api/trailer/make-it-default/{id}": {
+            "post": {
+                "tags" : ["Trailer"],
+                "summary": "Make Trailer Default",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Default Car is changed successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
 
         "/api/language": {
             "get": {
@@ -1270,6 +1316,7 @@
                     }
                 }
             }
-        }
+        },
+
     }
 }
