@@ -129,6 +129,7 @@ class UserRepository implements  UserRepositoryInterface{
         $car->car_type_id = $request->driver['car']['car_type_id'];
         $car->user_id = $driver->user_id;
         $car->driver_id = $driver->user_id;
+        $car->is_default = true;
 
         if(isset($request->driver['car']['images'])){
             foreach ($request->driver['car']['images'] as $key => $image){
@@ -152,6 +153,7 @@ class UserRepository implements  UserRepositoryInterface{
         $trailer->trailer_type_id = $request->driver['trailer']['trailer_type_id'];
         $trailer->user_id = $driver->user_id;
         $trailer->driver_id = $driver->user_id;
+        $trailer->is_default = true;
 
         if(isset($request->driver['trailer']['images'])){
             foreach ($request->driver['trailer']['images'] as $key => $image){
