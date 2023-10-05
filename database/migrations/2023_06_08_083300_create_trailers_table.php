@@ -23,6 +23,13 @@ return new class extends Migration
             $table->string('icon_default')->nullable();
             $table->string('icon_hover')->nullable();
             $table->integer('trailer_type_id')->nullable();
+            $table->boolean('is_default')->default(false)->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('driver_id');
+            $table->foreign('driver_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

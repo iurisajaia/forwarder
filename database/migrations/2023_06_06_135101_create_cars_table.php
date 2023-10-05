@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +15,19 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->nullable();
             $table->string('title')->nullable();
             $table->string('model')->nullable();
-            $table->string('identification_number')->nullable();
+            $table->string('number')->nullable();
             $table->integer('car_type_id')->nullable();
+            $table->string('identification_number')->nullable();
+            $table->boolean('is_default')->default(false)->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('driver_id');
+            $table->foreign('driver_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

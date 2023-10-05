@@ -18,14 +18,6 @@ class DriverUserDetails extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function car(): BelongsTo
-    {
-        return $this->belongsTo(Car::class);
-    }
 
-    public function trailer(): BelongsTo
-    {
-        return $this->belongsTo(Trailer::class);
-    }
 
 }

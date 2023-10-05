@@ -23,4 +23,6 @@ class TrailerTypeController extends Controller
     {
         return response()->json($this->trailerTypeRepository->all());
     }
+
+
 }

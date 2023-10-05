@@ -119,6 +119,16 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->hasMany(UserContact::class);
     }
 
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    public function trailers(): HasMany
+    {
+        return $this->hasMany(Trailer::class);
+    }
+
 
 
 

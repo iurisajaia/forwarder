@@ -21,11 +21,9 @@ return new class extends Migration
             $table->string('viber')->nullable();
             $table->string('referral_code')->nullable();
             $table->string('iban')->nullable();
-            $table->integer('car_id')->nullable();
             $table->date('driver_is_free')->nullable();
             $table->json('free_driver_location')->nullable();
 
-            $table->integer('trailer_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

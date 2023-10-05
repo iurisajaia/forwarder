@@ -22,4 +22,8 @@ class CarController extends Controller
         return $this->carRepository->create($request);
     }
 
+    public function makeItDefault(Request $request, int $id){
+        return $this->carRepository->makeItDefault($request, $id);
+    }
+
 }

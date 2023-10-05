@@ -6,9 +6,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['prefix' => 'car'], function () {
+Route::group(['middleware' => 'auth:sanctum','prefix' => 'car'], function () {
     Route::post('/create' , [CarController::class , 'create']);
     Route::get('/types', [CarTypeController::class , 'index']);
+    Route::post('/make-it-default/{id}', [CarController::class , 'makeItDefault']);
 });
 
 
