@@ -34,7 +34,9 @@ class CreateCarRequest extends FormRequest
                 'model' => 'string',
                 'identification_number' => 'string',
                 'car_type_id' => 'integer',
-                'tech_passport' => 'nullable|file|mimes:jpeg,png,gif,pdf',
+                'images' => 'array',
+                'images.*.uri' => 'nullable|file|mimes:jpeg,png,gif,pdf',
+                'images.*.title' => 'string'
             ]
         ];
     }

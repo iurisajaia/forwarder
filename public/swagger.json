@@ -714,7 +714,7 @@
                                         "description": "relation from car_types",
                                         "example": 1
                                     },
-                                    "tech_passport": {
+                                    "images": {
                                         "type": "string",
                                         "description": "Image",
                                         "example": "Image file"
@@ -819,7 +819,7 @@
                                         "description": "relation from car_types",
                                         "example": 1
                                     },
-                                    "tech_passport": {
+                                    "images": {
                                         "type": "string",
                                         "description": "Image",
                                         "example": "Image file"

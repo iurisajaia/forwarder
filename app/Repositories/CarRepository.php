@@ -14,7 +14,7 @@ class CarRepository implements CarRepositoryInterface
     public function create(CreateCarRequest $request): JsonResponse
     {
         try {
-            $carData = $request->except(['tech_passport', 'id']);
+            $carData = $request->except(['images', 'id']);
             $car = Car::updateOrCreate([
                 'id' => $request->input('id'),
                 'user_id' => $request->user()->id,
@@ -22,8 +22,10 @@ class CarRepository implements CarRepositoryInterface
             ], $carData);
 
 
-            if ($request->hasFile('tech_passport')) {
-                $car->addMedia($request->file('tech_passport'))->toMediaCollection('tech_passport');
+            if(isset($request->images)){
+                foreach ($request->images as $key => $image){
+                    $car->addMedia($image['uri'])->toMediaCollection($image['title']);
+                }
             }
 
             return response()->json([

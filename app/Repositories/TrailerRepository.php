@@ -15,15 +15,17 @@ class TrailerRepository implements TrailerRepositoryInterface
     public function create(CreateTrailerRequest $request): JsonResponse
     {
         try {
-            $trailerData = $request->except(['tech_passport', 'id']);
+            $trailerData = $request->except(['images', 'id']);
             $trailer = Trailer::updateOrCreate([
                 'id' => $request->input('id'),
                 'user_id' => $request->user()->id,
                 'driver_id' => $request->user()->id,
             ], $trailerData);
 
-            if ($request->hasFile('tech_passport')) {
-                $trailer->addMedia($request->file('tech_passport'))->toMediaCollection('tech_passport');
+            if(isset($request->images)){
+                foreach ($request->images as $key => $image){
+                    $trailer->addMedia($image['uri'])->toMediaCollection($image['title']);
+                }
             }
 
             return response()->json([
