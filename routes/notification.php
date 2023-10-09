@@ -1,15 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\DealController;
-
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::group(['prefix' => 'notification'], function() {
-        Route::get('/', [DealController::class , 'notifications']);
-        Route::post('/{id}', [DealController::class , 'acceptNotification']);
-    });
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'notification'], function () {
+        Route::get('/', [NotificationController::class , 'index']);
 });
 
 

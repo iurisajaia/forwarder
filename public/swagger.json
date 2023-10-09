@@ -1051,10 +1051,10 @@
                 }
             }
         },
-        "/api/notification": {
-            "get": {
+        "/api/deal/finish/{id}": {
+            "post": {
                 "tags" : ["Deal"],
-                "summary": "All deals",
+                "summary": "Finish Deal",
                 "security": [
                     {
                         "bearerAuth": []
@@ -1062,7 +1062,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Notifications fetched successfully"
+                        "description": "Deal Finished successfully"
                     },
                     "400": {
                         "description": "Bad request - Invalid input data"
@@ -1073,30 +1073,137 @@
                 }
             }
         },
-        "/api/notification/{id}": {
+        "/api/deal/complete/{id}": {
             "post": {
                 "tags" : ["Deal"],
-                "summary": "Accept Deal",
+                "summary": "Complete Deal",
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ],
-                "parameters": [
+                "responses": {
+                    "200": {
+                        "description": "Deal Completed successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
+        "/api/offer/make": {
+            "post": {
+                "tags" : ["Offer"],
+                "summary": "Make an Offer",
+                "security": [
                     {
-                        "in": "path",
-                        "name": "id",
-                        "description": "Notification ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "default": 43
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "price": {
+                                        "type": "integer",
+                                        "description": "Offer price",
+                                        "example": 1500
+                                    },
+                                    "deal_id": {
+                                        "type": "integer",
+                                        "description": "deal_id",
+                                        "example": 2
+                                    },
+                                    "driver_id": {
+                                        "type": "string",
+                                        "description": "Id of User",
+                                        "example": 1
+                                    }
+
+                                },
+                                "required": ["price", "deal_id", "driver_id"]
+                            }
                         }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Deal Completed successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/offer/reject/{id}": {
+            "post": {
+                "tags" : ["Offer"],
+                "summary": "Reject an Offer",
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Deal accepted successfully"
+                        "description": "Offer Rejected successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/offer/accept/{id}": {
+            "post": {
+                "tags" : ["Offer"],
+                "summary": "Accept an Offer",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Offer Acceptet successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
+        "/api/notification": {
+            "get": {
+                "tags" : ["Notification"],
+                "summary": "All Notifications",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notifications fetched successfully"
                     },
                     "400": {
                         "description": "Bad request - Invalid input data"

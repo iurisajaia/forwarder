@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cargo\CreateCargoRequest;
@@ -18,8 +19,8 @@ class CargoController extends Controller
         $this->cargoRepository = $cargoRepository;
     }
 
-    public function index(){
-        return $this->cargoRepository->index();
+    public function index(Request $request){
+        return $this->cargoRepository->index($request);
     }
 
     public function create(CreateCargoRequest $request): JsonResponse {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -127,6 +128,10 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     public function trailers(): HasMany
     {
         return $this->hasMany(Trailer::class);
+    }
+
+    public function hasRole($roleKey){
+        return $this->role()->key == $roleKey;
     }
 
 

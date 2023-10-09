@@ -10,16 +10,27 @@ use App\Models\PackagingType;
 use App\Models\UserContact;
 use App\Repositories\Interfaces\CargoRepositoryInterface;
 use App\Http\Requests\Cargo\CreateCargoRequest;
+use App\Repositories\Interfaces\DealRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Models\Car;
 
 
 class CargoRepository implements CargoRepositoryInterface
 {
 
-    public function index(): JsonResponse
+    private DealRepositoryInterface $dealRepository;
+
+    public function __construct(
+        DealRepositoryInterface $dealRepository,
+    ){
+        $this->dealRepository = $dealRepository;
+    }
+
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(['data' => Cargo::query()->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get()]);
+
+        $cargos = Cargo::query()->where('user_id', $request->user()->id)->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
+        return response()->json(['data' => $cargos]);
     }
 
     public function create(CreateCargoRequest $request): JsonResponse
@@ -37,6 +48,8 @@ class CargoRepository implements CargoRepositoryInterface
             if ($request->get('contacts')) {
                 $this->createCargoContacts($request, $cargo);
             }
+
+            $this->dealRepository->create($request->user()->id, $cargo->id);
 
             $response = [
                 'message' => 'Cargo created successfully',
