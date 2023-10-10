@@ -7,11 +7,15 @@ use App\Enums\OfferStatusEnum;
 use App\Http\Requests\Deal\FinishDealRequest;
 use App\Http\Requests\Deal\MakeOfferRequest;
 use App\Models\Offer;
+use App\Models\Invoice as InvoiceModel;
 use App\Repositories\Interfaces\DealRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Deal;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 
 class DealRepository implements  DealRepositoryInterface {
@@ -49,7 +53,7 @@ class DealRepository implements  DealRepositoryInterface {
                 ->with(['user'])
                 ->where('user_id' , $request->user()->id)
                 ->orderByDesc('id')
-                ->with(['media'])
+                ->with(['media', 'invoice'])
                 ->get();
 
             return response()->json([
@@ -190,13 +194,42 @@ class DealRepository implements  DealRepositoryInterface {
 
     }
 
+    public function generateInvoice(Deal $deal){
+        $customer = new Buyer([
+            'name'          => $deal->driver->name,
+            'custom_fields' => [
+                'email' => $deal->driver->email
+            ],
+        ]);
+
+        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->discountByPercent(10)
+            ->taxRate(15)
+            ->shipping(1.99)
+            ->addItem($item)
+            ->save('public');
+
+        $newInvoice = new InvoiceModel([
+            'price' => $deal->price,
+            'description' => 'Invoice for deal',
+            'file' => $invoice->url(),
+        ]);
+        $newInvoice->save();
+
+        return $newInvoice->id;
+    }
+
     public function finishDeal(Request $request, $id): JsonResponse
     {
-        $deal = Deal::where('user_id', $request->user()->id)->where('id', $id)->first();
+        $deal = Deal::where('user_id', $request->user()->id)->with(['driver'])->where('id', $id)->first();
 
         if (!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
 
         $deal->status = DealStatusEnum::finished;
+        $deal->invoice_id = $this->generateInvoice($deal);
         $deal->save();
 
         return response()->json(['deal' => $deal, 'message' => 'Deal finished successfully']);
