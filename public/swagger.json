@@ -45,6 +45,11 @@
                                         "description": "User's email address",
                                         "example": "john@example.com"
                                     },
+                                    "personal_number": {
+                                        "type": "string",
+                                        "description": "Personal Number",
+                                        "example": "000111222333"
+                                    },
                                     "user_role_id": {
                                         "type": "integer",
                                         "description": "User's role ID",
@@ -149,7 +154,7 @@
                                         "description": "Legal entity information",
                                         "example": {
                                             "identification_code" : "59009102",
-                                            "company_name" : "re:soft",
+                                            "iban" : "GE001231414141343",
                                             "company_ceo_name" : "Lasha",
                                             "contact_number" : "252452"
                                         }
@@ -1218,6 +1223,28 @@
         "/api/cargo": {
             "get": {
                 "tags" : ["Cargo"],
+                "summary": "My cargos",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carrgos fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/cargo/all": {
+            "get": {
+                "tags" : ["Cargo"],
                 "summary": "All cargos",
                 "security": [
                     {
@@ -1423,7 +1450,7 @@
                     }
                 }
             }
-        },
+        }
 
     }
 }

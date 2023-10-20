@@ -19,6 +19,10 @@ class CargoController extends Controller
         $this->cargoRepository = $cargoRepository;
     }
 
+    public function all(){
+        return $this->cargoRepository->all();
+    }
+
     public function index(Request $request){
         return $this->cargoRepository->index($request);
     }

@@ -27,14 +27,15 @@ class CreateUserRequest extends FormRequest
     {
 
         return [
-                'id' => 'integer',
-                'name' => 'string',
-                'phone' => 'required|string',
-                'email' => 'string',
-                'user_role_id' => 'required|integer',
-                'images' => '',
-                'languages' => 'array',
-                'languages.*' => 'integer',
+            'id' => 'integer',
+            'name' => 'string',
+            'personal_number',
+            'phone' => 'required|string',
+            'email' => 'string',
+            'user_role_id' => 'required|integer',
+            'images' => '',
+            'languages' => 'array',
+            'languages.*' => 'integer',
         ];
     }
 
@@ -44,11 +45,11 @@ class CreateUserRequest extends FormRequest
 
         throw new HttpResponseException(response()->json([
 
-            'success'   => false,
+            'success' => false,
 
-            'message'   => 'Validation errors',
+            'message' => 'Validation errors',
 
-            'data'      => $validator->errors()->messages()
+            'data' => $validator->errors()->messages()
 
         ], 500));
 

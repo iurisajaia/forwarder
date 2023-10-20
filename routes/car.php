@@ -14,4 +14,3 @@ Route::group(['prefix' => 'car'], function () {
     });
 });
 
-

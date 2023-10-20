@@ -19,6 +19,7 @@ class CarController extends Controller
 
 
     public function create(CreateCarRequest $request){
+
         return $this->carRepository->create($request);
     }
 

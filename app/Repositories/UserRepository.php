@@ -49,7 +49,8 @@ class UserRepository implements  UserRepositoryInterface{
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
-            'user_role_id' => $request->user_role_id
+            'user_role_id' => $request->user_role_id,
+            'personal_number' => $request->personal_number,
         ];
 
         if($request->user()){
