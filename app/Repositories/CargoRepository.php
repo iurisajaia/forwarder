@@ -28,7 +28,7 @@ class CargoRepository implements CargoRepositoryInterface
 
     public function all(): JsonResponse
     {
-        $cargos = Cargo::query()->where('status', 'active')->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
+        $cargos = Cargo::query()->where('status', 'pending')->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
         return response()->json(['data' => $cargos]);
     }
 
