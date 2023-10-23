@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             TrailerTypeSeeder::class,
             DealSeeder::class,
             DangerStatusSeeder::class,
-            PackagingTypeSeeder::class
+            PackagingTypeSeeder::class,
+            CurrencySeeder::class
         ]);
     }
 }

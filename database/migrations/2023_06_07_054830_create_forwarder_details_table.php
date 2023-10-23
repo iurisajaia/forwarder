@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->string('company_ceo_name')->nullable();
             $table->string('contact_number')->nullable();
+            $table->string('iban')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

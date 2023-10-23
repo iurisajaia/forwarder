@@ -6,6 +6,7 @@ use App\Enums\DealStatusEnum;
 use App\Enums\OfferStatusEnum;
 use App\Http\Requests\Deal\FinishDealRequest;
 use App\Http\Requests\Deal\MakeOfferRequest;
+use App\Models\Currency;
 use App\Models\Offer;
 use App\Models\Invoice as InvoiceModel;
 use App\Repositories\Interfaces\DealRepositoryInterface;
@@ -111,6 +112,7 @@ class DealRepository implements  DealRepositoryInterface {
                 'body' => 'You have a new offer',
                 'deal_id' => $offer->deal_id,
                 'user_id' => $offer->driver_id,
+                'currency_id' => $offer->currency_id,
             ];
 
             $this->notificationRepository->create($notificationData);
@@ -233,6 +235,10 @@ class DealRepository implements  DealRepositoryInterface {
         $deal->save();
 
         return response()->json(['deal' => $deal, 'message' => 'Deal finished successfully']);
+    }
+
+    public function getCurrencies(): JsonResponse{
+        return response()->json(['data' => Currency::query()->get()]);
     }
 
 }

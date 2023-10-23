@@ -104,7 +104,7 @@
                                                     "description": "relation from car_types",
                                                     "example": 1
                                                 },
-                                                "tech_passport": {
+                                                "images": {
                                                     "type": "string",
                                                     "description": "Image",
                                                     "example": "Image file"
@@ -141,7 +141,7 @@
                                                     "description": "relation from trailer_types",
                                                     "example": 1
                                                 },
-                                                "tech_passport": {
+                                                "images": {
                                                     "type": "string",
                                                     "description": "Image",
                                                     "example": "Image file"
@@ -166,17 +166,19 @@
                                             "identification_code" : "59009102",
                                             "company_name" : "re:soft",
                                             "company_ceo_name" : "Lasha",
-                                            "contact_number" : "252452"
+                                            "contact_number" : "252452",
+                                            "iban" :  "GE1341311313"
                                         }
                                     },
-                                    "customer": {
+                                    "transport_company": {
                                         "type": "string",
                                         "description": "Customer information",
                                         "example": {
                                             "identification_code" : "59009102",
                                             "company_name" : "re:soft",
                                             "company_ceo_name" : "Lasha",
-                                            "contact_number" : "252452"
+                                            "contact_number" : "252452",
+                                            "iban" :  "GE1341311313"
                                         }
                                     },
                                     "languages" : {
@@ -1034,6 +1036,28 @@
             }
         },
 
+        "/api/currency": {
+            "get": {
+                "tags" : ["Deal"],
+                "summary": "Get Currencies",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Currencies fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/api/deal": {
             "get": {
                 "tags" : ["Deal"],
@@ -1130,6 +1154,11 @@
                                     "driver_id": {
                                         "type": "string",
                                         "description": "Id of User",
+                                        "example": 1
+                                    },
+                                    "currency_id": {
+                                        "type": "string",
+                                        "description": "Id of Currency",
                                         "example": 1
                                     }
 

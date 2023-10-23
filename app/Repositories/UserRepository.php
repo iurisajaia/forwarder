@@ -3,12 +3,12 @@
 namespace App\Repositories;
 use App\Http\Requests\UpdateDriverFreeTimeRequest;
 use App\Models\Car;
-use App\Models\CustomerDetails;
 use App\Models\DriverUserDetails;
 use App\Models\ForwarderDetails;
 use App\Models\LegalUserDetails;
 use App\Models\StandardUserDetails;
 use App\Models\Trailer;
+use App\Models\TransportCompanyDetails;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\CarRepositoryInterface;
 use App\Http\Requests\GetLoginCodeRequest;
@@ -40,7 +40,7 @@ class UserRepository implements  UserRepositoryInterface{
         2 => ['legal', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
         3 => ['forwarder', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
         4 => ['driver', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
-        5 => ['customer']
+        5 => ['transport_company']
     ];
 
 
@@ -89,8 +89,8 @@ class UserRepository implements  UserRepositoryInterface{
         if($data['user_role_id'] == 4 && isset($request->driver)){
             $this->createDriverType($request, $user);
         }
-        if($data['user_role_id'] == 5 && isset($request->customer)){
-            CustomerDetails::updateOrCreate(['user_id' => $user->id], $request->customer);
+        if($data['user_role_id'] == 5 && isset($request->transport_company)){
+            TransportCompanyDetails::updateOrCreate(['user_id' => $user->id], $request->transport_company);
         }
 
         return $user;

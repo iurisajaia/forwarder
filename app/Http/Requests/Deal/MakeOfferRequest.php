@@ -31,6 +31,7 @@ class MakeOfferRequest extends FormRequest
                 'price' => 'integer|required',
                 'deal_id' => 'integer|required',
                 'driver_id' => 'integer|required',
+                'currency_id' => 'integer|required',
             ]
         ];
     }
@@ -60,6 +61,8 @@ class MakeOfferRequest extends FormRequest
             'deal_id.integer' => 'Deal id must be integer!',
             'driver_id.required' => 'Driver id is required!',
             'driver_id.integer' => 'Driver id must be integer!',
+            'currency_id.required' => 'Currency id is required!',
+            'currency_id.integer' => 'Currency id must be integer!',
         ];
     }
 }

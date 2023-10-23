@@ -101,9 +101,9 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->hasOne(ForwarderDetails::class);
     }
 
-    public function customer() : HasOne
+    public function transport_company() : HasOne
     {
-        return $this->hasOne(CustomerDetails::class);
+        return $this->hasOne(TransportCompanyDetails::class);
     }
 
     public function messages()

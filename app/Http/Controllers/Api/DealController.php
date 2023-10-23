@@ -51,4 +51,8 @@ class DealController extends Controller
     protected function finishDeal(Request $request, $id){
         return $this->dealRepository->finishDeal($request, $id);
     }
+
+    protected function getCurrencies(Request $request){
+        return $this->dealRepository->getCurrencies($request);
+    }
 }

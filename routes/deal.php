@@ -19,7 +19,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'offer', 'middleware' => 'role:driver'], function(){
         Route::post('/reject/{id}', [DealController::class , 'rejectOffer']);
         Route::post('/accept/{id}', [DealController::class , 'acceptOffer']);
-
+    });
+    Route::group(['prefix' => 'currency'], function(){
+        Route::get('/', [DealController::class , 'getCurrencies']);
     });
 });
 

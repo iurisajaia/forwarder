@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 Interface DealRepositoryInterface{
     public function index($request);
+    public function getCurrencies();
     public function notifications($request);
     public function rejectOffer($request, $id);
     public function acceptOffer($request, $id);
