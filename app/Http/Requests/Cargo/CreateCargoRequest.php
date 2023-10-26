@@ -46,6 +46,7 @@ class CreateCargoRequest extends FormRequest
                 'routes.to' => 'required|object',
 
                 'contacts' => 'array',
+                'contacts.*.id' => 'integer',
                 'contacts.*.phone_number' => 'string',
                 'contacts.*.email' => 'string|email',
                 'contacts.*.first_name' => 'string',

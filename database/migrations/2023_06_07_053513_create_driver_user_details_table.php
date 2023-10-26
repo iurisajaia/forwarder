@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('driver_user_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
             $table->string('telegram')->nullable();
             $table->string('whatsapp')->nullable();
             $table->string('viber')->nullable();
@@ -24,7 +23,9 @@ return new class extends Migration
             $table->date('driver_is_free')->nullable();
             $table->json('free_driver_location')->nullable();
 
+            $table->unsignedBigInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

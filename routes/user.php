@@ -19,6 +19,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class , 'currentUser']);
         Route::put('/update', [UserController::class, 'update']);
         Route::put('/driver-freedom', [UserController::class, 'updateDriverFreeTime']);
+        Route::group(['middleware' => 'role:forwarder,transport_company'], function (){
+            Route::post('/add-driver' , [UserController::class , 'addDriver']);
+        });
     });
 
 });

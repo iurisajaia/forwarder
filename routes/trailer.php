@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'trailer'], function () {
     Route::get('/types', [TrailerTypeController::class , 'index']);
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth:sanctum', 'role:driver,transport_company,forwarder']], function () {
         Route::post('/create', [TrailerController::class , 'create']);
         Route::post('/make-it-default/{id}', [TrailerController::class , 'makeItDefault']);
     });

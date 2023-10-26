@@ -11,9 +11,10 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'cargo'], function (
         Route::get('/danger-statuses', [CargoController::class , 'getDangerStatuses']);
         Route::get('/packaging-types', [CargoController::class , 'getPackagingTypes']);
 
-//        Route::group(['middleware' => ['role:standard']], function () {
+        Route::group(['middleware' => ['role:standard,legal,forwarder']], function () {
             Route::post('/', [CargoController::class , 'create']);
-//        });
+            Route::post('/update/{id}', [CargoController::class , 'update']);
+        });
 });
 
 

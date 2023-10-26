@@ -45,4 +45,8 @@ class Cargo extends Model implements HasMedia
         return $this->belongsToMany(UserContact::class, 'cargo_user_contact', );
     }
 
+    public function deal(): HasOne{
+        return $this->hasOne(Deal::class);
+    }
+
 }

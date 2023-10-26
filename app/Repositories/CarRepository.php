@@ -14,16 +14,22 @@ class CarRepository implements CarRepositoryInterface
     public function create(CreateCarRequest $request): JsonResponse
     {
         try {
+
             $carData = $request->except(['images', 'id']);
+            $isDefault = Car::where('user_id', $request->user()->id)->where('is_default', true)->first();
             $car = Car::updateOrCreate([
                 'id' => $request->input('id'),
                 'user_id' => $request->user()->id,
                 'driver_id' => $request->user()->id,
+                'is_default' => !$isDefault
             ], $carData);
 
 
+
+
+
             if(isset($request->images)){
-                foreach ($request->images as $key => $image){
+                foreach ($request->images as $image){
                     $car->addMedia($image['uri'])->toMediaCollection($image['title']);
                 }
             }

@@ -28,14 +28,14 @@ class CargoRepository implements CargoRepositoryInterface
 
     public function all(): JsonResponse
     {
-        $cargos = Cargo::query()->where('status', 'pending')->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
+        $cargos = Cargo::query()->where('status', 'pending')->with(['deal','details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
         return response()->json(['data' => $cargos]);
     }
 
     public function index(Request $request): JsonResponse
     {
 
-        $cargos = Cargo::query()->where('user_id', $request->user()->id)->with(['details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
+        $cargos = Cargo::query()->where('user_id', $request->user()->id)->with(['deal','details', 'details.trailer_type', 'car_type', 'route', 'user', 'driver', 'media', 'contacts'])->orderByDesc('id')->get();
         return response()->json(['data' => $cargos]);
     }
 
@@ -63,6 +63,39 @@ class CargoRepository implements CargoRepositoryInterface
             ];
 
             return response()->json($response);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+    public function update(CreateCargoRequest $request, int $id): JsonResponse
+    {
+        try {
+
+            $cargo = Cargo::findOrFail($id);
+            $cargo->update($request->only(['date', 'car_type_id']));
+            $this->addMedia($request, $cargo);
+            $cargo->save();
+
+            if($request->details){
+                $details = CargoDetails::query()->where('cargo_id', $cargo->id)->first();
+                $details->update($request->get('details'));
+            }
+
+            if($request->routes){
+                $route = CargoRoute::query()->where('cargo_id', $cargo->id)->first();
+                $route->update($request->get('routes'));
+            }
+
+//            if($cargo->contacts){
+//                foreach($cargo->contacts as $contact){
+//                    UserContact::query()->updateOrCreate([...$contact]);
+//                }
+//            }
+
+
+            return response()->json($cargo);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

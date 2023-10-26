@@ -12,4 +12,5 @@ Interface CargoRepositoryInterface{
     public function getPackagingTypes();
     public function index(Request $request);
     public function create(CreateCargoRequest $request);
+    public function update(CreateCargoRequest $request, int $id);
 }
