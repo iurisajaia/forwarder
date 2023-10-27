@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\UserRolesEnum;
 use App\Models\Car;
 use App\Repositories\Interfaces\CarRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +16,12 @@ class CarRepository implements CarRepositoryInterface
     {
         try {
 
+            if($this->checkCarNumber($request->input('number'))){
+                return response()->json([
+                    'error' => 'Car with this number already exists'
+                ], 400);
+            }
+
             $carData = $request->except(['images', 'id']);
             $isDefault = Car::where('user_id', $request->user()->id)->where('is_default', true)->first();
             $car = Car::updateOrCreate([
@@ -25,12 +32,23 @@ class CarRepository implements CarRepositoryInterface
             ], $carData);
 
 
-
-
-
             if(isset($request->images)){
                 foreach ($request->images as $image){
                     $car->addMedia($image['uri'])->toMediaCollection($image['title']);
+                }
+            }
+
+            if($request->user()->isTransportCompany() ){
+                if(!$request->user()->transport_company->car_id){
+                    $request->user()->transport_company->car_id = $car->id;
+                    $request->user()->transport_company->save();
+                }
+            }
+
+            if($request->user()->isForwarder()){
+                if(!$request->user()->forwarder->car_id){
+                    $request->user()->forwarder->car_id = $car->id;
+                    $request->user()->forwarder->save();
                 }
             }
 
@@ -64,6 +82,10 @@ class CarRepository implements CarRepositoryInterface
                 'error' => $e->getMessage()
             ], $e->getCode());
         }
+    }
+
+    public function checkCarNumber(string $number){
+        return Car::where('number', $number)->first();
     }
 
 

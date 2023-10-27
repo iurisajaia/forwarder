@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 
 Interface UserRepositoryInterface{
-    public function createUser(CreateUserRequest $request);
+    public function createUser(CreateUserRequest $request, $hasOwner = false);
     public function updateUser(CreateUserRequest $request);
     public function updateDriverFreeTime(UpdateDriverFreeTimeRequest $request);
     public function deleteUser(int $id);

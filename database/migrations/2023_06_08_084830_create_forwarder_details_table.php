@@ -22,6 +22,16 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->string('iban')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('driver_id')->nullable();
+            $table->foreign('driver_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('car_id')->nullable();
+            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+
+            $table->unsignedBigInteger('trailer_id')->nullable();
+            $table->foreign('trailer_id')->references('id')->on('trailers')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

@@ -547,6 +547,242 @@
             }
         },
 
+
+        "/api/driver/create": {
+            "post": {
+                "tags" : ["Driver"],
+                "summary": "Add Driver",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "User's name",
+                                        "example": "John Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "description": "User's phone number",
+                                        "example": "+1234567890"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "User's email address",
+                                        "example": "john@example.com"
+                                    },
+                                    "personal_number": {
+                                        "type": "string",
+                                        "description": "Personal Number",
+                                        "example": "000111222333"
+                                    },
+                                    "user_role_id": {
+                                        "type": "integer",
+                                        "description": "Drivers role ID (hardcoded)",
+                                        "example": 4
+                                    },
+                                    "driver": {
+                                        "type": "string",
+                                        "description": "Driver information",
+                                        "example": {
+                                            "telegram" : "59009102",
+                                            "whatsapp" : "59009102",
+                                            "viber" : "59009102",
+                                            "referral_code" : "a134",
+                                            "iban" : "GE34BG132134"
+                                        }
+                                    },
+                                    "languages" : {
+                                        "type" : "array",
+                                        "description" : "User Languages",
+                                        "example" : [1,2,3,4]
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "description": "Image URLs",
+                                        "example": [
+                                            {
+                                                "title" : "drivers_license",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "tech_passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "passport",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "residence_confirmation",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            },
+                                            {
+                                                "title" : "bank_credentials",
+                                                "url" : "https://shorturl.at/moNP0"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": ["name", "phone", "email"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registration successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/make-car-default/{id}": {
+            "post": {
+                "tags" : ["Driver"],
+                "summary": "Make car default",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Default car changed successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/make-trailer-default/{id}": {
+            "post": {
+                "tags" : ["Driver"],
+                "summary": "Make trailer default",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Default trailer changed successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/make-driver-default/{id}": {
+            "post": {
+                "tags" : ["Driver"],
+                "summary": "Make driver default",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Default driver changed successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/my-drivers": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["Driver"],
+                "summary": "Get my Verified Drivers",
+                "responses": {
+                    "200": {
+                        "description": "Verified Drivers fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/my-cars": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["Driver"],
+                "summary": "Get my Cars",
+                "responses": {
+                    "200": {
+                        "description": "Cars fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/driver/my-trailers": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["Driver"],
+                "summary": "Get my Trailers",
+                "responses": {
+                    "200": {
+                        "description": "Trailers fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
         "/api/user/verify": {
             "post": {
                 "tags" : ["Auth"],

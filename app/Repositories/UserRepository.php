@@ -35,16 +35,17 @@ class UserRepository implements  UserRepositoryInterface{
         $this->carRepository = $carRepository;
     }
 
+
     public array $roles = [
         1 => ['standard'],
         2 => ['legal', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
-        3 => ['forwarder', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
+        3 => ['forwarder', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'forwarder.car', 'forwarder.trailer', 'forwarder.driver'],
         4 => ['driver', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
-        5 => ['transport_company']
+        5 => ['transport_company', 'drivers', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'transport_company.car', 'transport_company.trailer', 'transport_company.driver']
     ];
 
 
-    public function createUserData(CreateUserRequest $request){
+    public function createUserData(CreateUserRequest $request, $hasOwner){
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -53,7 +54,7 @@ class UserRepository implements  UserRepositoryInterface{
             'personal_number' => $request->personal_number,
         ];
 
-        if($request->user()){
+        if($request->user() && !$hasOwner){
             $user = User::query()->findOrFail($request->user()->id);
             $user->update(array_filter($data));
         }else{
@@ -87,7 +88,7 @@ class UserRepository implements  UserRepositoryInterface{
             ForwarderDetails::updateOrCreate(['user_id' => $user->id], $request->forwarder);
         }
         if($data['user_role_id'] == 4 && isset($request->driver)){
-            $this->createDriverType($request, $user);
+            $this->createDriverType($request, $user, $hasOwner);
         }
         if($data['user_role_id'] == 5 && isset($request->transport_company)){
             TransportCompanyDetails::updateOrCreate(['user_id' => $user->id], $request->transport_company);
@@ -96,7 +97,7 @@ class UserRepository implements  UserRepositoryInterface{
         return $user;
     }
 
-    public function createDriverType($request, $user){
+    public function createDriverType($request, $user, $hasOwner){
 
         $driver = DriverUserDetails::updateOrCreate(['user_id' => $user->id], [
             'telegram' => $request->driver['telegram'] ?? '',
@@ -104,9 +105,22 @@ class UserRepository implements  UserRepositoryInterface{
             'viber' => $request->driver['viber'] ?? '',
             'referral_code' => $request->driver['referral_code'] ?? '',
             'iban' => $request->driver['iban'] ?? '',
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'owner_id' => $hasOwner ? $request->user()->id : null
         ]);
         $driver->save();
+
+        if($hasOwner){
+            if($request->user()->isTransportCompany() && !$request->user()->transport_company->driver_id){
+                $request->user()->transport_company->driver_id = $driver->id;
+                $request->user()->transport_company->save();
+            }
+
+            if($request->user()->isForwarder() && !$request->user()->forwarder->driver_id){
+                $request->user()->forwarder->driver_id = $driver->id;
+                $request->user()->forwarder->save();
+            }
+        }
 
         if(isset($request->driver['car'])){
             $this->createCar($request,$driver);
@@ -133,7 +147,7 @@ class UserRepository implements  UserRepositoryInterface{
         $car->is_default = true;
 
         if(isset($request->driver['car']['images'])){
-            foreach ($request->driver['car']['images'] as $key => $image){
+            foreach ($request->driver['car']['images'] as  $image){
                 $car->addMedia($image['uri'])->toMediaCollection($image['title']);
             }
         }
@@ -164,9 +178,9 @@ class UserRepository implements  UserRepositoryInterface{
         $trailer->save();
     }
 
-    public function createUser(CreateUserRequest $request) : JsonResponse{
+    public function createUser(CreateUserRequest $request, $hasOwner = false) : JsonResponse{
 
-        $user = $this->createUserData($request);
+        $user = $this->createUserData($request, $hasOwner);
 
 
         $code = 123456; // rand(123456, 999999);

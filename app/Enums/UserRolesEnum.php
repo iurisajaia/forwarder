@@ -8,4 +8,5 @@ enum UserRolesEnum: int
     case LEGAL = 2;
     case FORWARDER = 3;
     case DRIVER = 4;
+    case TRANSPORT_COMPANY = 5;
 }

@@ -15,6 +15,13 @@ class TrailerRepository implements TrailerRepositoryInterface
     public function create(CreateTrailerRequest $request): JsonResponse
     {
         try {
+
+            if($this->checkTrailer($request->input('number'))){
+                return response()->json([
+                    'error' => 'Trailer with this number already exists'
+                ], 400);
+            }
+
             $trailerData = $request->except(['images', 'id']);
             $trailer = Trailer::updateOrCreate([
                 'id' => $request->input('id'),
@@ -25,6 +32,20 @@ class TrailerRepository implements TrailerRepositoryInterface
             if(isset($request->images)){
                 foreach ($request->images as $key => $image){
                     $trailer->addMedia($image['uri'])->toMediaCollection($image['title']);
+                }
+            }
+
+            if($request->user()->isTransportCompany() ){
+                if(!$request->user()->transport_company->trailer_id){
+                    $request->user()->transport_company->trailer_id = $trailer->id;
+                    $request->user()->transport_company->save();
+                }
+            }
+
+            if($request->user()->isForwarder()){
+                if(!$request->user()->forwarder->trailer_id){
+                    $request->user()->forwarder->trailer_id = $trailer->id;
+                    $request->user()->forwarder->save();
                 }
             }
 
@@ -65,6 +86,11 @@ class TrailerRepository implements TrailerRepositoryInterface
             ], $e->getCode());
         }
     }
+
+    public function checkTrailer(string $number){
+        return Trailer::where('number', $number)->first();
+    }
+
 
 
 }
