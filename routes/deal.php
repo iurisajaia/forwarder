@@ -13,7 +13,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/complete/{id}', [DealController::class , 'completeDeal']);
     });
 
-    Route::group(['prefix' => 'offer', 'middleware' => ['role:driver,legal,forwarder,transport_company']], function(){
+    Route::group(['prefix' => 'offer'], function(){
         Route::post('/make', [DealController::class , 'makeOffer']);
     });
     Route::group(['prefix' => 'offer', 'middleware' => 'role:driver'], function(){

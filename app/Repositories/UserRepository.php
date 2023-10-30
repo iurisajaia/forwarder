@@ -45,7 +45,7 @@ class UserRepository implements  UserRepositoryInterface{
     ];
 
 
-    public function createUserData(CreateUserRequest $request, $hasOwner){
+    public function createUserData(CreateUserRequest $request, $hasOwner = false){
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -97,7 +97,7 @@ class UserRepository implements  UserRepositoryInterface{
         return $user;
     }
 
-    public function createDriverType($request, $user, $hasOwner){
+    public function createDriverType($request, $user, $hasOwner = false){
 
         $driver = DriverUserDetails::updateOrCreate(['user_id' => $user->id], [
             'telegram' => $request->driver['telegram'] ?? '',
