@@ -16,7 +16,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'offer'], function(){
         Route::post('/make', [DealController::class , 'makeOffer']);
     });
-    Route::group(['prefix' => 'offer', 'middleware' => 'role:driver'], function(){
+    Route::group(['prefix' => 'offer'], function(){
         Route::post('/reject/{id}', [DealController::class , 'rejectOffer']);
         Route::post('/accept/{id}', [DealController::class , 'acceptOffer']);
     });

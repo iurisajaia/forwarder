@@ -16,6 +16,10 @@ class Notification extends Model
         return $this->belongsTo(Deal::class);
     }
 
+    public function offer(): BelongsTo{
+        return $this->belongsTo(Offer::class);
+    }
+
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);
     }

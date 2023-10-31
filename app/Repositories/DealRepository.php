@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Enums\DealStatusEnum;
 use App\Enums\OfferStatusEnum;
+use App\Enums\UserRolesEnum;
 use App\Http\Requests\Deal\FinishDealRequest;
 use App\Http\Requests\Deal\MakeOfferRequest;
 use App\Models\Currency;
+use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Invoice as InvoiceModel;
 use App\Repositories\Interfaces\DealRepositoryInterface;
@@ -107,25 +109,34 @@ class DealRepository implements  DealRepositoryInterface {
             $offer = new Offer($request->all());
             $offer->save();
 
+            $userId = $offer['driver_id'];
+
+            $role = $request->user()->user_role_id;
+
+            if($role === UserRolesEnum::STANDARD->value || $role === UserRolesEnum::LEGAL->value || $role === UserRolesEnum::FORWARDER->value){
+                $deal = Deal::query()->where('id' , $offer['deal_id'])->first();
+                $userId = $deal?->user_id;
+            }
+
+
             $notificationData = [
                 'title' => 'New offer',
                 'body' => 'You have a new offer',
-                'deal_id' => $offer->deal_id,
-                'user_id' => $offer->driver_id,
-                'currency_id' => $offer->currency_id,
+                'deal_id' => $offer['deal_id'],
+                'user_id' => $userId,
+                'offer_id' => $offer['id']
             ];
 
-            $this->notificationRepository->create($notificationData);
 
-            $response = [
-                'message' => 'Offer sent successfully'
-            ];
+            $notification = new Notification($notificationData);
+            $notification->save();
 
-            return response()->json($response);
-        } catch (\Exception $e) {
+
             return response()->json([
-                'error' => $e
-            ], $e->getCode());
+                'data' => 'Offer sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
     }
 

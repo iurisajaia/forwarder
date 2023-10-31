@@ -16,7 +16,7 @@ class NotificationRepository implements NotificationRepositoryInterface
         $notifications = Notification::query()
             ->where('user_id', $request->user()->id)
             ->orderByDesc('id')
-            ->with(['deal', 'user'])
+            ->with(['deal', 'user', 'offer'])
             ->get();
 
         return response()->json([
@@ -26,11 +26,10 @@ class NotificationRepository implements NotificationRepositoryInterface
 
     public function create(array $request): JsonResponse
     {
-        $notification = new Notification($request);
-        $notification->save();
+        $notification = Notification::create($request);
 
         // send notification to user
-        return response()->json(['message' => 'Notification created successfully']);
+        return response()->json(['data' => $notification]);
     }
 
 }

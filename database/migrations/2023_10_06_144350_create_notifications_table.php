@@ -22,6 +22,10 @@ return new class extends Migration
             $table->foreign('deal_id')->references('id')->on('deals')
                 ->onDelete('cascade');
 
+            $table->unsignedBigInteger('offer_id')->unsigned();
+            $table->foreign('offer_id')->references('id')->on('offers')
+                ->onDelete('cascade');
+
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
