@@ -46,16 +46,23 @@ class CargoRepository implements CargoRepositoryInterface
 
             $cargo = new Cargo([...$request->only(['date', 'car_type_id'])]);
             $cargo->user_id = $request->user()->id;
-            $this->addMedia($request, $cargo);
+
+            if($request->has('images')){
+                $this->addMedia($request, $cargo);
+            }
+
             $cargo->save();
 
-            $this->createCargoDetails($request, $cargo);
             $this->createCargoRoute($request, $cargo);
+            $this->createCargoDetails($request, $cargo);
+
             if ($request->get('contacts')) {
                 $this->createCargoContacts($request, $cargo);
             }
 
+
             $this->dealRepository->create($request->user()->id, $cargo->id);
+
 
             $response = [
                 'message' => 'Cargo created successfully',
@@ -75,7 +82,10 @@ class CargoRepository implements CargoRepositoryInterface
 
             $cargo = Cargo::findOrFail($id);
             $cargo->update($request->only(['date', 'car_type_id']));
-            $this->addMedia($request, $cargo);
+
+            if($request->has('images')){
+                $this->addMedia($request, $cargo);
+            }
             $cargo->save();
 
             if($request->details){
@@ -127,9 +137,22 @@ class CargoRepository implements CargoRepositoryInterface
 
     public function createCargoDetails($request, $cargo)
     {
-        $cargoDetails = new CargoDetails($request->get('details'));
-        $cargoDetails->cargo_id = $cargo->id;
+        $details = [
+            'weight' =>  intval($request->get('details')['weight']),
+            'weight_type' => $request->get('details')['weight_type'],
+            'width' => intval($request->get('details')['width']),
+            'height' => intval($request->get('details')['height']),
+            'length' => intval($request->get('details')['length']),
+            'degree' => intval($request->get('details')['degree']),
+            'packaging_type_id' => intval($request->get('details')['packaging_type_id']),
+            'danger_status_id' => intval($request->get('details')['danger_status_id']),
+            'cargo_id' => $cargo->id,
+        ];
+
+
+        $cargoDetails = new CargoDetails($details);
         $cargoDetails->save();
+
     }
 
     public function createCargoContacts($request, $cargo)
