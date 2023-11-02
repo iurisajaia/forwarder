@@ -16,7 +16,7 @@ class CarRepository implements CarRepositoryInterface
     {
         try {
 
-            if($this->checkCarNumber($request->input('number'))){
+            if(!$request->id && $this->checkCarNumber($request->input('number'))){
                 return response()->json([
                     'error' => 'Car with this number already exists'
                 ], 400);

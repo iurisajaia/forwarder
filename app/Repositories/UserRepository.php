@@ -39,9 +39,9 @@ class UserRepository implements  UserRepositoryInterface{
     public array $roles = [
         1 => ['standard'],
         2 => ['legal', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
-        3 => ['forwarder', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'forwarder.car', 'forwarder.trailer', 'forwarder.driver'],
+        3 => ['forwarder', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'drivers.user', 'forwarder.car', 'forwarder.trailer', 'forwarder.driver'],
         4 => ['driver', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type'],
-        5 => ['transport_company', 'drivers', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'transport_company.car', 'transport_company.trailer', 'transport_company.driver']
+        5 => ['transport_company', 'cars' ,'trailers', 'cars.media', 'trailers.media', 'cars.type', 'trailers.type', 'drivers', 'drivers.user', 'transport_company.car', 'transport_company.trailer', 'transport_company.driver']
     ];
 
 

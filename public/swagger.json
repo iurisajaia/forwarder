@@ -1715,6 +1715,148 @@
                     }
                 }
             }
+        },
+        "/api/cargo/update/{id}": {
+            "post": {
+                "tags" : ["Cargo"],
+                "summary": "Update Cargo",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date" : {
+                                        "type" : "string",
+                                        "example" : "2021-10-20"
+                                    },
+                                    "car_type_id" : {
+                                        "type" : "number",
+                                        "example" : 1
+                                    },
+                                    "details" : {
+                                        "type": "object",
+                                        "properties": {
+                                            "weight" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "weight_type" : {
+                                                "type" : "string",
+                                                "description": "Choose one of them - kilogram or pound",
+                                                "example" : "kilogram"
+                                            },
+                                            "width" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "height" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "length" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "degree" : {
+                                                "type" : "number",
+                                                "example" : 500
+                                            },
+                                            "packaging_type_id" : {
+                                                "type" : "number",
+                                                "example" : 1
+                                            },
+                                            "danger_status_id" : {
+                                                "type" : "number",
+                                                "example" : 1
+                                            }
+                                        }
+                                    },
+                                    "routes" : {
+                                        "type" : "object",
+                                        "properties": {
+                                            "from": {
+                                                "type": "object",
+                                                "description": "Inside this object you can include any field you want",
+                                                "properties": {
+                                                    "address" : {
+                                                        "type" : "string",
+                                                        "example": "Tbilisi, Rustaveli str. 32"
+                                                    },
+                                                    "lat" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    },
+                                                    "lng" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    }
+                                                }
+                                            },
+                                            "to": {
+                                                "type": "object",
+                                                "description": "Inside this object you can include any field you want",
+                                                "properties": {
+                                                    "address" : {
+                                                        "type" : "string",
+                                                        "example": "Tbilisi, Rustaveli str. 32"
+                                                    },
+                                                    "lat" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    },
+                                                    "lng" : {
+                                                        "type" : "string",
+                                                        "example" : "41.23431"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "contacts" : {
+                                        "type" : "array",
+                                        "example" : [
+                                            {
+                                                "first_name" : "John",
+                                                "last_name" : "Doe",
+                                                "phone_number" : "+995 555 555 555",
+                                                "email" : "johndoe@gmail.com",
+                                                "private_number" : "010221221"
+                                            },
+                                            {
+                                                "first_name" : "John",
+                                                "last_name" : "Doe",
+                                                "phone_number" : "+995 555 555 555",
+                                                "email" :  "johndoe@gmail.com",
+                                                "private_number" :  "010221221"
+                                            }
+                                        ]
+
+                                    }
+                                },
+                                "required": ["date", "car_type_id", "details" , "routes"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registration successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
 
     }
