@@ -73,7 +73,7 @@ class CargoRepository implements CargoRepositoryInterface
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
-            ], $e->getCode());
+            ], 500);
         }
     }
     public function update(CreateCargoRequest $request, int $id): JsonResponse
