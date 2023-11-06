@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('cargo_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('weight')->nullable();
             $table->enum('weight_type' , ['kilogram', 'tons'])->nullable();
-            $table->integer('width')->nullable();
-            $table->integer('height')->nullable();
-            $table->integer('length')->nullable();
-            $table->integer('degree')->nullable();
+            $table->bigInteger('weight')->nullable();
+            $table->bigInteger('width')->nullable();
+            $table->bigInteger('height')->nullable();
+            $table->bigInteger('length')->nullable();
+            $table->bigInteger('degree')->nullable();
 
             $table->unsignedBigInteger('cargo_id');
             $table->foreign('cargo_id')->references('id')->on('cargos')->onDelete('cascade');
