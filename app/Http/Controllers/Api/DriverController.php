@@ -35,6 +35,18 @@ class DriverController extends Controller
         }
     }
 
+    public function update(CreateUserRequest $request) : JsonResponse
+    {
+        try {
+            return $this->driverRepository->updateDriver($request);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
     public function getMyDrivers(Request $request) : JsonResponse
     {
         try {

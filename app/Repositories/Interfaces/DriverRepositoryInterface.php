@@ -18,5 +18,6 @@ Interface DriverRepositoryInterface{
     public function makeCarDefault(Request $request, int $id) : JsonResponse;
     public function makeTrailerDefault(Request $request, int $id) : JsonResponse;
     public function makeDriverDefault(Request $request, int $id) : JsonResponse;
+    public function updateDriver(CreateUserRequest $request) : JsonResponse;
 
 }

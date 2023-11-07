@@ -9,7 +9,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [DealController::class , 'index']);
         Route::post('/finish/{id}', [DealController::class , 'finishDeal']);
     });
-    Route::group(['prefix' => 'deal', 'middleware' => ['role:driver']], function(){
+    Route::group(['prefix' => 'deal', 'middleware' => ['role:driver,forwarder ']], function(){
         Route::post('/complete/{id}', [DealController::class , 'completeDeal']);
     });
 

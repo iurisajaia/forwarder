@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'driver'], function () {
     Route::group(['middleware' => ['role:transport_company,forwarder']], function () {
         Route::post('/create', [DriverController::class , 'create']);
+        Route::post('/update', [DriverController::class , 'update']);
 
         Route::post('/make-car-default/{id}', [DriverController::class , 'makeCarDefault']);
         Route::post('/make-trailer-default/{id}', [DriverController::class , 'makeTrailerDefault']);

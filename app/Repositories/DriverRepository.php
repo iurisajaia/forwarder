@@ -152,4 +152,33 @@ class DriverRepository implements  DriverRepositoryInterface {
             'message' => 'Driver set as default'
         ], 200);
     }
+
+    public function updateDriver(CreateUserRequest $request): JsonResponse{
+
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+        ];
+
+        $user = User::query()->findOrFail($request['id']);
+        $user->update(array_filter($data));
+
+        if(isset($request->images)){
+            foreach ($request->images as $key => $image){
+                if($request->id){
+                    $existingMedia = $user->getMedia($image['title'])->first();
+                    if ($existingMedia) {
+                        $existingMedia->delete();
+                    }
+                }
+                $user->addMediaFromRequest("images.{$key}.uri")->toMediaCollection($image['title']);
+            }
+        }
+
+        return response()->json([
+            'message' => 'User Created Successfully',
+            'user' => $user,
+        ], 200);
+    }
 }
