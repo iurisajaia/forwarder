@@ -113,7 +113,7 @@ class DealRepository implements  DealRepositoryInterface {
 
             $role = $request->user()->user_role_id;
 
-            if($role === UserRolesEnum::STANDARD->value || $role === UserRolesEnum::LEGAL->value || $role === UserRolesEnum::FORWARDER->value){
+            if($role === UserRolesEnum::DRIVER->value || $role === UserRolesEnum::TRANSPORT_COMPANY->value){
                 $deal = Deal::query()->where('id' , $offer['deal_id'])->first();
                 $userId = $deal?->user_id;
             }
