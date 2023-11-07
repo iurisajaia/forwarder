@@ -21,22 +21,25 @@ use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 
-class DealRepository implements  DealRepositoryInterface {
+class DealRepository implements DealRepositoryInterface
+{
 
     private NotificationRepositoryInterface $notificationRepository;
 
     public function __construct(
         NotificationRepositoryInterface $notificationRepository,
-    ){
+    )
+    {
         $this->notificationRepository = $notificationRepository;
     }
 
-    public function notifications($request) : JsonResponse{
+    public function notifications($request): JsonResponse
+    {
         try {
             $deals = Deal::query()
                 ->with(['user'])
-                ->where('is_accepted' , 0)
-                ->where('user_id' , NULL)
+                ->where('is_accepted', 0)
+                ->where('user_id', NULL)
                 ->orderByDesc('id')
                 ->get();
 
@@ -50,13 +53,15 @@ class DealRepository implements  DealRepositoryInterface {
         }
     }
 
-    public function index($request) : JsonResponse{
+    public function index($request): JsonResponse
+    {
         try {
             $deals = Deal::query()
                 ->with(['user'])
-                ->where('user_id' , $request->user()->id)
+                ->where('user_id', $request->user()->id)
+                ->orWhere('driver_id', $request->user()->id)
                 ->orderByDesc('id')
-                ->with(['media', 'invoice'])
+                ->with(['media', 'invoice', 'cargo', 'cargo.details', 'user', 'cargo.deal', 'cargo.details', 'cargo.details.trailer_type', 'cargo.car_type', 'cargo.route', 'cargo.user', 'cargo.driver', 'cargo.media', 'cargo.contacts'])
                 ->get();
 
             return response()->json([
@@ -69,11 +74,11 @@ class DealRepository implements  DealRepositoryInterface {
         }
     }
 
-    public function acceptNotification($request , $id): JsonResponse
+    public function acceptNotification($request, $id): JsonResponse
     {
-        $deal = Deal::where('id' , $id)->first();
+        $deal = Deal::where('id', $id)->first();
 
-        if(!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
+        if (!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
 
         $deal->is_accepted = 1;
         $deal->user_id = $request->user()->id;
@@ -82,7 +87,7 @@ class DealRepository implements  DealRepositoryInterface {
         return response()->json(['deal' => $deal, 'message' => 'Deal accepted successfully']);
     }
 
-    public function create(int $userId , int $cargoId): JsonResponse
+    public function create(int $userId, int $cargoId): JsonResponse
     {
         try {
             $deal = new Deal([
@@ -113,8 +118,8 @@ class DealRepository implements  DealRepositoryInterface {
 
             $role = $request->user()->user_role_id;
 
-            if($role === UserRolesEnum::DRIVER->value || $role === UserRolesEnum::TRANSPORT_COMPANY->value){
-                $deal = Deal::query()->where('id' , $offer['deal_id'])->first();
+            if ($role === UserRolesEnum::DRIVER->value || $role === UserRolesEnum::TRANSPORT_COMPANY->value) {
+                $deal = Deal::query()->where('id', $offer['deal_id'])->first();
                 $userId = $deal?->user_id;
             }
 
@@ -140,11 +145,12 @@ class DealRepository implements  DealRepositoryInterface {
         }
     }
 
-    public function rejectOffer($request, $id): JsonResponse{
+    public function rejectOffer($request, $id): JsonResponse
+    {
         try {
-            $offer = Offer::where('id' , $id)->first();
+            $offer = Offer::where('id', $id)->first();
 
-            if(!$offer) return response()->json(['error' => 'Cannot find the offer'], 404);
+            if (!$offer) return response()->json(['error' => 'Cannot find the offer'], 404);
 
             $offer->status = OfferStatusEnum::rejected;
             $offer->save();
@@ -157,17 +163,18 @@ class DealRepository implements  DealRepositoryInterface {
         }
     }
 
-    public function acceptOffer($request, $id): JsonResponse{
+    public function acceptOffer($request, $id): JsonResponse
+    {
         try {
-            $offer = Offer::where('id' , $id)->first();
+            $offer = Offer::where('id', $id)->first();
 
-            if(!$offer) return response()->json(['error' => 'Cannot find the offer'], 404);
+            if (!$offer) return response()->json(['error' => 'Cannot find the offer'], 404);
 
-            $deal = Deal::where('id' , $offer->deal_id)->first();
+            $deal = Deal::where('id', $offer->deal_id)->first();
 
-            if(!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
+            if (!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
 
-            if($deal->status !== DealStatusEnum::in_progress) return response()->json(['error' => 'Deal is not in progress'], 404);
+            if ($deal->status !== DealStatusEnum::in_progress) return response()->json(['error' => 'Deal is not in progress'], 404);
 
 
             $offer->status = OfferStatusEnum::accepted;
@@ -191,10 +198,10 @@ class DealRepository implements  DealRepositoryInterface {
     {
         $deal = Deal::where('driver_id', $request->user()->id)->where('id', $id)->first();
 
-        if(!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
+        if (!$deal) return response()->json(['error' => 'Cannot find the deal'], 404);
 
-        if(isset($request->images)){
-            foreach ($request->images as $key => $image){
+        if (isset($request->images)) {
+            foreach ($request->images as $key => $image) {
                 $deal->addMedia($image['uri'])->toMediaCollection($image['title']);
             }
         }
@@ -207,9 +214,10 @@ class DealRepository implements  DealRepositoryInterface {
 
     }
 
-    public function generateInvoice(Deal $deal){
+    public function generateInvoice(Deal $deal)
+    {
         $customer = new Buyer([
-            'name'          => $deal->driver->name,
+            'name' => $deal->driver->name,
             'custom_fields' => [
                 'email' => $deal->driver->email
             ],
@@ -248,7 +256,8 @@ class DealRepository implements  DealRepositoryInterface {
         return response()->json(['deal' => $deal, 'message' => 'Deal finished successfully']);
     }
 
-    public function getCurrencies(): JsonResponse{
+    public function getCurrencies(): JsonResponse
+    {
         return response()->json(['data' => Currency::query()->get()]);
     }
 

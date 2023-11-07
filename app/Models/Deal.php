@@ -29,5 +29,10 @@ class Deal extends Model implements HasMedia
         return $this->belongsTo(Invoice::class);
     }
 
+    public function cargo(): BelongsTo
+    {
+        return $this->belongsTo(Cargo::class);
+    }
+
 
 }
