@@ -685,7 +685,7 @@
                                         "type": "string",
                                         "description": "User's email address",
                                         "example": "john@example.com"
-                                    },
+                                    }
                                 },
                                 "required": ["name", "phone", "email"]
                             }
@@ -1912,7 +1912,48 @@
                     }
                 }
             }
-        }
+        },
 
+
+        "/api/image/delete": {
+            "post": {
+                "tags" : ["Image"],
+                "summary": "Remove Image",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id" : {
+                                        "type": "integer",
+                                        "description": "media id",
+                                        "example": 5
+                                    }
+                                },
+                                "required": ["id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Media removed successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
     }
 }
