@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::group(['prefix' => 'deal', 'middleware' => ['role:forwarder,legal,transport_company']], function(){
+    Route::group(['prefix' => 'deal', 'middleware' => ['role:forwarder,legal,transport_company,driver']], function(){
         Route::get('/', [DealController::class , 'index']);
         Route::post('/finish/{id}', [DealController::class , 'finishDeal']);
     });

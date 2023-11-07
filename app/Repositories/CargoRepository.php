@@ -76,6 +76,7 @@ class CargoRepository implements CargoRepositoryInterface
             ], 500);
         }
     }
+
     public function update(CreateCargoRequest $request, int $id): JsonResponse
     {
         try {
@@ -178,6 +179,5 @@ class CargoRepository implements CargoRepositoryInterface
         $packageTypes = PackagingType::query()->orderByDesc('id')->get();
         return response()->json(['data' => $packageTypes]);
     }
-
 
 }
