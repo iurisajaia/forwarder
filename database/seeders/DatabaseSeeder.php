@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             DealSeeder::class,
             DangerStatusSeeder::class,
             PackagingTypeSeeder::class,
-            CurrencySeeder::class
+            CurrencySeeder::class,
+            CitySeeder::class
         ]);
     }
 }

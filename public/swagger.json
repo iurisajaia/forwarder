@@ -1954,6 +1954,28 @@
                     }
                 }
             }
+        },
+        "/api/city": {
+            "get": {
+                "tags" : ["City"],
+                "summary": "Get Cities",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cities fetched successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     }
 }
