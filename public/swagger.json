@@ -159,6 +159,16 @@
                                             "contact_number" : "252452"
                                         }
                                     },
+                                    "location": {
+                                        "type": "string",
+                                        "description": "User Location",
+                                        "example": {
+                                            "lat" : 41.113,
+                                            "lng" : 41.331,
+                                            "city" : "Tbilisi",
+                                            "country" : "Georgia"
+                                        }
+                                    },
                                     "forwarder": {
                                         "type": "string",
                                         "description": "Forwarder information",
@@ -546,6 +556,51 @@
                 }
             }
         },
+        "/api/user/location/update": {
+            "put": {
+                "tags" : ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "Update User Location",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "description": "User Location",
+                                        "example": {
+                                            "lat" : 41.113,
+                                            "lng" : 41.331,
+                                            "city" : "Tbilisi",
+                                            "country" : "Georgia"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Updated successful"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
 
 
         "/api/driver/create": {

@@ -12,8 +12,10 @@ use App\Repositories\Interfaces\CargoRepositoryInterface;
 use App\Repositories\Interfaces\ChatRepositoryInterface;
 use App\Repositories\Interfaces\DealRepositoryInterface;
 use App\Repositories\Interfaces\DriverRepositoryInterface;
+use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\LocationRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\Interfaces\CarRepositoryInterface;
@@ -43,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CargoRepositoryInterface::class , CargoRepository::class);
         $this->app->bind(NotificationRepositoryInterface::class , NotificationRepository::class);
         $this->app->bind(DriverRepositoryInterface::class , DriverRepository::class);
+        $this->app->bind(LocationRepositoryInterface::class , LocationRepository::class);
 
     }
 

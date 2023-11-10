@@ -135,6 +135,11 @@ class User extends Authenticatable implements HasMedia, FilamentUser
         return $this->hasMany(DriverUserDetails::class, 'owner_id');
     }
 
+    public function location(): HasOne
+    {
+        return $this->hasOne(Location::class);
+    }
+
     public function hasRole($roleKey){
         return $this->role()->key == $roleKey;
     }

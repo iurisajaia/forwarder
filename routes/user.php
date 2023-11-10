@@ -22,6 +22,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::group(['middleware' => 'role:forwarder,transport_company'], function (){
             Route::post('/add-driver' , [UserController::class , 'addDriver']);
         });
+        Route::group(['prefix' => 'location'], function (){
+            Route::post('/update' , [UserController::class , 'updateLocation']);
+        });
     });
 
 });

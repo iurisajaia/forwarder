@@ -8,6 +8,7 @@ use App\Http\Requests\GetLoginCodeRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\UpdateDriverFreeTimeRequest;
 use App\Http\Requests\VerifyUserRequest;
+use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,11 +16,14 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     private UserRepositoryInterface $userRepository;
+    private LocationRepositoryInterface $locationRepository;
 
     public function __construct(
         UserRepositoryInterface $userRepository,
+        LocationRepositoryInterface $locationRepository
     ){
         $this->userRepository = $userRepository;
+        $this->locationRepository = $locationRepository;
     }
 
     public function create(CreateUserRequest $request) : JsonResponse
@@ -131,6 +135,18 @@ class UserController extends Controller
     public function addDriver(Request $request): JsonResponse{
         try {
             return $this->userRepository->addDriver($request);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'line' => $th->getLine()
+            ], 500);
+        }
+    }
+
+    public function updateLocation(Request $request): JsonResponse{
+        try {
+            return $this->locationRepository->update($request);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

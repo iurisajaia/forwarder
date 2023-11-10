@@ -36,6 +36,7 @@ class CreateUserRequest extends FormRequest
             'images' => '',
             'languages' => 'array',
             'languages.*' => 'integer',
+            'location' => 'array'
         ];
     }
 
