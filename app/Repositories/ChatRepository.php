@@ -30,8 +30,7 @@ class ChatRepository implements  ChatRepositoryInterface {
     public function sendMessage(SendMessageRequest $request){
         try {
 
-            $hasConversation = $this->hasConversation($request->sender_id, $request->receiver_id);
-
+//            $hasConversation = $this->hasConversation($request->sender_id, $request->receiver_id);
 
             $newMessage = MessageModel::query()
                 ->create($request->all())
@@ -39,7 +38,7 @@ class ChatRepository implements  ChatRepositoryInterface {
 
             event(new Message($newMessage));
 
-            if(!$hasConversation) event(new Conversation($newMessage));
+//            if(!$hasConversation) event(new Conversation($newMessage));
 
             return $newMessage;
         } catch (Exception $e) {
@@ -78,24 +77,38 @@ class ChatRepository implements  ChatRepositoryInterface {
                 })
                 ->with(['sender', 'receiver'])
                 ->get()
-                ->groupBy(function ($message) use ($senderId) {
-                    if ($message->sender_id == $senderId) {
-                        return $message->receiver_id;
-                    } else {
-                        return $message->sender_id;
-                    }
+                ->groupBy(function ($message) {
+                    // Group by whether the message has a deal_id or not
+                    return $message->deal_id ? 'deal_messages' : 'normal_messages';
                 })
-                ->map(function ($messages, $receiverId) use ($senderId) {
-                    $receiver = $messages->first()->receiver;
+                ->map(function ($groupedMessages, $group) use ($senderId) {
+                    // Further group messages within each group based on receiver_id
+                    $groupedMessages = $groupedMessages->groupBy(function ($message) use ($senderId) {
+                        if ($message->sender_id == $senderId) {
+                            return $message->receiver_id;
+                        } else {
+                            return $message->sender_id;
+                        }
+                    });
 
-                    // If the receiver's id is the same as the $senderId, use $receiverId instead
-                    if ($receiver->id == $senderId) {
-                        $receiver = User::find($receiverId);
-                    }
+                    // Map and process each sub-group
+                    $processedMessages = $groupedMessages->map(function ($messages, $receiverId) use ($senderId) {
+                        $receiver = $messages->first()->receiver;
+
+                        // If the receiver's id is the same as the $senderId, use $receiverId instead
+                        if ($receiver->id == $senderId) {
+                            $receiver = User::find($receiverId);
+                        }
+
+                        return [
+                            'receiver' => $receiver->toArray(),
+                            'messages' => $messages->map->toArray()->values()->all(),
+                        ];
+                    });
 
                     return [
-                        'receiver' => $receiver,
-                        'messages' => $messages,
+                        'group' => $group,
+                        'messages' => $processedMessages->values()->all(),
                     ];
                 })
                 ->values();

@@ -30,7 +30,8 @@ class SendMessageRequest extends FormRequest
             [
                 'sender_id' => 'integer|required',
                 'receiver_id' => 'integer|required',
-                'message' => 'string|required'
+                'message' => 'string|required',
+                'deal_id' => 'integer'
             ]
         ];
     }
