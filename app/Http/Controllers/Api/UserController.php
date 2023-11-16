@@ -156,4 +156,16 @@ class UserController extends Controller
         }
     }
 
+    public function getDrivers(Request $request): JsonResponse{
+        try {
+            return $this->userRepository->getDrivers($request);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'line' => $th->getLine()
+            ], 500);
+        }
+    }
+
 }

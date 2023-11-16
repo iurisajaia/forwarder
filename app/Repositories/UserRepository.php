@@ -416,5 +416,24 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
+    public function getDrivers(Request $request): JsonResponse
+    {
+        try {
+            $drivers = User::query()->where('user_role_id', 4)
+                ->orWhere('user_role_id', 5)
+                ->with(['role', 'media', 'languages', ...$this->roles[4], ...$this->roles[5]])
+                ->get();
+
+            return response()->json([
+                'drivers' => $drivers
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
 
 }

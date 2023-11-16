@@ -21,4 +21,6 @@ Interface UserRepositoryInterface{
     public function sendSms($code,$number);
     public function getUserRoles();
     public function currentUser(Request $request);
+
+    public function getDrivers(Request $request);
 }

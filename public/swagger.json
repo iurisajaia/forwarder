@@ -539,6 +539,28 @@
                 }
             }
         },
+        "/api/user/get-drivers": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags" : ["User"],
+                "summary": "Get Drivers",
+                "responses": {
+                    "200": {
+                        "description": "Current user fetched successfully"
+                    },
+                    "400": {
+                        "description": "Bad request - Invalid input data"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/api/user/roles": {
             "get": {
                 "tags" : ["User"],
