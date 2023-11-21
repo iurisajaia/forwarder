@@ -540,13 +540,35 @@
             }
         },
         "/api/user/get-drivers": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ],
                 "tags" : ["User"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "city": {
+                                        "type": "string",
+                                        "description": "City",
+                                        "example": "Tbilisi"
+                                    },
+                                    "country" : {
+                                        "type": "string",
+                                        "description": "Country",
+                                        "example": "Georgia"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "summary": "Get Drivers",
                 "responses": {
                     "200": {
