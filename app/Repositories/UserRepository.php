@@ -419,16 +419,29 @@ class UserRepository implements UserRepositoryInterface
     public function getDrivers(Request $request): JsonResponse
     {
         try {
-            $drivers = User::query()->where('user_role_id', 4)
-                ->orWhere('user_role_id', 5)
-                ->with(['role', 'media', 'languages', ...$this->roles[4], ...$this->roles[5]])
-                ->get();
+            $drivers = User::query()
+                ->whereIn('user_role_id', [4, 5])
+                ->with(['role', 'media', 'languages', 'location', ...$this->roles[4], ...$this->roles[5]]);
+
+            if($request->has('city')){
+                $drivers->whereHas('location', function($query) use ($request){
+                    $query->whereJsonContains('location->city', $request->input('city'));
+                });
+            }
+
+            if($request->has('country')){
+                $drivers->whereHas('location', function($query) use ($request){
+                    $query->whereJsonContains('location->country', $request->input('country'));
+                });
+            }
+
+
 
             return response()->json([
-                'drivers' => $drivers
+                'drivers' => $drivers->get()
             ], 200);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], $e->getCode());
